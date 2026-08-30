@@ -57,6 +57,36 @@ export const fa = {
   footerCreatedBy: 'ساخته شده توسط',
   authorName: 'بابک بندپی',
 
+  // صفحهٔ زنجیره‌ها
+  chainsTitle: 'زنجیرهٔ تفاضل اعداد اول',
+  chainsEyebrow: 'جفت‌های بازگشتی · کاوشگر زنجیره',
+  chainsIntroLead: 'عددی اول را بگیرید که وارونه‌اش هم اول است، آن دو را از هم کم کنید و همان پرسش را دربارهٔ نتیجه بپرسید:',
+  chainsIntroRest: ' آیا خودش اول است و آیا وارونه‌اش اول است؟ فقط بذرهایی رسم می‌شوند که دست‌کم یک گام دوام بیاورند.',
+  chainsNavToPlot: 'بازگشت به نمودار',
+  chainsNavToChains: '← زنجیره‌های تفاضل',
+
+  ruleLabel: 'قاعدهٔ گام',
+  ruleNote1: 'یک عدد و وارونه‌اش مجموع رقم‌های یکسانی دارند، پس ۹ همیشه تفاضلشان را می‌شمارد؛ دو عدد اول فرد هم آن را زوج می‌کنند. بنابراین تفاضل خام همیشه مضربی از ۱۸ است و هرگز اول نیست — این قاعده در هیچ بازه‌ای چیزی پیدا نمی‌کند.',
+  ruleNote9: 'با تقسیم بر ۹ هنوز زوج‌بودن باقی می‌ماند، پس پیوندها بسیار کمیاب‌اند.',
+  ruleNote18: 'با تقسیم بر ۱۸، یعنی همان عامل اجباری، خارج‌قسمتی می‌ماند که می‌تواند اول باشد؛ زنجیره‌ها همین‌جا پیدا می‌شوند.',
+  ruleOption: (divisor) =>
+    divisor === 1 ? '⁦|n − r|⁩' : `⁦|n − r| ÷ ${divisor}⁩`,
+
+  statSeeds: 'جفت‌های اول',
+  statChains: 'دارای زنجیره',
+  statDeepest: 'عمیق‌ترین زنجیره',
+  chainsEmptyTitle: 'در این بازه زنجیره‌ای نیست',
+  chainsEmptyBody: 'هر تفاضل در این بازه مضربی از ۱۸ است، پس هیچ‌کدام اول نیستند. قاعدهٔ گام دیگر را امتحان کنید.',
+  chainsListTitle: 'عمیق‌ترین زنجیره‌های یافته‌شده',
+  chainDepthLabel: (depth, formatted) => (depth === 1 ? 'یک پیوند' : `${formatted} پیوند`),
+  chainStep: (from, reversed, difference, divisor, next) =>
+    divisor === 1
+      ? `⁦|${from} − ${reversed}| = ${difference} → ${next}⁩`
+      : `⁦|${from} − ${reversed}| = ${difference} ÷ ${divisor} → ${next}⁩`,
+  legendDepth: (depth) => (depth === 1 ? 'یک پیوند' : `${depth} پیوند`),
+  chainsPlotLabel: (start, end) => `بذرهای زنجیره · ${start}–${end}`,
+  viewSource: 'کد روی گیت‌هاب',
+
   langSwitch: 'English',
   langSwitchHref: '../',
   langSwitchHrefLang: 'en',
