@@ -75,17 +75,21 @@ function drawDenseMarkers(context, data, yDirection, pixelRatio) {
   const image = context.getImageData(0, 0, canvas.width, canvas.height);
   const halfWidth = pixelRatio > 1 ? 1 : 0;
 
-  for (let index = data.markerStates.length - 1; index >= 0; index -= 1) {
-    const state = data.markerStates[index];
-    const x = Math.round(scaleX(data.markerNumbers[index], data.start, data.end) * pixelRatio);
-    const reversed = data.markerReversed[index];
-    const y = Math.round(scaleY(reversed, data.start, data.end, yDirection) * pixelRatio);
-    // At this density a half-filled disc is a single pixel, so the shape that
-    // carries the meaning below the threshold cannot. Colour carries it instead:
-    // both-prime is the rare, interesting class and gets the accent.
-    const rgb = state === 3 ? ACCENT_RGB : PRIME_RGB;
-    if (state & 1) paintPixelRow(image.data, image.width, image.height, x, y - 1, halfWidth, rgb);
-    if (state & 2) paintPixelRow(image.data, image.width, image.height, x, y, halfWidth, rgb);
+  // At this density a half-filled disc is a single pixel, so the shape that
+  // carries the meaning below the threshold cannot. Colour carries it instead.
+  // Two sweeps, ink then accent: painting in one pass lets the ~14x more
+  // numerous single-condition markers overwrite the rare both-prime ones, which
+  // erased about a tenth of them outright at the interval ceiling.
+  for (const accentPass of [false, true]) {
+    const rgb = accentPass ? ACCENT_RGB : PRIME_RGB;
+    for (let index = data.markerStates.length - 1; index >= 0; index -= 1) {
+      const state = data.markerStates[index];
+      if ((state === 3) !== accentPass) continue;
+      const x = Math.round(scaleX(data.markerNumbers[index], data.start, data.end) * pixelRatio);
+      const y = Math.round(scaleY(data.markerReversed[index], data.start, data.end, yDirection) * pixelRatio);
+      if (state & 1) paintPixelRow(image.data, image.width, image.height, x, y - 1, halfWidth, rgb);
+      if (state & 2) paintPixelRow(image.data, image.width, image.height, x, y, halfWidth, rgb);
+    }
   }
   context.putImageData(image, 0, 0);
 }

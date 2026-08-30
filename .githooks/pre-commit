@@ -1,7 +1,8 @@
 #!/bin/sh
 set -eu
 
-# Fast verification run before every commit.
-SMOKE_CMD="npm test"
-
-$SMOKE_CMD
+# Fast verification run before every commit. Two statements rather than one
+# variable: an unquoted "$CMD" holding "a && b" word-splits, and the shell hands
+# the && to the first command as an argument instead of chaining.
+npm run lint
+npm test

@@ -29,6 +29,9 @@ export default function App() {
   }, []);
 
   const specimen = useMemo(() => pickSpecimen(plot.data), [plot.data]);
+  // One source for the density question, so the specimen, the legend and the
+  // canvas cannot disagree about what a both-prime point looks like.
+  const dense = plot.data ? usesPixelReadback(plot.data) : false;
   const displayedStart = plot.data?.start ?? start;
   const displayedEnd = plot.data?.end ?? end;
   const stats = plot.data ? [
@@ -47,7 +50,7 @@ export default function App() {
           <TopLinks page="home" otherPageLabel={t.chainsNavToChains} />
         </div>
 
-        {specimen && <Specimen {...specimen} />}
+        {specimen && <Specimen {...specimen} dense={dense} />}
 
         <p {...stylex.props(styles.intro)}>{t.introText}</p>
 
@@ -80,7 +83,7 @@ export default function App() {
               )}
               {plot.error && <p {...stylex.props(styles.notice)} role="alert">{plot.error}</p>}
 
-              <Legend dense={plot.data ? usesPixelReadback(plot.data) : false} />
+              <Legend dense={dense} />
               <div {...stylex.props(styles.plotWrap)}>
                 {plot.data && <PrimePlot data={plot.data} onRendered={plot.finishRendering} yDirection={yDirection} />}
               </div>

@@ -1,11 +1,11 @@
 import * as stylex from '@stylexjs/stylex';
-import { INK } from '../lib/palette.js';
+import { ACCENT, INK } from '../lib/palette.js';
 import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 
 // The page opens on one worked pair rather than a title, so the idea is legible
 // before anything is scrolled. Values come from the plotted data, not a fixture.
-export default function Specimen({ number, reversed, bothPrime }) {
+export default function Specimen({ number, reversed, bothPrime, dense = false }) {
   return (
     <section {...stylex.props(styles.specimen)}>
       <div {...stylex.props(styles.specimenRow)}>
@@ -29,7 +29,7 @@ export default function Specimen({ number, reversed, bothPrime }) {
       {bothPrime && (
         <p {...stylex.props(styles.specimenVerdict)}>
           <svg width="17" height="17" viewBox="0 0 20 20" aria-hidden="true">
-            <circle cx="10" cy="10" r="8" fill={INK} />
+            <circle cx="10" cy="10" r="8" fill={dense ? ACCENT : INK} />
           </svg>
           {t.specimenVerdict}
         </p>
