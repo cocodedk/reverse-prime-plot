@@ -42,11 +42,26 @@ function drawSeeds(context, data, yDirection, deep) {
   }
 }
 
-export function drawChainPlot(context, data, yDirection) {
+function drawSelection(context, data, yDirection, selectedSeed) {
+  const index = data.markerNumbers.indexOf(selectedSeed);
+  if (index < 0) return;
+  const x = scaleX(data.markerNumbers[index], data.start, data.end);
+  const y = scaleY(data.markerReversed[index], data.start, data.end, yDirection);
+  context.beginPath();
+  context.arc(x, y, 11, 0, Math.PI * 2);
+  context.strokeStyle = INK;
+  context.lineWidth = 2;
+  context.stroke();
+}
+
+export function drawChainPlot(context, data, yDirection, selectedSeed) {
   drawGrid(context, data.start, data.end, yDirection);
   if (data.markerDepths.length > 0) {
     drawSeeds(context, data, yDirection, false);
     drawSeeds(context, data, yDirection, true);
+    if (selectedSeed !== null && selectedSeed !== undefined) {
+      drawSelection(context, data, yDirection, selectedSeed);
+    }
   }
   drawFrame(context);
 }

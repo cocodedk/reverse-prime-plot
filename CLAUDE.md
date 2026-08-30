@@ -40,6 +40,15 @@ what produces Persian digits in the stats, the canvas tick labels and the axis t
 
 Run `npm run build` after touching anything StyleX-related; it is the only gate that catches this.
 
+Styles are split in two: `appStyles.stylex.js` (page shell, shared by both pages) and
+`chainStyles.stylex.js` (chains page only). Legend styles live in `appStyles` because both legends
+use them — a component referencing a key that is not in the sheet it imported gets `undefined` and
+renders unstyled, silently.
+
+`palette.js` holds *data* colours for the canvas and SVG markers. Those are not text, so the
+text-contrast rules do not apply to them — `#f15a37` stays vivid for markers while the UI chrome
+that carries text uses darkened variants that clear WCAG AA. Don't "unify" the two.
+
 ### The worker boundary
 
 `src/lib/primeNumbers.js` runs inside the Web Worker. Keep it free of DOM and i18n imports.

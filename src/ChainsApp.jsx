@@ -1,13 +1,17 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import ChainControls from './components/ChainControls.jsx';
+import ChainDetail from './components/ChainDetail.jsx';
+import ChainLegend from './components/ChainLegend.jsx';
 import ChainList from './components/ChainList.jsx';
 import ChainPlot from './components/ChainPlot.jsx';
 import SiteFooter from './components/SiteFooter.jsx';
 import TopLinks from './components/TopLinks.jsx';
+import WhyDivide from './components/WhyDivide.jsx';
 import { useChainData } from './hooks/useChainData.js';
 import { formatNumber, phaseLabel, t } from './i18n/index.js';
 import { styles } from './appStyles.stylex.js';
+import { chainStyles } from './chainStyles.stylex.js';
 
 const DEFAULT_START = 0;
 const DEFAULT_END = 5000;
@@ -17,7 +21,23 @@ export default function ChainsApp() {
   const [start, setStart] = useState(DEFAULT_START);
   const [end, setEnd] = useState(DEFAULT_END);
   const [divisor, setDivisor] = useState(DEFAULT_DIVISOR);
+  const [selectedSeed, setSelectedSeed] = useState(null);
   const chains = useChainData(start, end, divisor);
+
+  // A seed selected under one rule or interval may not exist under the next.
+  useEffect(() => { setSelectedSeed(null); }, [start, end, divisor]);
+
+  const deepestFirst = useMemo(() => {
+    if (!chains.data) return [];
+    return [...chains.data.chains]
+      .sort((a, b) => b.depth - a.depth || a.seed - b.seed)
+      .slice(0, 12);
+  }, [chains.data]);
+
+  const selectedChain = useMemo(
+    () => chains.data?.chains.find((chain) => chain.seed === selectedSeed) ?? null,
+    [chains.data, selectedSeed],
+  );
 
   const applyInterval = useCallback((nextStart, nextEnd) => {
     setStart(nextStart);
@@ -53,7 +73,7 @@ export default function ChainsApp() {
             <p {...stylex.props(styles.plotLabel)}>
               {t.chainsPlotLabel(formatNumber(start), formatNumber(end))}
             </p>
-            <h2 {...stylex.props(styles.plotTitle)}>{t.ruleOption(divisor)}</h2>
+            <h2 {...stylex.props(styles.plotTitle)}>{t.ruleOption(divisor, formatNumber(divisor))}</h2>
           </div>
           <div {...stylex.props(styles.stats)}>
             {stats.map(([label, value]) => (
@@ -84,21 +104,41 @@ export default function ChainsApp() {
         {chains.error && <p {...stylex.props(styles.notice)} role="alert">{chains.error}</p>}
 
         {chains.data && chains.data.chainCount === 0 ? (
-          <div {...stylex.props(styles.emptyState)} role="status">
-            <p {...stylex.props(styles.emptyTitle)}>{t.chainsEmptyTitle}</p>
-            <p {...stylex.props(styles.emptyBody)}>{t.chainsEmptyBody}</p>
+          <div {...stylex.props(chainStyles.emptyState)} role="status">
+            <p {...stylex.props(chainStyles.emptyTitle)}>{t.chainsEmptyTitle}</p>
+            <p {...stylex.props(chainStyles.emptyBody)}>{t.chainsEmptyBody}</p>
           </div>
         ) : null}
 
         {chains.data && chains.data.chainCount > 0 && (
           <>
+            <ChainLegend />
+            <p {...stylex.props(chainStyles.selectHint)}>{t.chainsSelectHint}</p>
             <div {...stylex.props(styles.plotWrap)}>
-              <ChainPlot data={chains.data} />
+              <ChainPlot
+                data={chains.data}
+                selectedSeed={selectedSeed}
+                onSelect={setSelectedSeed}
+              />
             </div>
-            <ChainList examples={chains.data.examples} divisor={divisor} />
+            {selectedChain && (
+              <ChainDetail
+                chain={selectedChain}
+                divisor={divisor}
+                onClear={() => setSelectedSeed(null)}
+              />
+            )}
+            <ChainList
+              examples={deepestFirst}
+              divisor={divisor}
+              selectedSeed={selectedSeed}
+              onSelect={setSelectedSeed}
+            />
           </>
         )}
       </section>
+
+      <WhyDivide />
 
       <SiteFooter />
     </main>
