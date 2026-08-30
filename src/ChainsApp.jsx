@@ -5,11 +5,13 @@ import ChainDetail from './components/ChainDetail.jsx';
 import ChainLegend from './components/ChainLegend.jsx';
 import ChainList from './components/ChainList.jsx';
 import ChainPlot from './components/ChainPlot.jsx';
+import PlotProgress from './components/PlotProgress.jsx';
 import SiteFooter from './components/SiteFooter.jsx';
+import StatsRow from './components/StatsRow.jsx';
 import TopLinks from './components/TopLinks.jsx';
 import WhyDivide from './components/WhyDivide.jsx';
 import { useChainData } from './hooks/useChainData.js';
-import { formatNumber, phaseLabel, t } from './i18n/index.js';
+import { formatNumber, t } from './i18n/index.js';
 import { styles } from './appStyles.stylex.js';
 import { chainStyles } from './chainStyles.stylex.js';
 
@@ -80,20 +82,11 @@ export default function ChainsApp() {
               </div>
 
               {chains.isPlotting && (
-                <div {...stylex.props(styles.progressBlock)}>
-                  <div {...stylex.props(styles.progressLabel)}>
-                    <span>{phaseLabel(chains.phase)}</span>
-                    <span>{chains.progress}%</span>
-                  </div>
-                  <div
-                    {...stylex.props(styles.progressTrack)}
-                    role="progressbar"
-                    aria-label={t.progressAria(start, end)}
-                    aria-valuemin="0" aria-valuemax="100" aria-valuenow={chains.progress}
-                  >
-                    <div {...stylex.props(styles.progressFill)} style={{ width: `${chains.progress}%` }} />
-                  </div>
-                </div>
+                <PlotProgress
+                  phase={chains.phase}
+                  progress={chains.progress}
+                  label={t.progressAria(start, end)}
+                />
               )}
               {chains.error && <p {...stylex.props(styles.notice)} role="alert">{chains.error}</p>}
 
@@ -122,14 +115,7 @@ export default function ChainsApp() {
               )}
             </div>
 
-            <div {...stylex.props(styles.stats)}>
-              {stats.map(([label, value]) => (
-                <div key={label} {...stylex.props(styles.stat)}>
-                  <span {...stylex.props(styles.statValue)}>{value}</span>
-                  <span {...stylex.props(styles.statLabel)}>{label}</span>
-                </div>
-              ))}
-            </div>
+            <StatsRow items={stats} />
           </div>
         </div>
 

@@ -23,12 +23,6 @@ export const chainStyles = stylex.create({
     padding: '0 10px',
     ':hover': { borderColor: '#12151a', color: '#12151a' },
   },
-  ruleButtonActive: {
-    backgroundColor: '#12151a',
-    borderColor: '#12151a',
-    color: '#f8f8f6',
-    ':hover': { backgroundColor: '#1f4bff', borderColor: '#1f4bff', color: '#ffffff' },
-  },
   ruleNote: { color: '#4a4f4c', fontSize: '12px', lineHeight: 1.55, marginBottom: 0, marginTop: '2px' },
 
   emptyState: { borderTop: RULE, marginTop: '12px', paddingTop: '14px' },

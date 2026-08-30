@@ -101,7 +101,7 @@ export const styles = stylex.create({
     minHeight: '44px',
     ':hover': { borderColor: '#12151a', color: '#12151a' },
   },
-  presetActive: {
+  activeButton: {
     backgroundColor: '#12151a',
     borderColor: '#12151a',
     color: '#f8f8f6',
@@ -126,12 +126,6 @@ export const styles = stylex.create({
     textAlign: 'center',
     ':hover': { borderColor: '#12151a', color: '#12151a' },
   },
-  modeButtonActive: {
-    backgroundColor: '#12151a',
-    borderColor: '#12151a',
-    color: '#f8f8f6',
-    ':hover': { backgroundColor: '#1f4bff', borderColor: '#1f4bff', color: '#ffffff' },
-  },
   error: { color: '#b3261e', fontSize: '12px', margin: 0 },
 
   plotCard: { padding: '16px' },
@@ -151,6 +145,17 @@ export const styles = stylex.create({
   progressFill: { backgroundColor: '#1f4bff', height: '100%', transitionDuration: '120ms', transitionProperty: 'width', transitionTimingFunction: 'ease-out' },
   notice: { color: '#4a4f4c', fontSize: '12.5px', lineHeight: 1.5, marginBottom: 0, marginTop: '12px' },
 
+  plot: { aspectRatio: '1 / 1', display: 'block', height: 'auto', width: '100%' },
+  plotClickable: { cursor: 'pointer' },
+  visuallyHidden: {
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: '1px',
+    overflow: 'hidden',
+    position: 'absolute',
+    whiteSpace: 'nowrap',
+    width: '1px',
+  },
   legend: { display: 'flex', flexWrap: 'wrap', gap: '8px 18px', marginTop: '12px' },
   legendItem: { alignItems: 'center', color: '#4a4f4c', display: 'flex', fontFamily: MONO, fontSize: '11.5px', gap: '7px', whiteSpace: 'nowrap' },
 

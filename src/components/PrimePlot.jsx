@@ -4,6 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { drawPlot, usesPixelReadback } from '../lib/drawPrimePlot.js';
 import { CANVAS_SIZE } from '../lib/plotGeometry.js';
 import { formatNumber, t } from '../i18n/index.js';
+import { styles } from '../appStyles.stylex.js';
 
 export default function PrimePlot({ data, onRendered, yDirection }) {
   const canvasRef = useRef(null);
@@ -54,15 +55,3 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
   );
 }
 
-const styles = stylex.create({
-  plot: { aspectRatio: '1 / 1', display: 'block', height: 'auto', width: '100%' },
-  visuallyHidden: {
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: '1px',
-    overflow: 'hidden',
-    position: 'absolute',
-    whiteSpace: 'nowrap',
-    width: '1px',
-  },
-});

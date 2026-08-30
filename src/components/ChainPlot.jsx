@@ -4,6 +4,7 @@ import * as stylex from '@stylexjs/stylex';
 import { drawChainPlot } from '../lib/drawChainPlot.js';
 import { CANVAS_SIZE, scaleX, scaleY } from '../lib/plotGeometry.js';
 import { formatNumber, t } from '../i18n/index.js';
+import { styles } from '../appStyles.stylex.js';
 
 // Chain seeds peak in the low thousands, so this always draws arcs — no dense
 // pixel path, and therefore no readback hint or canvas keying like PrimePlot.
@@ -56,7 +57,7 @@ export default function ChainPlot({ data, selectedSeed, onSelect }) {
   return (
     <>
       <canvas
-        {...stylex.props(styles.plot)}
+        {...stylex.props(styles.plot, styles.plotClickable)}
         ref={canvasRef}
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}
@@ -74,15 +75,3 @@ export default function ChainPlot({ data, selectedSeed, onSelect }) {
   );
 }
 
-const styles = stylex.create({
-  plot: { aspectRatio: '1 / 1', cursor: 'pointer', display: 'block', height: 'auto', width: '100%' },
-  visuallyHidden: {
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: '1px',
-    overflow: 'hidden',
-    position: 'absolute',
-    whiteSpace: 'nowrap',
-    width: '1px',
-  },
-});
