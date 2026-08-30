@@ -4,6 +4,7 @@ import IntervalControls from './components/IntervalControls.jsx';
 import Legend from './components/Legend.jsx';
 import PrimePlot from './components/PrimePlot.jsx';
 import { usePlotData } from './hooks/usePlotData.js';
+import { formatNumber, phaseLabel, t } from './i18n/index.js';
 import { styles } from './appStyles.stylex.js';
 
 const DEFAULT_START = 0;
@@ -23,21 +24,29 @@ export default function App() {
   const displayedStart = plot.data?.start ?? start;
   const displayedEnd = plot.data?.end ?? end;
   const stats = plot.data ? [
-    ['Checked', plot.data.count.toLocaleString()],
-    ['Markers', plot.data.visibleMarkerCount.toLocaleString()],
-    ['Prime n', plot.data.summary.originalPrimes.toLocaleString()],
-    ['Prime reversals', plot.data.summary.reversedPrimes.toLocaleString()],
-    ['Both prime', plot.data.summary.doublePrimes.toLocaleString()],
+    [t.statChecked, formatNumber(plot.data.count)],
+    [t.statMarkers, formatNumber(plot.data.visibleMarkerCount)],
+    [t.statPrimeN, formatNumber(plot.data.summary.originalPrimes)],
+    [t.statPrimeReversals, formatNumber(plot.data.summary.reversedPrimes)],
+    [t.statBothPrime, formatNumber(plot.data.summary.doublePrimes)],
   ] : [];
 
   return (
     <main {...stylex.props(styles.page)}>
       <section {...stylex.props(styles.hero)}>
         <div>
-          <p {...stylex.props(styles.eyebrow)}>Number mirror · prime explorer</p>
-          <h1 {...stylex.props(styles.title)}>Reverse Prime Plot</h1>
+          <a
+            {...stylex.props(styles.langSwitch)}
+            href={t.langSwitchHref}
+            hrefLang={t.langSwitchHrefLang}
+            aria-label={t.langSwitchLabel}
+          >
+            {t.langSwitch}
+          </a>
+          <p {...stylex.props(styles.eyebrow)}>{t.eyebrow}</p>
+          <h1 {...stylex.props(styles.title)}>{t.title}</h1>
           <p {...stylex.props(styles.intro)}>
-            Every number becomes <strong>(n, reverse(n))</strong>. Choose an inclusive interval and plot backward from its upper endpoint to its lower endpoint.
+            {t.introLead} <strong>{t.introFormula}</strong>{t.introRest}
           </p>
         </div>
 
@@ -54,9 +63,9 @@ export default function App() {
         <div {...stylex.props(styles.plotHeader)}>
           <div>
             <p {...stylex.props(styles.plotLabel)}>
-              Coordinates: (n, reverse(n)) · {displayedStart.toLocaleString()}–{displayedEnd.toLocaleString()}
+              {t.coordinates(formatNumber(displayedStart), formatNumber(displayedEnd))}
             </p>
-            <h2 {...stylex.props(styles.plotTitle)}>{displayedEnd.toLocaleString()} → {displayedStart.toLocaleString()}</h2>
+            <h2 {...stylex.props(styles.plotTitle)}>{formatNumber(displayedEnd)} → {formatNumber(displayedStart)}</h2>
           </div>
           <div {...stylex.props(styles.stats)}>
             {stats.map(([label, value]) => (
@@ -71,13 +80,13 @@ export default function App() {
         {plot.isPlotting && (
           <div {...stylex.props(styles.progressBlock)}>
             <div {...stylex.props(styles.progressLabel)}>
-              <span>{plot.phase}: {start.toLocaleString()}–{end.toLocaleString()}</span>
+              <span>{phaseLabel(plot.phase)}: {formatNumber(start)}–{formatNumber(end)}</span>
               <span>{plot.progress}%</span>
             </div>
             <div
               {...stylex.props(styles.progressTrack)}
               role="progressbar"
-              aria-label={`Plotting interval ${start} to ${end}`}
+              aria-label={t.progressAria(start, end)}
               aria-valuemin="0"
               aria-valuemax="100"
               aria-valuenow={plot.progress}
@@ -90,13 +99,26 @@ export default function App() {
         <Legend />
         {plot.data?.outsideCount > 0 && (
           <p {...stylex.props(styles.notice)} role="status">
-            {plot.data.outsideCount.toLocaleString()} reversed values fall outside the selected {displayedStart.toLocaleString()}–{displayedEnd.toLocaleString()} interval.
+            {t.outsideNotice(
+              formatNumber(plot.data.outsideCount),
+              formatNumber(displayedStart),
+              formatNumber(displayedEnd),
+            )}
           </p>
         )}
         <div {...stylex.props(styles.plotWrap)}>
           {plot.data && <PrimePlot data={plot.data} onRendered={plot.finishRendering} yDirection={yDirection} />}
         </div>
       </section>
+
+      <footer {...stylex.props(styles.footer)}>
+        <p>
+          Apache-2.0 &nbsp;|&nbsp; © {t.footerYear}{' '}
+          <a {...stylex.props(styles.footerLink)} href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a>
+          &nbsp;|&nbsp; {t.footerCreatedBy}{' '}
+          <a {...stylex.props(styles.footerLink)} href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">{t.authorName}</a>
+        </p>
+      </footer>
     </main>
   );
 }

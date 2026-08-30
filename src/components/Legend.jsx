@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { CREAM, INK, PRIME_COLOR } from '../lib/palette.js';
+import { t } from '../i18n/index.js';
 
 function Glyph({ state }) {
   return (
@@ -17,18 +18,18 @@ function Glyph({ state }) {
 }
 
 const items = [
-  ['top', 'n is prime'],
-  ['bottom', 'reverse(n) is prime'],
-  ['full', 'both are prime'],
+  ['top', 'legendTop'],
+  ['bottom', 'legendBottom'],
+  ['full', 'legendFull'],
 ];
 
 export default function Legend() {
   return (
-    <div {...stylex.props(styles.legend)} aria-label="Plot legend">
-      {items.map(([state, label]) => (
+    <div {...stylex.props(styles.legend)} aria-label={t.legendLabel}>
+      {items.map(([state, labelKey]) => (
         <div key={state} {...stylex.props(styles.item)}>
           <Glyph state={state} />
-          <span>{label}</span>
+          <span>{t[labelKey]}</span>
         </div>
       ))}
     </div>

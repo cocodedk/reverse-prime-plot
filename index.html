@@ -3,12 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Reverse Prime Plot — plot every number against its digit reversal</title>
     <meta
       name="description"
-      content="Explore prime numbers and their digit reversals on a coordinate plot."
+      content="An interactive plot of (n, reverse(n)) for any interval up to ten million, marking which numbers and which digit reversals are prime. A sieve of Eratosthenes runs in a Web Worker and the points are drawn straight to canvas."
     />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='13' fill='%23f15a37' stroke='%2318332e' stroke-width='3'/%3E%3C/svg%3E" />
-    <title>Reverse Prime Plot</title>
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://cocodedk.github.io/reverse-prime-plot/" />
+    <link rel="alternate" hreflang="en" href="https://cocodedk.github.io/reverse-prime-plot/" />
+    <link rel="alternate" hreflang="fa" href="https://cocodedk.github.io/reverse-prime-plot/fa/" />
+    <link rel="alternate" hreflang="x-default" href="https://cocodedk.github.io/reverse-prime-plot/" />
+    <link rel="icon" type="image/svg+xml" href="/reverse-prime-plot/favicon.svg" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Reverse Prime Plot" />
+    <meta property="og:title" content="Reverse Prime Plot — plot every number against its digit reversal" />
+    <meta
+      property="og:description"
+      content="An interactive plot of (n, reverse(n)) for any interval up to ten million, marking which numbers and which digit reversals are prime."
+    />
+    <meta property="og:url" content="https://cocodedk.github.io/reverse-prime-plot/" />
+    <meta property="og:image" content="https://cocodedk.github.io/reverse-prime-plot/og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="A dense orange scatter plot of prime-related coordinates forming a self-similar lattice, beside the title Reverse Prime Plot."
+    />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="fa_IR" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Reverse Prime Plot — plot every number against its digit reversal" />
+    <meta
+      name="twitter:description"
+      content="An interactive plot of (n, reverse(n)) for any interval up to ten million, marking which numbers and which digit reversals are prime."
+    />
+    <meta name="twitter:image" content="https://cocodedk.github.io/reverse-prime-plot/og.png" />
+    <meta
+      name="twitter:image:alt"
+      content="A dense orange scatter plot of prime-related coordinates forming a self-similar lattice."
+    />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Reverse Prime Plot",
+        "description": "An interactive plot of (n, reverse(n)) for any interval up to ten million, marking which numbers and which digit reversals are prime.",
+        "url": "https://cocodedk.github.io/reverse-prime-plot/",
+        "downloadUrl": "https://github.com/cocodedk/reverse-prime-plot",
+        "applicationCategory": "EducationalApplication",
+        "operatingSystem": "Any (modern web browser)",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "author": {
+          "@type": "Person",
+          "name": "Babak Bandpey",
+          "url": "https://cocode.dk",
+          "sameAs": [
+            "https://linkedin.com/in/babakbandpey",
+            "https://github.com/cocodedk"
+          ]
+        },
+        "codeRepository": "https://github.com/cocodedk/reverse-prime-plot",
+        "license": "https://www.apache.org/licenses/LICENSE-2.0",
+        "inLanguage": ["en", "fa"]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

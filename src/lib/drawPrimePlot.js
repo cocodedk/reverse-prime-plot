@@ -8,10 +8,11 @@ import {
   scaleY,
 } from './plotGeometry.js';
 import { CREAM, INK, PRIME_COLOR, PRIME_RGB } from './palette.js';
+import { formatNumber, t } from '../i18n/index.js';
 
 const GRID = '#d9ddd4';
 const AXIS_TEXT = '#687670';
-const SANS_STACK = 'Inter, ui-sans-serif, system-ui, sans-serif';
+const SANS_STACK = t.canvasFont;
 const AXIS_TITLE_INSET = 13;
 const BATCH_SIZE = 20_000;
 const DENSE_PLOT_THRESHOLD = 5_000;
@@ -39,7 +40,7 @@ function drawGrid(context, start, end, yDirection) {
   for (const tick of createTicks(start, end)) {
     const x = scaleX(tick, start, end);
     const y = scaleY(tick, start, end, yDirection);
-    const label = tick.toLocaleString();
+    const label = formatNumber(tick);
     context.beginPath();
     context.moveTo(x, PLOT_TOP);
     context.lineTo(x, PLOT_TOP + PLOT_SIZE);
@@ -130,11 +131,11 @@ function drawFrame(context) {
   context.fillStyle = INK;
   context.font = `700 13px ${SANS_STACK}`;
   context.textAlign = 'center';
-  context.fillText('number, n', PLOT_LEFT + PLOT_SIZE / 2, CANVAS_SIZE - AXIS_TITLE_INSET);
+  context.fillText(t.axisX, PLOT_LEFT + PLOT_SIZE / 2, CANVAS_SIZE - AXIS_TITLE_INSET);
   context.save();
   context.translate(17, PLOT_TOP + PLOT_SIZE / 2);
   context.rotate(-Math.PI / 2);
-  context.fillText('reversed number', 0, 0);
+  context.fillText(t.axisY, 0, 0);
   context.restore();
 }
 

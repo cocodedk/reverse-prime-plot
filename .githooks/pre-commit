@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+
+# Fast verification run before every commit.
+SMOKE_CMD="npm test"
+
+$SMOKE_CMD

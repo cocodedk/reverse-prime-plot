@@ -1,0 +1,123 @@
+name: Release
+
+# Manual release only. This workflow pushes a `v*` tag; it must NEVER be
+# triggered by `push: tags:` or it would re-trigger itself (see
+# references/versioning-gotchas.md).
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Version bump type'
+        required: false
+        default: 'patch'
+        type: choice
+        options: [patch, minor, major]
+
+permissions:
+  contents: write
+
+# Releases serialize; a release must never be cancelled mid-flight.
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0 # tags are the canonical version source
+
+      - name: Compute next version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump }}
+        run: |
+          set -euo pipefail
+          # Semver tags only (a stray `v2-beta` must not win), newest first.
+          LATEST=$(git tag --list 'v*' --sort=-version:refname \
+            | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -1 || true)
+          if [ -z "$LATEST" ]; then
+            # Bootstrap only: no tags yet, so seed from the committed version.txt.
+            BASE=$(tr -d '[:space:]' < version.txt)
+            LATEST="v${BASE}"
+            echo "No v* tag found; bootstrapping from version.txt ($LATEST)."
+          fi
+          VERSION="${LATEST#v}"
+          if [[ ! "$VERSION" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "Cannot parse version from '$LATEST' (expected vX.Y.Z)" >&2
+            exit 1
+          fi
+          MAJOR="${BASH_REMATCH[1]}"; MINOR="${BASH_REMATCH[2]}"; PATCH="${BASH_REMATCH[3]}"
+          case "$BUMP" in
+            major) MAJOR=$((MAJOR+1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR+1)); PATCH=0 ;;
+            patch|'') PATCH=$((PATCH+1)) ;;
+            *) echo "Unknown bump type: $BUMP" >&2; exit 1 ;;
+          esac
+          NEXT="$MAJOR.$MINOR.$PATCH"
+          echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+          echo "tag=v$NEXT" >> "$GITHUB_OUTPUT"
+          echo "Releasing v$NEXT (previous: $LATEST, bump: ${BUMP:-patch})"
+
+      - name: Fail if tag already exists
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if git rev-parse -q --verify "refs/tags/$TAG" >/dev/null; then
+            echo "Tag $TAG already exists — refusing to create a duplicate release." >&2
+            exit 1
+          fi
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Package dist
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          [ -d dist ] || { echo "dist/ was not produced by the build" >&2; exit 1; }
+          # Single computed version, embedded in the shipped artifact.
+          printf '%s\n' "$VERSION" > dist/version.txt
+          mkdir -p artifacts
+          VERSIONED="artifacts/reverse-prime-plot-v${VERSION}-dist.tar.gz"
+          FIXED="artifacts/reverse-prime-plot-dist.tar.gz"
+          tar -czf "$VERSIONED" dist
+          cp "$VERSIONED" "$FIXED"
+          (cd artifacts && sha256sum reverse-prime-plot-*.tar.gz > SHA256SUMS.txt)
+          cat artifacts/SHA256SUMS.txt
+
+      - name: Tag and push
+        env:
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.email "github-actions@github.com"
+          git config user.name "github-actions[bot]"
+          git tag "$TAG"
+          git push origin "$TAG"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: ${{ steps.version.outputs.tag }}
+          generate_release_notes: true
+          files: |
+            artifacts/reverse-prime-plot-v${{ steps.version.outputs.version }}-dist.tar.gz
+            artifacts/reverse-prime-plot-dist.tar.gz
+            artifacts/SHA256SUMS.txt

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import { drawPlot, usesPixelReadback } from '../lib/drawPrimePlot.js';
 import { CANVAS_SIZE } from '../lib/plotGeometry.js';
+import { formatNumber, t } from '../i18n/index.js';
 
 export default function PrimePlot({ data, onRendered, yDirection }) {
   const canvasRef = useRef(null);
@@ -25,7 +26,7 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
     return () => cancelAnimationFrame(frame);
   }, [data, onRendered, yDirection, readsBack]);
 
-  const lowerPosition = yDirection === 'up' ? 'bottom' : 'top';
+  const lowerPosition = yDirection === 'up' ? t.positionBottom : t.positionTop;
   return (
     <>
       <canvas
@@ -37,10 +38,10 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
         role="img"
         aria-describedby="plot-description"
       >
-        Prime and reversed-prime coordinate plot.
+        {t.canvasFallback}
       </canvas>
       <p id="plot-description" {...stylex.props(styles.visuallyHidden)}>
-        Prime-related coordinates from {data.end} down to {data.start}. Both axes cover that inclusive interval. The horizontal value is the number and the vertical value is its digit reversal, with the lower endpoint at the {lowerPosition}. Empty, non-prime markers are omitted.
+        {t.plotDescription(formatNumber(data.start), formatNumber(data.end), lowerPosition)}
       </p>
     </>
   );

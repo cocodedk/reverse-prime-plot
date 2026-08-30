@@ -25,3 +25,19 @@ button,
 input {
   font: inherit;
 }
+
+/* Persian entry point. StyleX emits into a cascade layer, so these unlayered
+   rules win without needing !important or higher specificity. */
+[dir="rtl"] body,
+[dir="rtl"] button,
+[dir="rtl"] input {
+  font-family: Vazirmatn, Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2 {
+  font-family: Vazirmatn, Georgia, serif;
+  font-weight: 700;
+  letter-spacing: normal;
+  line-height: 1.25;
+}

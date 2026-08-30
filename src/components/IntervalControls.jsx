@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import { isValidInterval, MAX_LIMIT } from '../lib/primeNumbers.js';
+import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 
 const PRESETS = [[0, 50], [0, 100], [0, 250]];
 const Y_DIRECTIONS = [
-  ['up', 'Lower at bottom'],
-  ['down', 'Lower at top'],
+  ['up', 'lowerAtBottom'],
+  ['down', 'lowerAtTop'],
 ];
 
 export default function IntervalControls({ start, end, yDirection, onApply, onYDirection }) {
@@ -18,9 +19,7 @@ export default function IntervalControls({ start, end, yDirection, onApply, onYD
     const nextStart = Number(startValue);
     const nextEnd = Number(endValue);
     if (!isValidInterval(nextStart, nextEnd)) {
-      setValidationError(
-        `Choose whole numbers where 0 ≤ From < To ≤ ${MAX_LIMIT.toLocaleString()}.`,
-      );
+      setValidationError(t.validationError(formatNumber(MAX_LIMIT)));
       return;
     }
     setDraftStart(String(nextStart));
@@ -37,10 +36,10 @@ export default function IntervalControls({ start, end, yDirection, onApply, onYD
         applyInterval(draftStart, draftEnd);
       }}
     >
-      <span {...stylex.props(styles.label)}>Choose interval</span>
+      <span {...stylex.props(styles.label)}>{t.chooseInterval}</span>
       <div {...stylex.props(styles.intervalFields)}>
         <label {...stylex.props(styles.field)} htmlFor="interval-start">
-          <span {...stylex.props(styles.fieldLabel)}>From</span>
+          <span {...stylex.props(styles.fieldLabel)}>{t.from}</span>
           <input
             {...stylex.props(styles.input)}
             id="interval-start"
@@ -54,7 +53,7 @@ export default function IntervalControls({ start, end, yDirection, onApply, onYD
           />
         </label>
         <label {...stylex.props(styles.field)} htmlFor="interval-end">
-          <span {...stylex.props(styles.fieldLabel)}>To</span>
+          <span {...stylex.props(styles.fieldLabel)}>{t.to}</span>
           <input
             {...stylex.props(styles.input)}
             id="interval-end"
@@ -69,9 +68,9 @@ export default function IntervalControls({ start, end, yDirection, onApply, onYD
         </label>
       </div>
       <button {...stylex.props(styles.primaryButton)} type="submit">
-        Plot interval
+        {t.plotInterval}
       </button>
-      <div {...stylex.props(styles.presets)} aria-label="Suggested intervals">
+      <div {...stylex.props(styles.presets)} aria-label={t.suggestedIntervals}>
         {PRESETS.map(([presetStart, presetEnd]) => (
           <button
             {...stylex.props(
@@ -82,13 +81,13 @@ export default function IntervalControls({ start, end, yDirection, onApply, onYD
             key={presetEnd}
             onClick={() => applyInterval(presetStart, presetEnd)}
           >
-            {presetStart}–{presetEnd}
+            {formatNumber(presetStart)}–{formatNumber(presetEnd)}
           </button>
         ))}
       </div>
-      <span {...stylex.props(styles.label, styles.modeLabel)}>Vertical-axis direction</span>
+      <span {...stylex.props(styles.label, styles.modeLabel)}>{t.axisDirection}</span>
       <div {...stylex.props(styles.modeSwitch)}>
-        {Y_DIRECTIONS.map(([value, label]) => (
+        {Y_DIRECTIONS.map(([value, labelKey]) => (
           <button
             {...stylex.props(styles.modeButton, yDirection === value ? styles.modeButtonActive : null)}
             type="button"
@@ -96,7 +95,7 @@ export default function IntervalControls({ start, end, yDirection, onApply, onYD
             aria-pressed={yDirection === value}
             onClick={() => onYDirection(value)}
           >
-            {label}
+            {t[labelKey]}
           </button>
         ))}
       </div>

@@ -1,0 +1,38 @@
+# Reverse Prime Plot
+
+> An interactive browser visualisation of digit reversal and primality: for every integer n in a chosen inclusive interval it plots the point (n, reverse(n)) and marks whether n, its reversal, or both are prime.
+
+Each marker is a circle. Its top half is filled when n is prime, its bottom half when reverse(n) is prime, and the whole circle when both are; points where neither is prime are omitted. Reversals that fall outside the chosen interval cannot be plotted on the square axes, so they are dropped and counted in a notice below the plot.
+
+Intervals from 0 to 10,000,000 are supported. A sieve of Eratosthenes runs in a Web Worker and transfers typed arrays back to the main thread. Up to 5,000 points the canvas draws outlined circles; above that the renderer writes ImageData pixels directly, so a wide interval becomes a dense pixel plot. The vertical axis direction can be flipped.
+
+Built with Vite 8, React 19, StyleX, and vitest. The site is published in English and Persian, each language a separate entry point with its own locale and text direction. Licensed Apache-2.0.
+
+## Site
+
+- [Reverse Prime Plot (English)](https://cocodedk.github.io/reverse-prime-plot/): The live visualisation.
+- [Reverse Prime Plot (Persian)](https://cocodedk.github.io/reverse-prime-plot/fa/): The same visualisation in Persian, right-to-left, with Persian-Indic digits.
+
+## Repository
+
+- [Source on GitHub](https://github.com/cocodedk/reverse-prime-plot): Public repository, default branch `main`.
+- [README](https://github.com/cocodedk/reverse-prime-plot/blob/main/README.md): What it is, how to run it, project structure, stack.
+- [CONTRIBUTING](https://github.com/cocodedk/reverse-prime-plot/blob/main/CONTRIBUTING.md): Local setup, commands, coding style, PR checklist.
+- [LICENSE](https://github.com/cocodedk/reverse-prime-plot/blob/main/LICENSE): Apache License 2.0.
+
+## Core source
+
+- [src/lib/primeNumbers.js](https://github.com/cocodedk/reverse-prime-plot/blob/main/src/lib/primeNumbers.js): Digit reversal, the sieve, interval validation, and the bit-packed marker arrays (bit 0 = n is prime, bit 1 = reverse(n) is prime).
+- [src/lib/drawPrimePlot.js](https://github.com/cocodedk/reverse-prime-plot/blob/main/src/lib/drawPrimePlot.js): Canvas renderer — grid, layered circle markers, the dense ImageData path, axis frame.
+- [src/lib/plotGeometry.js](https://github.com/cocodedk/reverse-prime-plot/blob/main/src/lib/plotGeometry.js): Canvas dimensions, tick selection, and the x/y scales.
+- [src/workers/plotDataWorker.js](https://github.com/cocodedk/reverse-prime-plot/blob/main/src/workers/plotDataWorker.js): Runs the computation off the main thread and transfers the result buffers back.
+- [src/hooks/usePlotData.js](https://github.com/cocodedk/reverse-prime-plot/blob/main/src/hooks/usePlotData.js): Spawns the worker and tracks progress, errors, and completion.
+- [src/App.jsx](https://github.com/cocodedk/reverse-prime-plot/blob/main/src/App.jsx): Page layout, interval state, and the per-interval statistics.
+
+## Optional
+
+- [src/components](https://github.com/cocodedk/reverse-prime-plot/tree/main/src/components): Interval form, legend, and the canvas component.
+- [src/i18n](https://github.com/cocodedk/reverse-prime-plot/tree/main/src/i18n): Locale detection and the English and Persian dictionaries.
+- [src/lib/palette.js](https://github.com/cocodedk/reverse-prime-plot/blob/main/src/lib/palette.js): Colours shared by the canvas renderer and the SVG legend.
+- [Cocode](https://cocode.dk): The studio behind the project.
+- [Babak Bandpey on LinkedIn](https://linkedin.com/in/babakbandpey): Author.
