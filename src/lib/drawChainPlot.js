@@ -7,11 +7,7 @@ import { drawFrame, drawGrid } from './plotChrome.js';
 const DEPTH_ONE_RADIUS = 3.2;
 const DEEP_RADIUS = 6;
 
-export function depthColor(depth) {
-  return depth >= 2 ? ACCENT : INK;
-}
-
-function drawSeeds(context, data, yDirection, deep) {
+function drawSeeds(context, data, deep) {
   const { end, markerDepths, markerNumbers, markerReversed, start } = data;
   const radius = deep ? DEEP_RADIUS : DEPTH_ONE_RADIUS;
 
@@ -20,7 +16,7 @@ function drawSeeds(context, data, yDirection, deep) {
     const isDeep = markerDepths[index] >= 2;
     if (isDeep !== deep) continue;
     const x = scaleX(markerNumbers[index], start, end);
-    const y = scaleY(markerReversed[index], start, end, yDirection);
+    const y = scaleY(markerReversed[index], start, end, Y_DIRECTION);
     context.moveTo(x + radius, y);
     context.arc(x, y, radius, 0, Math.PI * 2);
   }
@@ -33,7 +29,7 @@ function drawSeeds(context, data, yDirection, deep) {
     for (let index = 0; index < markerDepths.length; index += 1) {
       if (markerDepths[index] < 2) continue;
       const x = scaleX(markerNumbers[index], start, end);
-      const y = scaleY(markerReversed[index], start, end, yDirection);
+      const y = scaleY(markerReversed[index], start, end, Y_DIRECTION);
       context.moveTo(x + radius / 2.6, y);
       context.arc(x, y, radius / 2.6, 0, Math.PI * 2);
     }
@@ -42,11 +38,11 @@ function drawSeeds(context, data, yDirection, deep) {
   }
 }
 
-function drawSelection(context, data, yDirection, selectedSeed) {
+function drawSelection(context, data, selectedSeed) {
   const index = data.markerNumbers.indexOf(selectedSeed);
   if (index < 0) return;
   const x = scaleX(data.markerNumbers[index], data.start, data.end);
-  const y = scaleY(data.markerReversed[index], data.start, data.end, yDirection);
+  const y = scaleY(data.markerReversed[index], data.start, data.end, Y_DIRECTION);
   context.beginPath();
   context.arc(x, y, 11, 0, Math.PI * 2);
   context.strokeStyle = ACCENT;
@@ -54,13 +50,16 @@ function drawSelection(context, data, yDirection, selectedSeed) {
   context.stroke();
 }
 
-export function drawChainPlot(context, data, yDirection, selectedSeed, textScale = 1) {
-  drawGrid(context, data.start, data.end, yDirection, textScale);
+// The chain plot has no axis-direction control, so the orientation is fixed.
+const Y_DIRECTION = 'up';
+
+export function drawChainPlot(context, data, selectedSeed, textScale = 1) {
+  drawGrid(context, data.start, data.end, Y_DIRECTION, textScale);
   if (data.markerDepths.length > 0) {
-    drawSeeds(context, data, yDirection, false);
-    drawSeeds(context, data, yDirection, true);
+    drawSeeds(context, data, false);
+    drawSeeds(context, data, true);
     if (selectedSeed !== null && selectedSeed !== undefined) {
-      drawSelection(context, data, yDirection, selectedSeed);
+      drawSelection(context, data, selectedSeed);
     }
   }
   drawFrame(context, textScale);

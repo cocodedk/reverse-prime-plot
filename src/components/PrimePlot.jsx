@@ -18,6 +18,9 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    // ResizeObserver always reports once on observe, so skipping the
+    // pre-measurement pass drops a full wasted draw rather than delaying one.
+    if (renderedWidth === 0) return undefined;
     const frame = requestAnimationFrame(() => {
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = CANVAS_SIZE * pixelRatio;
@@ -28,7 +31,7 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
       onRendered(data);
     });
     return () => cancelAnimationFrame(frame);
-  }, [data, onRendered, textScale, yDirection, readsBack]);
+  }, [data, onRendered, renderedWidth, textScale, yDirection, readsBack]);
 
   const lowerPosition = yDirection === 'up' ? t.positionBottom : t.positionTop;
   return (

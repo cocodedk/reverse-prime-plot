@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { ACCENT, CARD, INK, PRIME_COLOR } from '../lib/palette.js';
+import { CARD, INK, PRIME_COLOR } from '../lib/palette.js';
 import { t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 

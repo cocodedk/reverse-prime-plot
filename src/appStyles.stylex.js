@@ -1,7 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 
 const MONO = '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
-const SANS = '"IBM Plex Sans", ui-sans-serif, system-ui, sans-serif';
 const RULE = '1px solid #dfe0dc';
 
 export const styles = stylex.create({
@@ -158,5 +157,4 @@ export const styles = stylex.create({
   footer: { borderTop: RULE, color: '#6b6f6a', fontFamily: MONO, fontSize: '11px', lineHeight: 1.7, padding: '14px 16px 20px' },
   footerLink: { color: '#4a4f4c', ':hover': { color: '#1f4bff' } },
 
-  sans: { fontFamily: SANS },
 });

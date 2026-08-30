@@ -31,7 +31,7 @@ function markerAt(event, canvas, data) {
   return best;
 }
 
-export default function ChainPlot({ data, selectedSeed, onSelect, yDirection = 'up' }) {
+export default function ChainPlot({ data, selectedSeed, onSelect }) {
   const canvasRef = useRef(null);
   const renderedWidth = useElementWidth(canvasRef);
   // Keep axis labels near 12 real pixels however wide the canvas renders.
@@ -39,16 +39,19 @@ export default function ChainPlot({ data, selectedSeed, onSelect, yDirection = '
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    // ResizeObserver always reports once on observe, so skipping the
+    // pre-measurement pass drops a full wasted draw rather than delaying one.
+    if (renderedWidth === 0) return undefined;
     const frame = requestAnimationFrame(() => {
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = CANVAS_SIZE * pixelRatio;
       canvas.height = CANVAS_SIZE * pixelRatio;
       const context = canvas.getContext('2d');
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      drawChainPlot(context, data, yDirection, selectedSeed, textScale);
+      drawChainPlot(context, data, selectedSeed, textScale);
     });
     return () => cancelAnimationFrame(frame);
-  }, [data, selectedSeed, textScale, yDirection]);
+  }, [data, renderedWidth, selectedSeed, textScale]);
 
   return (
     <>

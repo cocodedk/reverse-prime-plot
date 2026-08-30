@@ -2,11 +2,9 @@
 // reserved for interaction and for the rare deep results. StyleX cannot consume
 // these (stylex.create takes static values only), so the stylesheets carry
 // their own copies of the same values.
-export const PAPER = '#f8f8f6';
 export const CARD = '#ffffff';
 export const INK = '#12151a';
 export const MUTED = '#6b6f6a';
-export const RULE = '#dfe0dc';
 export const GRID = '#ececea';
 export const ACCENT = '#1f4bff';
 
@@ -20,4 +18,3 @@ function toRgb(hex) {
 
 // ImageData writes need raw channel bytes rather than the hex string.
 export const PRIME_RGB = toRgb(PRIME_COLOR);
-export const ACCENT_RGB = toRgb(ACCENT);

@@ -1,13 +1,13 @@
 import * as stylex from '@stylexjs/stylex';
-import { ACCENT, CARD, INK, PRIME_COLOR } from '../lib/palette.js';
+import { ACCENT, CARD, INK } from '../lib/palette.js';
 import { t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 
 // Proportions mirror drawChainPlot: a deep marker is roughly twice the radius
 // of a single-link one, with a cream core punched out of it.
 const GLYPHS = [
-  ['one', ['chainsLegendOne']],
-  ['deep', ['chainsLegendDeep']],
+  ['one', 'chainsLegendOne'],
+  ['deep', 'chainsLegendDeep'],
 ];
 
 function Glyph({ kind }) {
@@ -28,8 +28,8 @@ function Glyph({ kind }) {
 export default function ChainLegend() {
   return (
     <div {...stylex.props(styles.legend)} aria-label={t.chainsLegendLabel}>
-      {GLYPHS.map(([kind, [labelKey]]) => (
-        <div key={kind} {...stylex.props(styles.item)}>
+      {GLYPHS.map(([kind, labelKey]) => (
+        <div key={kind} {...stylex.props(styles.legendItem)}>
           <Glyph kind={kind} />
           <span>{t[labelKey]}</span>
         </div>

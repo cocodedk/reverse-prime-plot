@@ -56,6 +56,3 @@ export function drawFrame(context, textScale = 1) {
   context.restore();
 }
 
-// Dense plots composite markers by writing ImageData directly, which means a
-// getImageData readback on every redraw; sparse plots never read pixels back.
-// Callers need this to pick the right canvas context hint.

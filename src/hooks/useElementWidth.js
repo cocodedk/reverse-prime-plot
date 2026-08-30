@@ -11,7 +11,8 @@ export function useElementWidth(ref) {
     if (!element || typeof ResizeObserver === 'undefined') return undefined;
 
     const observer = new ResizeObserver(([entry]) => {
-      setWidth(entry.contentRect.width);
+      // Rounding keeps a resize drag from redrawing on every fractional tick.
+      setWidth(Math.round(entry.contentRect.width));
     });
     observer.observe(element);
     return () => observer.disconnect();

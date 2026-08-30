@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { CARD, INK } from '../lib/palette.js';
+import { INK } from '../lib/palette.js';
 import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 
@@ -30,7 +30,6 @@ export default function Specimen({ number, reversed, bothPrime }) {
         <p {...stylex.props(styles.specimenVerdict)}>
           <svg width="17" height="17" viewBox="0 0 20 20" aria-hidden="true">
             <circle cx="10" cy="10" r="8" fill={INK} />
-            <circle cx="10" cy="10" r="8" fill="none" stroke={CARD} strokeWidth="0" />
           </svg>
           {t.specimenVerdict}
         </p>
