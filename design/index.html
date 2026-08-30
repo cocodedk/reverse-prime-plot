@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reverse Prime Plot — design directions</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+  :root { color-scheme: light; }
+  body {
+    margin: 0; padding: 32px 24px 56px; background: #e9eae6; color: #12151a;
+    font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  }
+  h1 { font-size: 1.15rem; font-weight: 500; margin: 0 0 6px; }
+  .lede { margin: 0 0 28px; max-width: 62ch; font-size: 0.92rem; line-height: 1.6; color: #4a4f4c; }
+  .row { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+  .col { display: flex; flex-direction: column; gap: 12px; width: 390px; }
+  .name { font-family: "IBM Plex Mono", ui-monospace, monospace; font-size: 0.72rem;
+          letter-spacing: 0.14em; text-transform: uppercase; color: #70746f; }
+  iframe { width: 390px; height: 844px; border: 1px solid #c9cbc7; background: #fff; display: block; }
+  .why { font-size: 0.82rem; line-height: 1.6; color: #4a4f4c; margin: 0; }
+  .why b { font-weight: 500; color: #12151a; }
+  a { color: #1f4bff; }
+</style>
+</head>
+<body>
+  <h1>Reverse Prime Plot — three directions</h1>
+  <p class="lede">
+    Mathematical minimalism, mobile first. Each one states the idea with a worked example on the
+    first screen, which is what the current site does not do on a phone. Open any frame on its own:
+    <a href="a-specimen.html">A</a>, <a href="b-definition.html">B</a>, <a href="c-mirror.html">C</a>.
+  </p>
+  <div class="row">
+    <div class="col">
+      <span class="name">A · Specimen</span>
+      <iframe src="a-specimen.html" title="Direction A, Specimen"></iframe>
+      <p class="why"><b>One worked example as the hero.</b> 13 becomes 31, both prime, so the point is
+        drawn. Most immediately legible. Costs the top of the screen to say it.</p>
+    </div>
+    <div class="col">
+      <span class="name">B · Definition</span>
+      <iframe src="b-definition.html" title="Direction B, Definition"></iframe>
+      <p class="why"><b>A boxed definition, like the head of a paper.</b> The most compact and the most
+        mathematical of the three. Reads as documentation rather than an invitation.</p>
+    </div>
+    <div class="col">
+      <span class="name">C · Mirror</span>
+      <iframe src="c-mirror.html" title="Direction C, Mirror"></iframe>
+      <p class="why"><b>The reversal is the hero.</b> Number above, mirrored below, dark ground so the
+        lattice carries the page. Strongest identity, biggest departure, and the plot needs redrawing
+        for dark.</p>
+    </div>
+  </div>
+</body>
+</html>

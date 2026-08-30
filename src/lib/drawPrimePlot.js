@@ -1,5 +1,5 @@
 import { PLOT_SIZE, scaleX, scaleY } from './plotGeometry.js';
-import { CREAM, INK, PRIME_COLOR, PRIME_RGB } from './palette.js';
+import { CARD, INK, PRIME_COLOR, PRIME_RGB } from './palette.js';
 import { drawFrame, drawGrid } from './plotChrome.js';
 const BATCH_SIZE = 20_000;
 const DENSE_PLOT_THRESHOLD = 5_000;
@@ -9,7 +9,7 @@ const DENSE_PLOT_THRESHOLD = 5_000;
 // arrays, painted in order: a white backing disc, then the coloured halves,
 // then a single outline over everything.
 const MARKER_PASSES = [
-  { matches: (state) => state === 1 || state === 2, shape: 'full', fillStyle: CREAM },
+  { matches: (state) => state === 1 || state === 2, shape: 'full', fillStyle: CARD },
   { matches: (state) => state === 3, shape: 'full', fillStyle: PRIME_COLOR },
   { matches: (state) => state === 1, shape: 'top', fillStyle: PRIME_COLOR },
   { matches: (state) => state === 2, shape: 'bottom', fillStyle: PRIME_COLOR },
@@ -90,8 +90,8 @@ export function usesPixelReadback(data) {
   return data.count > DENSE_PLOT_THRESHOLD;
 }
 
-export function drawPlot(context, data, yDirection, pixelRatio) {
-  drawGrid(context, data.start, data.end, yDirection);
+export function drawPlot(context, data, yDirection, pixelRatio, textScale = 1) {
+  drawGrid(context, data.start, data.end, yDirection, textScale);
 
   if (usesPixelReadback(data)) {
     drawDenseMarkers(context, data, yDirection, pixelRatio);
@@ -105,5 +105,5 @@ export function drawPlot(context, data, yDirection, pixelRatio) {
     }
   }
 
-  drawFrame(context);
+  drawFrame(context, textScale);
 }

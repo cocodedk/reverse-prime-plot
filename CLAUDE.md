@@ -26,6 +26,29 @@ Adding UI copy means adding the key to **both** `src/i18n/en.js` and `src/i18n/f
 Numbers go through `formatNumber()`, never `.toLocaleString()` directly: the `fa-IR` locale is
 what produces Persian digits in the stats, the canvas tick labels and the axis titles.
 
+### The design system
+
+Mathematical minimalism: monochrome data on paper, mono type for anything numeric, hairline rules
+instead of cards and shadows, and a single accent (`#1f4bff`) reserved for interaction and for the
+rare deep chain results. The page leads with a worked specimen (`13 -> 31`, both prime) rather than
+a title, because on a phone the old layout gave no clue what the page was about.
+
+`pickSpecimen` draws that lead example from the plotted data, so it can never contradict the plot.
+
+### Do not add `font: inherit` for buttons or inputs
+
+`global.css` deliberately does not reset button and input fonts. That rule is unlayered, so it
+outranks StyleX's layered output and silently discards every `fontFamily`/`fontSize` set on a
+control — the mono type on buttons simply vanishes with no warning. Style controls in StyleX only.
+
+### Canvas text scales to the rendered width
+
+The canvas draws in `CANVAS_SIZE` units, so a label sized in those units shrinks with the element:
+at phone width the axis labels rendered around 6px. `useElementWidth` feeds a `textScale` into the
+drawing code to hold labels near 12 real pixels at any size. It must come from a ResizeObserver, not
+a one-off measurement inside the draw effect — the first paint can land before layout settles, and
+the stale scale then persists because nothing redraws on resize.
+
 ### StyleX only accepts static values
 
 `stylex.create()` rejects anything it cannot analyse statically — an imported constant throws

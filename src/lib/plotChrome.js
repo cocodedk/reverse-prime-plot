@@ -7,20 +7,19 @@ import {
   scaleX,
   scaleY,
 } from './plotGeometry.js';
-import { CREAM, INK } from './palette.js';
+import { CARD, GRID, INK, MUTED } from './palette.js';
 import { formatNumber, t } from '../i18n/index.js';
 
-const GRID = '#d9ddd4';
-const AXIS_TEXT = '#5f6c66';
+const AXIS_TEXT = MUTED;
 const SANS_STACK = t.canvasFont;
 const AXIS_TITLE_INSET = 13;
 
 // Background, gridlines, tick labels, border and axis titles — everything both
 // the marker plot and the chain plot draw underneath their own points.
-export function drawGrid(context, start, end, yDirection) {
-  context.fillStyle = CREAM;
+export function drawGrid(context, start, end, yDirection, textScale = 1) {
+  context.fillStyle = CARD;
   context.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  context.font = `12px ${SANS_STACK}`;
+  context.font = `${12 * textScale}px ${SANS_STACK}`;
   context.lineWidth = 1;
   context.strokeStyle = GRID;
   context.fillStyle = AXIS_TEXT;
@@ -36,18 +35,18 @@ export function drawGrid(context, start, end, yDirection) {
     context.lineTo(PLOT_LEFT + PLOT_SIZE, y);
     context.stroke();
     context.textAlign = 'center';
-    context.fillText(label, x, PLOT_TOP + PLOT_SIZE + 24);
+    context.fillText(label, x, PLOT_TOP + PLOT_SIZE + 18 + 8 * textScale);
     context.textAlign = 'right';
-    context.fillText(label, PLOT_LEFT - 14, y + 4);
+    context.fillText(label, PLOT_LEFT - 14, y + 4 * textScale);
   }
 }
 
-export function drawFrame(context) {
+export function drawFrame(context, textScale = 1) {
   context.strokeStyle = INK;
   context.lineWidth = 1.5;
   context.strokeRect(PLOT_LEFT, PLOT_TOP, PLOT_SIZE, PLOT_SIZE);
   context.fillStyle = INK;
-  context.font = `700 13px ${SANS_STACK}`;
+  context.font = `500 ${13 * textScale}px ${SANS_STACK}`;
   context.textAlign = 'center';
   context.fillText(t.axisX, PLOT_LEFT + PLOT_SIZE / 2, CANVAS_SIZE - AXIS_TITLE_INSET);
   context.save();
