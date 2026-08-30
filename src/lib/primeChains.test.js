@@ -63,12 +63,21 @@ describe('createChainData', () => {
     expect([...data.markerNumbers]).not.toContain(101); // palindrome, no link
   });
 
-  it('reports the deepest chains as renderable examples', () => {
+  it('returns one chain per plotted marker, in marker order', () => {
+    const data = createChainData(0, 5000, 18);
+    expect(data.chains).toHaveLength(data.chainCount);
+    data.chains.forEach((chain, index) => {
+      expect(chain.seed).toBe(data.markerNumbers[index]);
+      expect(chain.depth).toBe(data.markerDepths[index]);
+      expect(chain.steps).toHaveLength(chain.depth);
+    });
+  });
+
+  it('records the deepest chain in full', () => {
     const data = createChainData(0, 5000, 18);
     expect(data.maxDepth).toBe(2);
-    const deepest = data.examples[0];
-    expect(deepest.seed).toBe(1913);
-    expect(deepest.steps).toHaveLength(2);
+    const deepest = data.chains.find((c) => c.seed === 1913);
+    expect(deepest.steps.map((s) => s.next)).toEqual([71, 3]);
   });
 
   it('rejects unsupported intervals and divisors', () => {

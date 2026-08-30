@@ -11,7 +11,7 @@ import { CREAM, INK } from './palette.js';
 import { formatNumber, t } from '../i18n/index.js';
 
 const GRID = '#d9ddd4';
-const AXIS_TEXT = '#687670';
+const AXIS_TEXT = '#5f6c66';
 const SANS_STACK = t.canvasFont;
 const AXIS_TITLE_INSET = 13;
 

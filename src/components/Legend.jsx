@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { CREAM, INK, PRIME_COLOR } from '../lib/palette.js';
 import { t } from '../i18n/index.js';
+import { styles } from '../appStyles.stylex.js';
 
 function Glyph({ state }) {
   return (
@@ -27,7 +28,7 @@ export default function Legend() {
   return (
     <div {...stylex.props(styles.legend)} aria-label={t.legendLabel}>
       {items.map(([state, labelKey]) => (
-        <div key={state} {...stylex.props(styles.item)}>
+        <div key={state} {...stylex.props(styles.legendItem)}>
           <Glyph state={state} />
           <span>{t[labelKey]}</span>
         </div>
@@ -35,21 +36,3 @@ export default function Legend() {
     </div>
   );
 }
-
-const styles = stylex.create({
-  legend: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '12px 22px',
-    marginTop: '18px',
-  },
-  item: {
-    alignItems: 'center',
-    color: '#52645f',
-    display: 'flex',
-    fontSize: '0.82rem',
-    fontWeight: 650,
-    gap: '8px',
-    whiteSpace: 'nowrap',
-  },
-});

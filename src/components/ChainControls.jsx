@@ -3,6 +3,7 @@ import * as stylex from '@stylexjs/stylex';
 import { CHAIN_DIVISORS, isValidChainRequest, MAX_LIMIT } from '../lib/primeChains.js';
 import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
+import { chainStyles } from '../chainStyles.stylex.js';
 
 const RULE_NOTES = { 1: 'ruleNote1', 9: 'ruleNote9', 18: 'ruleNote18' };
 
@@ -51,20 +52,20 @@ export default function ChainControls({ start, end, divisor, onApply, onDivisor 
       <button {...stylex.props(styles.primaryButton)} type="submit">{t.plotInterval}</button>
 
       <span {...stylex.props(styles.label, styles.modeLabel)}>{t.ruleLabel}</span>
-      <div {...stylex.props(styles.ruleGroup)}>
+      <div {...stylex.props(chainStyles.ruleGroup)}>
         {CHAIN_DIVISORS.map((value) => (
           <button
-            {...stylex.props(styles.ruleButton, divisor === value ? styles.ruleButtonActive : null)}
+            {...stylex.props(chainStyles.ruleButton, divisor === value ? chainStyles.ruleButtonActive : null)}
             type="button"
             key={value}
             aria-pressed={divisor === value}
             onClick={() => onDivisor(value)}
           >
-            {t.ruleOption(value)}
+            {t.ruleOption(value, formatNumber(value))}
           </button>
         ))}
       </div>
-      <p {...stylex.props(styles.ruleNote)}>{t[RULE_NOTES[divisor]]}</p>
+      <p {...stylex.props(chainStyles.ruleNote)}>{t[RULE_NOTES[divisor]]}</p>
       {validationError && (
         <p id="chain-error" {...stylex.props(styles.error)} role="alert">{validationError}</p>
       )}

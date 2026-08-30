@@ -60,8 +60,6 @@ function maxReversalIn(start, end, onProgress) {
   return limit;
 }
 
-const EXAMPLE_LIMIT = 12;
-
 export function createChainData(start, end, divisor, onProgress = () => {}) {
   if (!isValidChainRequest(start, end, divisor)) {
     throw new RangeError(
@@ -105,24 +103,22 @@ export function createChainData(start, end, divisor, onProgress = () => {}) {
   const markerNumbers = new Uint32Array(seeds.length);
   const markerReversed = new Uint32Array(seeds.length);
   const markerDepths = new Uint8Array(seeds.length);
-  seeds.forEach(([value, reversed, depth], index) => {
+  // chains[i] describes marker i, so a click on the plot maps straight to a
+  // chain without recomputing anything on the main thread.
+  const chains = seeds.map(([value, reversed, depth], index) => {
     markerNumbers[index] = value;
     markerReversed[index] = reversed;
     markerDepths[index] = depth;
+    return { depth, reversed, seed: value, steps: chainSteps(value, divisor, isPrime) };
   });
-
-  const examples = [...seeds]
-    .sort((a, b) => b[2] - a[2] || a[0] - b[0])
-    .slice(0, EXAMPLE_LIMIT)
-    .map(([value]) => ({ seed: value, steps: chainSteps(value, divisor, isPrime) }));
 
   return {
     chainCount: seeds.length,
+    chains,
     count,
     depthHistogram,
     divisor,
     end,
-    examples,
     markerDepths,
     markerNumbers,
     markerReversed,
