@@ -14,20 +14,31 @@ export function reverseNumber(value) {
   return reversed;
 }
 
-export function createPrimeTable(maximum, onProgress) {
-  const primes = new Uint8Array(maximum + 1);
-  primes.fill(1, 2);
-  const root = Math.floor(Math.sqrt(maximum));
+// Odds-only bit-packed sieve: one bit per odd number, so a table up to 100
+// million costs about 6 MB rather than 95 MB. `has` is the only accessor;
+// callers must not index the buffer directly.
+export class PrimeTable {
+  constructor(maximum, onProgress = () => {}) {
+    this.maximum = maximum;
+    this.bits = new Uint8Array((maximum >> 4) + 1).fill(0xff);
+    const root = Math.floor(Math.sqrt(maximum));
 
-  for (let candidate = 2; candidate <= root; candidate += 1) {
-    if (candidate % 50 === 0) onProgress(candidate / root);
-    if (!primes[candidate]) continue;
-    for (let multiple = candidate * candidate; multiple <= maximum; multiple += candidate) {
-      primes[multiple] = 0;
+    for (let candidate = 3; candidate <= root; candidate += 2) {
+      if (candidate % 50 === 1) onProgress(candidate / root);
+      if (!this.has(candidate)) continue;
+      for (let multiple = candidate * candidate; multiple <= maximum; multiple += candidate * 2) {
+        this.bits[multiple >> 4] &= ~(1 << ((multiple >> 1) & 7));
+      }
     }
+    onProgress(1);
   }
-  onProgress(1);
-  return primes;
+
+  has(value) {
+    if (value < 2 || value > this.maximum) return false;
+    if (value === 2) return true;
+    if ((value & 1) === 0) return false;
+    return (this.bits[value >> 4] & (1 << ((value >> 1) & 7))) !== 0;
+  }
 }
 
 export function isValidInterval(start, end) {
@@ -59,7 +70,7 @@ export function createPlotData(start, end, onProgress = () => {}) {
   }
   onProgress(0.3, 'Reversing digits');
 
-  const primes = createPrimeTable(primeTableLimit, (progress) => {
+  const primes = new PrimeTable(primeTableLimit, (progress) => {
     onProgress(0.3 + progress * 0.4, 'Finding primes');
   });
   const states = new Uint8Array(count);
@@ -69,8 +80,8 @@ export function createPlotData(start, end, onProgress = () => {}) {
 
   for (let index = 0; index < count; index += 1) {
     const number = start + index;
-    const numberIsPrime = primes[number] === 1;
-    const reversedIsPrime = primes[reversed[index]] === 1;
+    const numberIsPrime = primes.has(number);
+    const reversedIsPrime = primes.has(reversed[index]);
     summary.originalPrimes += Number(numberIsPrime);
     summary.reversedPrimes += Number(reversedIsPrime);
     summary.doublePrimes += Number(numberIsPrime && reversedIsPrime);

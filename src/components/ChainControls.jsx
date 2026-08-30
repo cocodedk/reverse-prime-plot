@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
-import { CHAIN_DIVISORS, isValidChainRequest, MAX_LIMIT } from '../lib/primeChains.js';
+import { CHAIN_DIVISORS, CHAIN_MAX_LIMIT, isValidChainRequest } from '../lib/primeChains.js';
 import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 import { chainStyles } from '../chainStyles.stylex.js';
@@ -17,7 +17,7 @@ export default function ChainControls({ start, end, divisor, onApply, onDivisor 
     const nextStart = Number(draftStart);
     const nextEnd = Number(draftEnd);
     if (!isValidChainRequest(nextStart, nextEnd, divisor)) {
-      setValidationError(t.validationError(formatNumber(MAX_LIMIT)));
+      setValidationError(t.validationError(formatNumber(CHAIN_MAX_LIMIT)));
       return;
     }
     setValidationError('');
@@ -32,7 +32,7 @@ export default function ChainControls({ start, end, divisor, onApply, onDivisor 
           <span {...stylex.props(styles.fieldLabel)}>{t.from}</span>
           <input
             {...stylex.props(styles.input)}
-            id="chain-start" type="number" min="0" max={MAX_LIMIT - 1} step="1"
+            id="chain-start" type="number" min="0" max={CHAIN_MAX_LIMIT - 1} step="1"
             value={draftStart}
             onChange={(event) => setDraftStart(event.target.value)}
             aria-describedby={validationError ? 'chain-error' : undefined}
@@ -42,7 +42,7 @@ export default function ChainControls({ start, end, divisor, onApply, onDivisor 
           <span {...stylex.props(styles.fieldLabel)}>{t.to}</span>
           <input
             {...stylex.props(styles.input)}
-            id="chain-end" type="number" min="1" max={MAX_LIMIT} step="1"
+            id="chain-end" type="number" min="1" max={CHAIN_MAX_LIMIT} step="1"
             value={draftEnd}
             onChange={(event) => setDraftEnd(event.target.value)}
             aria-describedby={validationError ? 'chain-error' : undefined}

@@ -6,6 +6,7 @@ import { chainStyles } from '../chainStyles.stylex.js';
 const POINTS = [
   ['whyPoint1Title', 'whyPoint1Body'],
   ['whyPoint2Title', 'whyPoint2Body'],
+  ['whyPoint3Title', 'whyPoint3Body'],
 ];
 
 export default function WhyDivide() {

@@ -1,6 +1,10 @@
-import { createPrimeTable, MAX_LIMIT, reverseNumber } from './primeNumbers.js';
+import { PrimeTable, reverseNumber } from './primeNumbers.js';
 
-export { MAX_LIMIT };
+// The chains page reaches ten times further than the plot. It never stores a
+// value per number in the interval — only the handful of seeds that chain — so
+// its ceiling is set by the bit-packed prime table, not by per-number arrays.
+// 100,000,000 covers every 8-digit number, which is where chains reappear.
+export const CHAIN_MAX_LIMIT = 100_000_000;
 
 // A number and its digit reversal are congruent to the same digit sum mod 9, so
 // 9 always divides their difference. When both are odd primes the difference is
@@ -16,7 +20,7 @@ export function isValidChainRequest(start, end, divisor) {
     Number.isInteger(end) &&
     start >= 0 &&
     start < end &&
-    end <= MAX_LIMIT &&
+    end <= CHAIN_MAX_LIMIT &&
     CHAIN_DIVISORS.includes(divisor)
   );
 }
@@ -63,19 +67,19 @@ function maxReversalIn(start, end, onProgress) {
 export function createChainData(start, end, divisor, onProgress = () => {}) {
   if (!isValidChainRequest(start, end, divisor)) {
     throw new RangeError(
-      `chain request must satisfy 0 <= start < end <= ${MAX_LIMIT} and divisor in ${CHAIN_DIVISORS}`,
+      `chain request must satisfy 0 <= start < end <= ${CHAIN_MAX_LIMIT} and divisor in ${CHAIN_DIVISORS}`,
     );
   }
 
   const tableLimit = maxReversalIn(start, end, (progress, phase) =>
     onProgress(progress * 0.25, phase),
   );
-  const primes = createPrimeTable(tableLimit, (progress) =>
+  const primes = new PrimeTable(tableLimit, (progress) =>
     onProgress(0.25 + progress * 0.35, 'Finding primes'),
   );
   // Chain values never exceed max(current, reverse(current)), so they stay
-  // inside the table; the bound check keeps that assumption honest.
-  const isPrime = (value) => value >= 0 && value <= tableLimit && primes[value] === 1;
+  // inside the table; PrimeTable.has bounds-checks regardless.
+  const isPrime = (value) => primes.has(value);
 
   const count = end - start + 1;
   const seeds = [];
