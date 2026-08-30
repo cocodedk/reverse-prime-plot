@@ -67,26 +67,29 @@ export const en = {
   chainsNavToChains: 'Difference chains →',
 
   ruleLabel: 'Step rule',
-  ruleNote1: 'A number and its reversal share a digit sum, so 9 always divides their difference; two odd primes make it even too. The raw difference is therefore always a multiple of 18 and never prime — this rule finds nothing, at any range.',
-  ruleNote9: 'Dividing out the factor of 9 leaves the parity behind, so links stay very rare.',
-  ruleNote18: 'Dividing out the full forced factor of 18 leaves a quotient that can be prime, which is where the chains appear.',
+  ruleNote1: 'A number and its reversal have the same digits, so 9 divides their difference, and two odd primes make it even as well. That leaves a multiple of 18 every time, which cannot be prime. This rule finds nothing, at any range.',
+  ruleNote9: 'Dividing by 9 leaves the evenness behind, so links stay very rare.',
+  ruleNote18: 'Divide out the whole forced factor of 18 and the quotient is free to be prime. That is where the chains are.',
   ruleOption: (divisor, formatted) => (divisor === 1 ? '|n − r|' : `|n − r| / ${formatted}`),
 
   whyTitle: 'Why divide at all?',
-  whyIntro: 'The obvious version of this rule — subtract, then test what comes out — never finds anything. Not in a small range, not in a huge one. Two things stack up against it.',
+  whyIntro: 'Subtract, then test what comes out. That obvious version of the rule never finds anything, in a small range or a huge one. Two things stack up against it.',
   whyPoint1Title: 'Same digits, same remainder',
-  whyPoint1Body: 'A number and its reversal are built from the same digits, so both leave the same remainder when divided by 9. Subtract one from the other and that remainder cancels out, which leaves a clean multiple of 9 every time. Take 1913 and 3191: the digits of each add up to 14, and their difference, 1278, is 9 × 142.',
+  whyPoint1Body: 'Divide any number by 9 and the remainder is the same one you get from adding up its digits. A number and its reversal use the same digits, so both leave the same remainder. Subtract one from the other and the remainder cancels, leaving a multiple of 9. Take 1913 and 3191: the digits of each add up to 14, and their difference, 1278, is 9 × 142.',
   whyPoint2Title: 'Odd minus odd is even',
-  whyPoint2Body: 'Every prime except 2 is odd. So both halves of the pair are odd, and one odd number minus another is always even. That hands the difference a factor of 2 on top of the 9.',
-  whyConclusion: 'Together those make every difference a multiple of 18. Anything divisible by both 2 and 3 cannot be prime, so the chain dies on its first step — every time, at every scale.',
-  whyDivide18: 'Dividing by 18 strips out exactly the part that was forced on the difference and nothing else. What is left is free to be prime or not on its own merits, and that is where the chains show up.',
-  whyDivide9: 'Dividing by 9 only fixes half of it. The quotient is still even, so it can only be prime when it happens to land on 2 — which is why that setting finds almost nothing.',
+  whyPoint2Body: 'Every prime except 2 is odd. Both numbers in the pair are prime, so both are odd, and odd minus odd is always even. That adds a factor of 2 on top of the 9.',
+  whyConclusion: 'Put those together and every difference is a multiple of 18. So it divides by 2 and by 3, which means it has factors of its own, and that is exactly what a prime does not have. The chain dies on its first step, every time, at every scale.',
+  whyDivide18: 'Dividing by 18 takes out exactly the part that was forced, and nothing else. What is left can be prime or not on its own merits, and that is where the chains are.',
+  whyDivide9: 'Dividing by 9 only fixes half of it. The result is still even, so it is prime only if it lands on 2. That is why the 9 setting finds almost nothing.',
 
   statSeeds: 'Prime pairs',
   statChains: 'With a chain',
   statDeepest: 'Deepest chain',
-  chainsEmptyTitle: 'No chains in this interval',
-  chainsEmptyBody: 'Every difference here is a multiple of 18, so none of them is prime. Try the other step rule.',
+  chainsEmptyTitle: 'Nothing to plot here',
+  chainsEmptyBody: (divisor) =>
+    divisor === 1
+      ? 'No pair gets past its first step. Every difference divides evenly by 18, and a number divisible by 18 is also divisible by 2 and 3, which rules out being prime. Switch to |n − r| / 18 to see chains.'
+      : 'No pair in this range keeps going: every quotient landed on a number that is not prime, or whose reversal is not. Try a wider range.',
   chainsListTitle: 'Deepest chains found',
   chainsSelectHint: 'Select any point on the plot, or a chain below, to see it step by step.',
   chainsDetailTitle: 'Selected point',
@@ -95,7 +98,7 @@ export const en = {
     depth === 1
       ? 'It survives one further step before the chain ends.'
       : `It survives ${formatted} further steps before the chain ends.`,
-  chainsDetailEnd: (last) => `${last} is where it stops: the next difference is not a prime pair.`,
+  chainsDetailEnd: (last) => `It stops at ${last}: the next step does not land on a prime whose reversal is also prime.`,
   chainsDetailClose: 'Clear selection',
   chainDepthLabel: (depth, formatted) => (depth === 1 ? '1 link' : `${formatted} links`),
   chainStep: (from, reversed, difference, divisor, next) =>

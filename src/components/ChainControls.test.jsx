@@ -15,12 +15,12 @@ const setup = (divisor = 18) => {
 describe('ChainControls', () => {
   it('explains that the literal difference rule can never link', () => {
     setup(1);
-    expect(screen.getByText(/always a multiple of 18 and never prime/)).toBeInTheDocument();
+    expect(screen.getByText(/multiple of 18 every time, which cannot be prime/)).toBeInTheDocument();
   });
 
   it('explains why dividing by 18 is what surfaces chains', () => {
     setup(18);
-    expect(screen.getByText(/full forced factor of 18/)).toBeInTheDocument();
+    expect(screen.getByText(/whole forced factor of 18/)).toBeInTheDocument();
   });
 
   it('marks the selected rule and reports a change', async () => {

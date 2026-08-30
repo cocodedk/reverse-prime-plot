@@ -88,7 +88,12 @@ export const chainStyles = stylex.create({
     padding: '0 12px',
     ':hover': { borderColor: '#fffdf8', color: '#fffdf8' },
   },
-  ruleButtonActive: { backgroundColor: '#fffdf8', borderColor: '#fffdf8', color: '#18332e' },
+  ruleButtonActive: {
+    backgroundColor: '#fffdf8',
+    borderColor: '#fffdf8',
+    color: '#18332e',
+    ':hover': { backgroundColor: '#e7e1d2', borderColor: '#e7e1d2', color: '#18332e' },
+  },
   ruleNote: { color: '#b9c8c3', fontSize: '0.74rem', lineHeight: 1.55, marginBottom: 0, marginTop: '10px' },
   emptyState: { backgroundColor: '#f2eee5', borderRadius: '14px', marginTop: '20px', padding: '22px' },
   emptyTitle: { color: '#18332e', fontSize: '1.05rem', fontWeight: 800, margin: 0 },

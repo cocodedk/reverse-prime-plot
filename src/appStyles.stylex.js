@@ -82,7 +82,12 @@ export const styles = stylex.create({
     padding: '0 14px',
     ':hover': { borderColor: '#fffdf8', color: '#fffdf8' },
   },
-  presetActive: { backgroundColor: '#fffdf8', borderColor: '#fffdf8', color: '#18332e' },
+  presetActive: {
+    backgroundColor: '#fffdf8',
+    borderColor: '#fffdf8',
+    color: '#18332e',
+    ':hover': { backgroundColor: '#e7e1d2', borderColor: '#e7e1d2', color: '#18332e' },
+  },
   modeLabel: { marginBottom: '8px', marginTop: '18px' },
   modeSwitch: { backgroundColor: '#294740', borderRadius: '10px', display: 'grid', gap: '4px', gridTemplateColumns: '1fr 1fr', padding: '4px' },
   modeButton: { alignItems: 'center', backgroundColor: 'transparent', borderRadius: '7px', borderWidth: 0, color: '#cfd8d3', cursor: 'pointer', display: 'inline-flex', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '0.78rem', fontWeight: 750, justifyContent: 'center', minHeight: '44px', padding: '0 8px' },
