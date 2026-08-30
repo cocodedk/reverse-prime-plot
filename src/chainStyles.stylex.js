@@ -59,9 +59,11 @@ export const chainStyles = stylex.create({
     ':hover': { borderColor: '#12151a', color: '#12151a' },
   },
 
-  chainList: { display: 'grid', gap: '1px', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', listStyle: 'none', marginTop: '12px', padding: 0 },
+  chainList: { display: 'grid', gap: '1px', gridAutoRows: '1fr', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', listStyle: 'none', marginTop: '12px', padding: 0 },
+  chainItem: { display: 'flex' },
   chainButton: {
     backgroundColor: 'transparent',
+    flexGrow: 1,
     borderColor: '#dfe0dc',
     borderRadius: 0,
     borderStyle: 'solid',
