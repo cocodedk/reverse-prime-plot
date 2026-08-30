@@ -106,7 +106,7 @@ export default function ChainsApp() {
         {chains.data && chains.data.chainCount === 0 ? (
           <div {...stylex.props(chainStyles.emptyState)} role="status">
             <p {...stylex.props(chainStyles.emptyTitle)}>{t.chainsEmptyTitle}</p>
-            <p {...stylex.props(chainStyles.emptyBody)}>{t.chainsEmptyBody}</p>
+            <p {...stylex.props(chainStyles.emptyBody)}>{t.chainsEmptyBody(divisor)}</p>
           </div>
         ) : null}
 
