@@ -42,17 +42,18 @@ export const fa = {
   positionBottom: 'پایین',
   positionTop: 'بالا',
 
+  // Keyed by the ids in lib/phases.js, not by display prose.
   phases: {
-    Starting: 'آغاز',
-    'Reversing digits': 'وارونه‌کردن رقم‌ها',
-    'Finding primes': 'یافتن اعداد اول',
-    'Classifying points': 'دسته‌بندی نقطه‌ها',
-    'Preparing markers': 'آماده‌سازی نشانه‌ها',
-    'Following chains': 'دنبال‌کردن زنجیره‌ها',
-    Ready: 'آماده',
-    'Drawing plot': 'رسم نمودار',
-    Complete: 'کامل',
-    Failed: 'ناموفق',
+    starting: 'آغاز',
+    reversing: 'وارونه‌کردن رقم‌ها',
+    sieving: 'یافتن اعداد اول',
+    classifying: 'دسته‌بندی نقطه‌ها',
+    markers: 'آماده‌سازی نشانه‌ها',
+    following: 'دنبال‌کردن زنجیره‌ها',
+    ready: 'آماده',
+    drawing: 'رسم نمودار',
+    complete: 'کامل',
+    failed: 'ناموفق',
   },
 
   canvasFont: 'Vazirmatn, "IBM Plex Mono", ui-monospace, monospace',

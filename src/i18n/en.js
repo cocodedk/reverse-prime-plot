@@ -42,18 +42,18 @@ export const en = {
   positionBottom: 'bottom',
   positionTop: 'top',
 
-  // Keyed by the phase names createPlotData and usePlotData emit.
+  // Keyed by the ids in lib/phases.js, not by display prose.
   phases: {
-    Starting: 'Starting',
-    'Reversing digits': 'Reversing digits',
-    'Finding primes': 'Finding primes',
-    'Classifying points': 'Classifying points',
-    'Preparing markers': 'Preparing markers',
-    'Following chains': 'Following chains',
-    Ready: 'Ready',
-    'Drawing plot': 'Drawing plot',
-    Complete: 'Complete',
-    Failed: 'Failed',
+    starting: 'Starting',
+    reversing: 'Reversing digits',
+    sieving: 'Finding primes',
+    classifying: 'Classifying points',
+    markers: 'Preparing markers',
+    following: 'Following chains',
+    ready: 'Ready',
+    drawing: 'Drawing plot',
+    complete: 'Complete',
+    failed: 'Failed',
   },
 
   canvasFont: '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace',

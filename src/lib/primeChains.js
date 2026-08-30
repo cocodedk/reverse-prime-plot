@@ -1,3 +1,4 @@
+import { PHASES } from './phases.js';
 import { PrimeTable, reverseNumber } from './primeNumbers.js';
 
 // The chains page reaches ten times further than the plot. It never stores a
@@ -67,7 +68,7 @@ export function createChainData(start, end, divisor, onProgress = () => {}) {
 
   const tableLimit = reversalBound(end);
   const primes = new PrimeTable(tableLimit, (progress) =>
-    onProgress(progress * 0.35, 'Finding primes'),
+    onProgress(progress * 0.35, PHASES.SIEVING),
   );
 
   const seeds = [];
@@ -91,10 +92,10 @@ export function createChainData(start, end, divisor, onProgress = () => {}) {
   for (let value = firstOdd; value <= end; value += 2) {
     if (primes.has(value)) consider(value);
     if ((value - firstOdd) % 400_000 === 1) {
-      onProgress(0.35 + ((value - start) / (end - start + 1)) * 0.65, 'Following chains');
+      onProgress(0.35 + ((value - start) / (end - start + 1)) * 0.65, PHASES.FOLLOWING);
     }
   }
-  onProgress(1, 'Ready');
+  onProgress(1, PHASES.READY);
 
   const markerNumbers = new Uint32Array(seeds.length);
   const markerReversed = new Uint32Array(seeds.length);

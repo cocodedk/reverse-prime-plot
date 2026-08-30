@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { PHASES } from '../lib/phases.js';
 
-const STARTING = { error: '', isPlotting: true, phase: 'Starting', progress: 0 };
+const STARTING = { error: '', isPlotting: true, phase: PHASES.STARTING, progress: 0 };
 
 // Shared plumbing for the two compute workers: both report {progress|complete|
 // error} and both are replaced wholesale when the request changes.
@@ -11,6 +12,10 @@ const STARTING = { error: '', isPlotting: true, phase: 'Starting', progress: 0 }
 export function useWorkerTask(createWorker, request, holdForRender = false) {
   const [data, setData] = useState(null);
   const [status, setStatus] = useState(STARTING);
+  // The result the hold is waiting to be told about. Comparing identity rather
+  // than start/end values means a later redraw of the same plot cannot be
+  // mistaken for the completion of a newer one.
+  const pending = useRef(null);
 
   useEffect(() => {
     const worker = createWorker();
@@ -24,15 +29,16 @@ export function useWorkerTask(createWorker, request, holdForRender = false) {
           progress: message.value,
         }));
       } else if (message.type === 'complete') {
+        pending.current = holdForRender ? message.data : null;
         setData(message.data);
         setStatus(
           holdForRender
-            ? { error: '', isPlotting: true, phase: 'Drawing plot', progress: 95 }
-            : { error: '', isPlotting: false, phase: 'Complete', progress: 100 },
+            ? { error: '', isPlotting: true, phase: PHASES.DRAWING, progress: 95 }
+            : { error: '', isPlotting: false, phase: PHASES.COMPLETE, progress: 100 },
         );
         worker.terminate();
       } else if (message.type === 'error') {
-        setStatus({ error: message.message, isPlotting: false, phase: 'Failed', progress: 0 });
+        setStatus({ error: message.message, isPlotting: false, phase: PHASES.FAILED, progress: 0 });
         worker.terminate();
       }
     };
@@ -41,5 +47,11 @@ export function useWorkerTask(createWorker, request, holdForRender = false) {
     return () => worker.terminate();
   }, [createWorker, request, holdForRender]);
 
-  return { data, setStatus, status };
+  const acknowledge = useCallback((rendered) => {
+    if (pending.current !== rendered) return;
+    pending.current = null;
+    setStatus({ error: '', isPlotting: false, phase: PHASES.COMPLETE, progress: 100 });
+  }, []);
+
+  return { acknowledge, data, status };
 }

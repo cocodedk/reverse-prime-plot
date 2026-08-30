@@ -5,6 +5,7 @@ import {
   MAX_LIMIT,
   reverseNumber,
 } from './primeNumbers.js';
+import { PHASES } from './phases.js';
 
 describe('reverseNumber', () => {
   it('reverses digits and discards leading zeroes', () => {
@@ -70,14 +71,14 @@ describe('createPlotData', () => {
   it('reports progress through all computation phases', () => {
     const reports = [];
     createPlotData(100, 200, (progress, phase) => reports.push([progress, phase]));
-    expect(reports.at(-1)).toEqual([1, 'Ready']);
+    expect(reports.at(-1)).toEqual([1, PHASES.READY]);
     expect(new Set(reports.map(([, phase]) => phase))).toEqual(
       new Set([
-        'Reversing digits',
-        'Finding primes',
-        'Classifying points',
-        'Preparing markers',
-        'Ready',
+        PHASES.REVERSING,
+        PHASES.SIEVING,
+        PHASES.CLASSIFYING,
+        PHASES.MARKERS,
+        PHASES.READY,
       ]),
     );
   });
