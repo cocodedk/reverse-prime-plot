@@ -27,6 +27,11 @@ export default function ChainsApp() {
   // A seed selected under one rule or interval may not exist under the next.
   useEffect(() => { setSelectedSeed(null); }, [start, end, divisor]);
 
+  const applyInterval = useCallback((nextStart, nextEnd) => {
+    setStart(nextStart);
+    setEnd(nextEnd);
+  }, []);
+
   const deepestFirst = useMemo(() => {
     if (!chains.data) return [];
     return [...chains.data.chains]
@@ -39,11 +44,6 @@ export default function ChainsApp() {
     [chains.data, selectedSeed],
   );
 
-  const applyInterval = useCallback((nextStart, nextEnd) => {
-    setStart(nextStart);
-    setEnd(nextEnd);
-  }, []);
-
   const stats = chains.data ? [
     [t.statSeeds, formatNumber(chains.data.seedCount)],
     [t.statChains, formatNumber(chains.data.chainCount)],
@@ -52,95 +52,90 @@ export default function ChainsApp() {
 
   return (
     <main {...stylex.props(styles.page)}>
-      <section {...stylex.props(styles.hero)}>
-        <div>
+      <div {...stylex.props(styles.shell)}>
+        <div {...stylex.props(styles.topBar)}>
+          <span {...stylex.props(styles.wordmark)}>{t.chainsTitle}</span>
           <TopLinks page="chains" otherPageLabel={t.chainsNavToPlot} />
-          <p {...stylex.props(styles.eyebrow)}>{t.chainsEyebrow}</p>
-          <h1 {...stylex.props(styles.title)}>{t.chainsTitle}</h1>
-          <p {...stylex.props(styles.intro)}>
-            {t.chainsIntroLead} <strong>{t.introFormula}</strong>{t.chainsIntroRest}
-          </p>
-        </div>
-        <ChainControls
-          start={start} end={end} divisor={divisor}
-          onApply={applyInterval} onDivisor={setDivisor}
-        />
-      </section>
-
-      <section {...stylex.props(styles.plotCard)}>
-        <div {...stylex.props(styles.plotHeader)}>
-          <div>
-            <p {...stylex.props(styles.plotLabel)}>
-              {t.chainsPlotLabel(formatNumber(start), formatNumber(end))}
-            </p>
-            <h2 {...stylex.props(styles.plotTitle)}>{t.ruleOption(divisor, formatNumber(divisor))}</h2>
-          </div>
-          <div {...stylex.props(styles.stats)}>
-            {stats.map(([label, value]) => (
-              <div key={label} {...stylex.props(styles.stat)}>
-                <span {...stylex.props(styles.statValue)}>{value}</span>
-                <span {...stylex.props(styles.statLabel)}>{label}</span>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {chains.isPlotting && (
-          <div {...stylex.props(styles.progressBlock)}>
-            <div {...stylex.props(styles.progressLabel)}>
-              <span>{phaseLabel(chains.phase)}: {formatNumber(start)}–{formatNumber(end)}</span>
-              <span>{chains.progress}%</span>
-            </div>
-            <div
-              {...stylex.props(styles.progressTrack)}
-              role="progressbar"
-              aria-label={t.progressAria(start, end)}
-              aria-valuemin="0" aria-valuemax="100" aria-valuenow={chains.progress}
-            >
-              <div {...stylex.props(styles.progressFill)} style={{ width: `${chains.progress}%` }} />
-            </div>
-          </div>
-        )}
-        {chains.error && <p {...stylex.props(styles.notice)} role="alert">{chains.error}</p>}
+        <p {...stylex.props(styles.intro)}>
+          {t.chainsIntroLead} <span {...stylex.props(styles.mono)}>{t.introFormula}</span>{t.chainsIntroRest}
+        </p>
 
-        {chains.data && chains.data.chainCount === 0 ? (
-          <div {...stylex.props(chainStyles.emptyState)} role="status">
-            <p {...stylex.props(chainStyles.emptyTitle)}>{t.chainsEmptyTitle}</p>
-            <p {...stylex.props(chainStyles.emptyBody)}>{t.chainsEmptyBody(divisor)}</p>
-          </div>
-        ) : null}
-
-        {chains.data && chains.data.chainCount > 0 && (
-          <>
-            <ChainLegend />
-            <p {...stylex.props(chainStyles.selectHint)}>{t.chainsSelectHint}</p>
-            <div {...stylex.props(styles.plotWrap)}>
-              <ChainPlot
-                data={chains.data}
-                selectedSeed={selectedSeed}
-                onSelect={setSelectedSeed}
-              />
-            </div>
-            {selectedChain && (
-              <ChainDetail
-                chain={selectedChain}
-                divisor={divisor}
-                onClear={() => setSelectedSeed(null)}
-              />
-            )}
-            <ChainList
-              examples={deepestFirst}
-              divisor={divisor}
-              selectedSeed={selectedSeed}
-              onSelect={setSelectedSeed}
+        <div {...stylex.props(styles.main)}>
+          <div {...stylex.props(styles.controlsColumn)}>
+            <ChainControls
+              start={start} end={end} divisor={divisor}
+              onApply={applyInterval} onDivisor={setDivisor}
             />
-          </>
-        )}
-      </section>
+          </div>
 
-      <WhyDivide />
+          <div {...stylex.props(styles.plotColumn)}>
+            <div {...stylex.props(styles.plotCard)}>
+              <div {...stylex.props(styles.plotHeader)}>
+                <h1 {...stylex.props(styles.plotTitle)}>{t.ruleOption(divisor, formatNumber(divisor))}</h1>
+                <p {...stylex.props(styles.plotLabel)}>
+                  {formatNumber(start)}–{formatNumber(end)}
+                </p>
+              </div>
 
-      <SiteFooter />
+              {chains.isPlotting && (
+                <div {...stylex.props(styles.progressBlock)}>
+                  <div {...stylex.props(styles.progressLabel)}>
+                    <span>{phaseLabel(chains.phase)}</span>
+                    <span>{chains.progress}%</span>
+                  </div>
+                  <div
+                    {...stylex.props(styles.progressTrack)}
+                    role="progressbar"
+                    aria-label={t.progressAria(start, end)}
+                    aria-valuemin="0" aria-valuemax="100" aria-valuenow={chains.progress}
+                  >
+                    <div {...stylex.props(styles.progressFill)} style={{ width: `${chains.progress}%` }} />
+                  </div>
+                </div>
+              )}
+              {chains.error && <p {...stylex.props(styles.notice)} role="alert">{chains.error}</p>}
+
+              {chains.data && chains.data.chainCount === 0 ? (
+                <div {...stylex.props(chainStyles.emptyState)} role="status">
+                  <p {...stylex.props(chainStyles.emptyTitle)}>{t.chainsEmptyTitle}</p>
+                  <p {...stylex.props(chainStyles.emptyBody)}>{t.chainsEmptyBody(divisor)}</p>
+                </div>
+              ) : null}
+
+              {chains.data && chains.data.chainCount > 0 && (
+                <>
+                  <ChainLegend />
+                  <p {...stylex.props(chainStyles.selectHint)}>{t.chainsSelectHint}</p>
+                  <div {...stylex.props(styles.plotWrap)}>
+                    <ChainPlot data={chains.data} selectedSeed={selectedSeed} onSelect={setSelectedSeed} />
+                  </div>
+                  {selectedChain && (
+                    <ChainDetail chain={selectedChain} divisor={divisor} onClear={() => setSelectedSeed(null)} />
+                  )}
+                  <ChainList
+                    examples={deepestFirst} divisor={divisor}
+                    selectedSeed={selectedSeed} onSelect={setSelectedSeed}
+                  />
+                </>
+              )}
+            </div>
+
+            <div {...stylex.props(styles.stats)}>
+              {stats.map(([label, value]) => (
+                <div key={label} {...stylex.props(styles.stat)}>
+                  <span {...stylex.props(styles.statValue)}>{value}</span>
+                  <span {...stylex.props(styles.statLabel)}>{label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <WhyDivide />
+        <SiteFooter />
+      </div>
     </main>
   );
 }

@@ -6,6 +6,12 @@ export const en = {
   introRest:
     '. Choose an inclusive interval and plot backward from its upper endpoint to its lower endpoint.',
 
+  specimenReverse: 'REVERSE',
+  specimenReversedLabel: 'reverse(n)',
+  specimenVerdict: 'Both are prime, so this point is drawn.',
+  wordmark: 'Reverse prime plot',
+  coordinatesLabel: 'n, reverse(n)',
+
   chooseInterval: 'Choose interval',
   from: 'From',
   to: 'To',
@@ -53,7 +59,7 @@ export const en = {
     Failed: 'Failed',
   },
 
-  canvasFont: 'Inter, ui-sans-serif, system-ui, sans-serif',
+  canvasFont: '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace',
   footerYear: '2026',
   footerCreatedBy: 'Created by',
   authorName: 'Babak Bandpey',
@@ -63,8 +69,8 @@ export const en = {
   chainsEyebrow: 'Recursive pairs · chain explorer',
   chainsIntroLead: 'Take a prime whose reversal is also prime, subtract the two, and ask the same question of the result:',
   chainsIntroRest: ' is it prime, and is its reversal prime? Only the seeds that survive at least one step are plotted.',
-  chainsNavToPlot: 'Back to the plot',
-  chainsNavToChains: 'Difference chains →',
+  chainsNavToPlot: '← Plot',
+  chainsNavToChains: 'Chains →',
 
   ruleLabel: 'Step rule',
   ruleNote1: 'A number and its reversal have the same digits, so 9 divides their difference, and two odd primes make it even as well. That leaves a multiple of 18 every time, which cannot be prime. This rule finds nothing, at any range.',

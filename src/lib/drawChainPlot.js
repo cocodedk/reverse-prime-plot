@@ -1,5 +1,5 @@
 import { PLOT_SIZE, scaleX, scaleY } from './plotGeometry.js';
-import { CREAM, INK, PRIME_COLOR } from './palette.js';
+import { ACCENT, CARD, INK } from './palette.js';
 import { drawFrame, drawGrid } from './plotChrome.js';
 
 // Depth 1 is the common case and stays quiet; anything deeper is rare enough
@@ -8,7 +8,7 @@ const DEPTH_ONE_RADIUS = 3.2;
 const DEEP_RADIUS = 6;
 
 export function depthColor(depth) {
-  return depth >= 2 ? INK : PRIME_COLOR;
+  return depth >= 2 ? ACCENT : INK;
 }
 
 function drawSeeds(context, data, yDirection, deep) {
@@ -24,7 +24,7 @@ function drawSeeds(context, data, yDirection, deep) {
     context.moveTo(x + radius, y);
     context.arc(x, y, radius, 0, Math.PI * 2);
   }
-  context.fillStyle = deep ? INK : PRIME_COLOR;
+  context.fillStyle = deep ? ACCENT : INK;
   context.fill();
 
   if (deep) {
@@ -37,7 +37,7 @@ function drawSeeds(context, data, yDirection, deep) {
       context.moveTo(x + radius / 2.6, y);
       context.arc(x, y, radius / 2.6, 0, Math.PI * 2);
     }
-    context.fillStyle = CREAM;
+    context.fillStyle = CARD;
     context.fill();
   }
 }
@@ -49,13 +49,13 @@ function drawSelection(context, data, yDirection, selectedSeed) {
   const y = scaleY(data.markerReversed[index], data.start, data.end, yDirection);
   context.beginPath();
   context.arc(x, y, 11, 0, Math.PI * 2);
-  context.strokeStyle = INK;
+  context.strokeStyle = ACCENT;
   context.lineWidth = 2;
   context.stroke();
 }
 
-export function drawChainPlot(context, data, yDirection, selectedSeed) {
-  drawGrid(context, data.start, data.end, yDirection);
+export function drawChainPlot(context, data, yDirection, selectedSeed, textScale = 1) {
+  drawGrid(context, data.start, data.end, yDirection, textScale);
   if (data.markerDepths.length > 0) {
     drawSeeds(context, data, yDirection, false);
     drawSeeds(context, data, yDirection, true);
@@ -63,5 +63,5 @@ export function drawChainPlot(context, data, yDirection, selectedSeed) {
       drawSelection(context, data, yDirection, selectedSeed);
     }
   }
-  drawFrame(context);
+  drawFrame(context, textScale);
 }

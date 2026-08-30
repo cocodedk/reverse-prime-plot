@@ -6,6 +6,12 @@ export const fa = {
   introRest:
     ' تبدیل می‌شود. یک بازهٔ بسته انتخاب کنید تا نمودار از کران بالا به سمت کران پایین رسم شود.',
 
+  specimenReverse: 'وارونه',
+  specimenReversedLabel: '⁦وارونهٔ n⁩',
+  specimenVerdict: 'هر دو اول‌اند، پس این نقطه رسم می‌شود.',
+  wordmark: 'نمودار اعداد اول وارونه',
+  coordinatesLabel: '⁦n، وارونهٔ n⁩',
+
   chooseInterval: 'بازه را انتخاب کنید',
   from: 'از',
   to: 'تا',
@@ -52,7 +58,7 @@ export const fa = {
     Failed: 'ناموفق',
   },
 
-  canvasFont: 'Vazirmatn, Inter, ui-sans-serif, system-ui, sans-serif',
+  canvasFont: 'Vazirmatn, "IBM Plex Mono", ui-monospace, monospace',
   footerYear: '۱۴۰۵',
   footerCreatedBy: 'ساخته شده توسط',
   authorName: 'بابک بندپی',
@@ -62,8 +68,8 @@ export const fa = {
   chainsEyebrow: 'جفت‌های بازگشتی · کاوشگر زنجیره',
   chainsIntroLead: 'عددی اول را بگیرید که وارونه‌اش هم اول است، آن دو را از هم کم کنید و همان پرسش را دربارهٔ نتیجه بپرسید:',
   chainsIntroRest: ' آیا خودش اول است و آیا وارونه‌اش اول است؟ فقط بذرهایی رسم می‌شوند که دست‌کم یک گام دوام بیاورند.',
-  chainsNavToPlot: 'بازگشت به نمودار',
-  chainsNavToChains: '← زنجیره‌های تفاضل',
+  chainsNavToPlot: 'نمودار →',
+  chainsNavToChains: '← زنجیره‌ها',
 
   ruleLabel: 'قاعدهٔ گام',
   ruleNote1: 'یک عدد و وارونه‌اش رقم‌های یکسانی دارند، پس ۹ تفاضلشان را می‌شمارد، و دو عدد اول فرد آن را زوج هم می‌کنند. هر بار مضربی از ۱۸ می‌ماند که نمی‌تواند اول باشد. این قاعده در هیچ بازه‌ای چیزی پیدا نمی‌کند.',

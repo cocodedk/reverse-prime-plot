@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useElementWidth } from '../hooks/useElementWidth.js';
 import * as stylex from '@stylexjs/stylex';
 import { drawPlot, usesPixelReadback } from '../lib/drawPrimePlot.js';
 import { CANVAS_SIZE } from '../lib/plotGeometry.js';
@@ -6,6 +7,9 @@ import { formatNumber, t } from '../i18n/index.js';
 
 export default function PrimePlot({ data, onRendered, yDirection }) {
   const canvasRef = useRef(null);
+  const renderedWidth = useElementWidth(canvasRef);
+  // Keep axis labels near 12 real pixels however wide the canvas renders.
+  const textScale = Math.min(2.4, Math.max(0.8, CANVAS_SIZE / (renderedWidth || CANVAS_SIZE)));
   // A 2D context locks its attributes at the first getContext call for the
   // element's lifetime, so one canvas cannot serve both draw paths. Keying the
   // element on the mode remounts it, yielding a fresh context whose readback
@@ -20,11 +24,11 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
       canvas.height = CANVAS_SIZE * pixelRatio;
       const context = canvas.getContext('2d', { willReadFrequently: readsBack });
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      drawPlot(context, data, yDirection, pixelRatio);
+      drawPlot(context, data, yDirection, pixelRatio, textScale);
       onRendered(data);
     });
     return () => cancelAnimationFrame(frame);
-  }, [data, onRendered, yDirection, readsBack]);
+  }, [data, onRendered, textScale, yDirection, readsBack]);
 
   const lowerPosition = yDirection === 'up' ? t.positionBottom : t.positionTop;
   return (

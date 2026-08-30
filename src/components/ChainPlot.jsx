@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useElementWidth } from '../hooks/useElementWidth.js';
 import * as stylex from '@stylexjs/stylex';
 import { drawChainPlot } from '../lib/drawChainPlot.js';
 import { CANVAS_SIZE, scaleX, scaleY } from '../lib/plotGeometry.js';
@@ -32,6 +33,9 @@ function markerAt(event, canvas, data) {
 
 export default function ChainPlot({ data, selectedSeed, onSelect, yDirection = 'up' }) {
   const canvasRef = useRef(null);
+  const renderedWidth = useElementWidth(canvasRef);
+  // Keep axis labels near 12 real pixels however wide the canvas renders.
+  const textScale = Math.min(2.4, Math.max(0.8, CANVAS_SIZE / (renderedWidth || CANVAS_SIZE)));
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -41,10 +45,10 @@ export default function ChainPlot({ data, selectedSeed, onSelect, yDirection = '
       canvas.height = CANVAS_SIZE * pixelRatio;
       const context = canvas.getContext('2d');
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      drawChainPlot(context, data, yDirection, selectedSeed);
+      drawChainPlot(context, data, yDirection, selectedSeed, textScale);
     });
     return () => cancelAnimationFrame(frame);
-  }, [data, selectedSeed, yDirection]);
+  }, [data, selectedSeed, textScale, yDirection]);
 
   return (
     <>

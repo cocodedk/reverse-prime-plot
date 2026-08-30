@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A · Specimen — Reverse Prime Plot</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500&display=swap">
+  <style>
+    body { margin: 0; }
+    a { color: #1f4bff; } a:hover { color: #0f2ea8; }
+    .mono { font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .sans { font-family: "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif; }
+  </style>
+<style>body { display: flex; justify-content: center; background: #e9eae6; padding: 24px 0; }</style>
+</head>
+<body>
+<div class="sans" style="width: 390px; height: 844px; background: #f8f8f6; color: #12151a; display: flex; flex-direction: column; overflow: hidden;">
+
+  <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 18px; border-bottom: 1px solid #dfe0dc;">
+    <span class="mono" style="font-size: 11px; letter-spacing: 0.14em; color: #70746f;">REVERSE PRIME PLOT</span>
+    <span class="mono" style="font-size: 11px; color: #70746f;">EN / فا</span>
+  </div>
+
+  <div style="padding: 26px 18px 20px; display: flex; flex-direction: column; gap: 14px; border-bottom: 1px solid #dfe0dc;">
+    <div style="display: flex; align-items: center; gap: 18px;">
+      <div style="display: flex; flex-direction: column; gap: 6px; align-items: center;">
+        <span class="mono" style="font-size: 46px; line-height: 1; letter-spacing: -0.02em;">13</span>
+        <span class="mono" style="font-size: 10px; letter-spacing: 0.12em; color: #70746f;">n</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+        <svg width="34" height="14" viewBox="0 0 34 14" fill="none" aria-hidden="true">
+          <path d="M1 7h29" stroke="#12151a" stroke-width="1.2"/>
+          <path d="M25 2l6 5-6 5" stroke="#12151a" stroke-width="1.2" fill="none"/>
+        </svg>
+        <span class="mono" style="font-size: 9px; letter-spacing: 0.1em; color: #70746f;">REVERSE</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px; align-items: center;">
+        <span class="mono" style="font-size: 46px; line-height: 1; letter-spacing: -0.02em;">31</span>
+        <span class="mono" style="font-size: 10px; letter-spacing: 0.12em; color: #70746f;">reverse(n)</span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <svg width="18" height="18" viewBox="0 0 20 20" aria-hidden="true">
+        <circle cx="10" cy="10" r="8" fill="#12151a"/>
+      </svg>
+      <span class="sans" style="font-size: 15px; line-height: 1.45;">Both are prime, so this point is drawn.</span>
+    </div>
+  </div>
+
+  <div style="padding: 16px 18px 8px;">
+    <p class="sans" style="margin: 0; font-size: 14px; line-height: 1.55; color: #4a4f4c;">
+      Every number sits at <span class="mono" style="font-size: 13px;">(n, reverse(n))</span>. Filled top means <span class="mono" style="font-size: 13px;">n</span> is prime, filled bottom means its reversal is.
+    </p>
+  </div>
+
+  <div style="flex-grow: 1; padding: 8px 18px 0; display: flex; align-items: flex-start; justify-content: center;">
+    <svg width="354" height="354" viewBox="0 0 354 354" aria-hidden="true">
+      <rect x="0.5" y="0.5" width="353" height="353" fill="#ffffff" stroke="#dfe0dc"/>
+      <g stroke="#ececea" stroke-width="1">
+        <path d="M88.5 0v354M177.5 0v354M266.5 0v354M0 88.5h354M0 177.5h354M0 266.5h354"/>
+      </g>
+      <g fill="#12151a">
+        <circle cx="42" cy="312" r="3.4"/><circle cx="60" cy="298" r="3.4"/><circle cx="96" cy="266" r="3.4"/>
+        <circle cx="128" cy="212" r="3.4"/><circle cx="150" cy="188" r="3.4"/><circle cx="205" cy="140" r="3.4"/>
+        <circle cx="243" cy="96" r="3.4"/><circle cx="288" cy="64" r="3.4"/><circle cx="312" cy="42" r="3.4"/>
+        <circle cx="72" cy="240" r="3.4"/><circle cx="196" cy="252" r="3.4"/><circle cx="264" cy="176" r="3.4"/>
+      </g>
+      <g fill="none" stroke="#12151a" stroke-width="1.2">
+        <path d="M112 176a3.4 3.4 0 016.8 0 3.4 3.4 0 01-6.8 0"/>
+      </g>
+      <g fill="#12151a">
+        <path d="M172 250a4 4 0 018 0z"/><path d="M228 206a4 4 0 00-8 0z"/>
+        <path d="M136 118a4 4 0 018 0z"/><path d="M300 130a4 4 0 00-8 0z"/>
+      </g>
+      <g fill="none" stroke="#c9cbc7" stroke-width="1">
+        <circle cx="176" cy="254" r="4"/><circle cx="224" cy="210" r="4"/>
+        <circle cx="140" cy="122" r="4"/><circle cx="296" cy="134" r="4"/>
+      </g>
+    </svg>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid #dfe0dc;">
+    <div style="padding: 12px 14px; border-right: 1px solid #dfe0dc;">
+      <div class="mono" style="font-size: 17px;">101</div>
+      <div class="mono" style="font-size: 9px; letter-spacing: 0.1em; color: #70746f;">CHECKED</div>
+    </div>
+    <div style="padding: 12px 14px; border-right: 1px solid #dfe0dc;">
+      <div class="mono" style="font-size: 17px;">41</div>
+      <div class="mono" style="font-size: 9px; letter-spacing: 0.1em; color: #70746f;">DRAWN</div>
+    </div>
+    <div style="padding: 12px 14px;">
+      <div class="mono" style="font-size: 17px; color: #1f4bff;">13</div>
+      <div class="mono" style="font-size: 9px; letter-spacing: 0.1em; color: #70746f;">BOTH PRIME</div>
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 8px; padding: 12px 18px 18px; border-top: 1px solid #dfe0dc; align-items: center;">
+    <div style="flex-grow: 1; display: flex; gap: 8px;">
+      <input class="mono" value="0" style="width: 100%; min-width: 0; height: 44px; padding: 0 10px; font-size: 15px; border: 1px solid #c9cbc7; background: #ffffff; color: #12151a;">
+      <input class="mono" value="100" style="width: 100%; min-width: 0; height: 44px; padding: 0 10px; font-size: 15px; border: 1px solid #c9cbc7; background: #ffffff; color: #12151a;">
+    </div>
+    <button class="mono" style="height: 44px; padding: 0 18px; font-size: 13px; letter-spacing: 0.08em; border: 0; background: #12151a; color: #f8f8f6;">PLOT</button>
+  </div>
+
+</div>
+</body>
+</html>

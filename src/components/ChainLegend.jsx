@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { CREAM, INK, PRIME_COLOR } from '../lib/palette.js';
+import { ACCENT, CARD, INK, PRIME_COLOR } from '../lib/palette.js';
 import { t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 
@@ -15,11 +15,11 @@ function Glyph({ kind }) {
     <svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true">
       {kind === 'deep' ? (
         <>
-          <circle cx="10" cy="10" r="9" fill={INK} />
-          <circle cx="10" cy="10" r="3.5" fill={CREAM} />
+          <circle cx="10" cy="10" r="9" fill={ACCENT} />
+          <circle cx="10" cy="10" r="3.5" fill={CARD} />
         </>
       ) : (
-        <circle cx="10" cy="10" r="4.8" fill={PRIME_COLOR} />
+        <circle cx="10" cy="10" r="4.8" fill={INK} />
       )}
     </svg>
   );

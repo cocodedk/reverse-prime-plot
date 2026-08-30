@@ -1,0 +1,14 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "title": "A · Specimen" },
+    { "file": "Definition.dc.html", "x": 500, "y": 0, "w": 390, "h": 844, "title": "B · Definition" },
+    { "file": "Mirror.dc.html", "x": 1000, "y": 0, "w": 390, "h": 844, "title": "C · Mirror" }
+  ],
+  "annotations": [
+    { "id": "brief", "x": 0, "y": -150, "w": 390, "text": "Mathematical minimalism, mobile first.\nEach direction answers 'what is this page about?' in the first screen, which the current site does not." },
+    { "id": "note-a", "x": 0, "y": 890, "w": 390, "text": "A · Specimen\nLeads with one worked example: 13 -> 31, both prime, so it is drawn. The idea is legible before you scroll.\nTradeoff: spends the top of the screen on one example." },
+    { "id": "note-b", "x": 500, "y": 890, "w": 390, "text": "B · Definition\nA boxed definition block, like the top of a paper. Most compact, most 'mathematical'.\nTradeoff: reads as documentation, less inviting." },
+    { "id": "note-c", "x": 1000, "y": 890, "w": 390, "text": "C · Mirror\nThe reversal is the whole hero: number above, mirrored below, dark ground so the lattice carries the page.\nTradeoff: dark UI is a bigger departure, and the plot must be redrawn for it." }
+  ],
+  "launch": { "view": "canvas" }
+}
