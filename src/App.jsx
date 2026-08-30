@@ -2,13 +2,15 @@ import { useCallback, useMemo, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import IntervalControls from './components/IntervalControls.jsx';
 import Legend from './components/Legend.jsx';
+import PlotProgress from './components/PlotProgress.jsx';
 import PrimePlot from './components/PrimePlot.jsx';
 import SiteFooter from './components/SiteFooter.jsx';
+import StatsRow from './components/StatsRow.jsx';
 import Specimen from './components/Specimen.jsx';
 import TopLinks from './components/TopLinks.jsx';
 import { usePlotData } from './hooks/usePlotData.js';
 import { pickSpecimen } from './lib/pickSpecimen.js';
-import { formatNumber, phaseLabel, t } from './i18n/index.js';
+import { formatNumber, t } from './i18n/index.js';
 import { styles } from './appStyles.stylex.js';
 
 const DEFAULT_START = 0;
@@ -69,20 +71,11 @@ export default function App() {
               </div>
 
               {plot.isPlotting && (
-                <div {...stylex.props(styles.progressBlock)}>
-                  <div {...stylex.props(styles.progressLabel)}>
-                    <span>{phaseLabel(plot.phase)}</span>
-                    <span>{plot.progress}%</span>
-                  </div>
-                  <div
-                    {...stylex.props(styles.progressTrack)}
-                    role="progressbar"
-                    aria-label={t.progressAria(start, end)}
-                    aria-valuemin="0" aria-valuemax="100" aria-valuenow={plot.progress}
-                  >
-                    <div {...stylex.props(styles.progressFill)} style={{ width: `${plot.progress}%` }} />
-                  </div>
-                </div>
+                <PlotProgress
+                  phase={plot.phase}
+                  progress={plot.progress}
+                  label={t.progressAria(formatNumber(start), formatNumber(end))}
+                />
               )}
               {plot.error && <p {...stylex.props(styles.notice)} role="alert">{plot.error}</p>}
 
@@ -101,14 +94,7 @@ export default function App() {
               )}
             </div>
 
-            <div {...stylex.props(styles.stats)}>
-              {stats.map(([label, value]) => (
-                <div key={label} {...stylex.props(styles.stat)}>
-                  <span {...stylex.props(styles.statValue)}>{value}</span>
-                  <span {...stylex.props(styles.statLabel)}>{label}</span>
-                </div>
-              ))}
-            </div>
+            <StatsRow items={stats} />
           </div>
         </div>
 

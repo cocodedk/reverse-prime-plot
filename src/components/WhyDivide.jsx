@@ -1,6 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
 import { t } from '../i18n/index.js';
-import { styles } from '../appStyles.stylex.js';
 import { chainStyles } from '../chainStyles.stylex.js';
 
 const POINTS = [

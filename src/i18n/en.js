@@ -1,6 +1,4 @@
 export const en = {
-  eyebrow: 'Number mirror · prime explorer',
-  title: 'Reverse Prime Plot',
   introFormula: '(n, reverse(n))',
   introText:
     'Every number in the interval is treated the same way. A point appears wherever n or its reversal is prime, and the rest are left out.',
@@ -27,7 +25,6 @@ export const en = {
   statPrimeReversals: 'Prime reversals',
   statBothPrime: 'Both prime',
 
-  coordinates: (start, end) => `Coordinates: (n, reverse(n)) · ${start}–${end}`,
   progressAria: (start, end) => `Plotting interval ${start} to ${end}`,
   outsideNotice: (count, start, end) =>
     `${count} reversed values fall outside the selected ${start}–${end} interval.`,
@@ -45,17 +42,18 @@ export const en = {
   positionBottom: 'bottom',
   positionTop: 'top',
 
-  // Keyed by the phase names createPlotData and usePlotData emit.
+  // Keyed by the ids in lib/phases.js, not by display prose.
   phases: {
-    Starting: 'Starting',
-    'Reversing digits': 'Reversing digits',
-    'Finding primes': 'Finding primes',
-    'Classifying points': 'Classifying points',
-    'Preparing markers': 'Preparing markers',
-    Ready: 'Ready',
-    'Drawing plot': 'Drawing plot',
-    Complete: 'Complete',
-    Failed: 'Failed',
+    starting: 'Starting',
+    reversing: 'Reversing digits',
+    sieving: 'Finding primes',
+    classifying: 'Classifying points',
+    markers: 'Preparing markers',
+    following: 'Following chains',
+    ready: 'Ready',
+    drawing: 'Drawing plot',
+    complete: 'Complete',
+    failed: 'Failed',
   },
 
   canvasFont: '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace',
@@ -65,7 +63,6 @@ export const en = {
 
   // Chains page
   chainsTitle: 'Prime Difference Chains',
-  chainsEyebrow: 'Recursive pairs · chain explorer',
   chainsIntroLead: 'Take a prime whose reversal is also prime, subtract the two, and ask the same question of the result:',
   chainsIntroRest: ' is it prime, and is its reversal prime? Only the seeds that survive at least one step are plotted.',
   chainsNavToPlot: '← Plot',
@@ -108,10 +105,9 @@ export const en = {
   chainsDetailEnd: (last) => `It stops at ${last}: the next step does not land on a prime whose reversal is also prime.`,
   chainsDetailClose: 'Clear selection',
   chainDepthLabel: (depth, formatted) => (depth === 1 ? '1 link' : `${formatted} links`),
+  // Divisor 1 never yields a chain, so no step is ever rendered for it.
   chainStep: (from, reversed, difference, divisor, next) =>
-    divisor === 1
-      ? `|${from} − ${reversed}| = ${difference} → ${next}`
-      : `|${from} − ${reversed}| = ${difference}, ÷${divisor} → ${next}`,
+    `|${from} − ${reversed}| = ${difference}, ÷${divisor} → ${next}`,
   chainsLegendLabel: 'Chain legend',
   chainsLegendOne: 'one further prime pair',
   chainsLegendDeep: 'two or more',
@@ -119,7 +115,6 @@ export const en = {
   viewSource: 'Source on GitHub',
 
   langSwitch: 'فارسی',
-  langSwitchHref: 'fa/',
   langSwitchHrefLang: 'fa',
   langSwitchLabel: 'Switch to Persian',
 };

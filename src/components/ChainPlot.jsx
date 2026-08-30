@@ -1,9 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useElementWidth } from '../hooks/useElementWidth.js';
 import * as stylex from '@stylexjs/stylex';
 import { drawChainPlot } from '../lib/drawChainPlot.js';
-import { CANVAS_SIZE, scaleX, scaleY } from '../lib/plotGeometry.js';
+import { CANVAS_SIZE, scaleX, scaleY, textScaleFor } from '../lib/plotGeometry.js';
 import { formatNumber, t } from '../i18n/index.js';
+import { styles } from '../appStyles.stylex.js';
 
 // Chain seeds peak in the low thousands, so this always draws arcs — no dense
 // pixel path, and therefore no readback hint or canvas keying like PrimePlot.
@@ -31,30 +32,31 @@ function markerAt(event, canvas, data) {
   return best;
 }
 
-export default function ChainPlot({ data, selectedSeed, onSelect, yDirection = 'up' }) {
-  const canvasRef = useRef(null);
-  const renderedWidth = useElementWidth(canvasRef);
-  // Keep axis labels near 12 real pixels however wide the canvas renders.
-  const textScale = Math.min(2.4, Math.max(0.8, CANVAS_SIZE / (renderedWidth || CANVAS_SIZE)));
+export default function ChainPlot({ data, selectedSeed, onSelect }) {
+  const { measuredRef, nodeRef: canvasRef, width: renderedWidth } = useElementWidth();
+  const textScale = textScaleFor(renderedWidth);
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    // ResizeObserver always reports once on observe, so skipping the
+    // pre-measurement pass drops a full wasted draw rather than delaying one.
+    if (renderedWidth === 0) return undefined;
     const frame = requestAnimationFrame(() => {
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = CANVAS_SIZE * pixelRatio;
       canvas.height = CANVAS_SIZE * pixelRatio;
       const context = canvas.getContext('2d');
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      drawChainPlot(context, data, yDirection, selectedSeed, textScale);
+      drawChainPlot(context, data, selectedSeed, textScale);
     });
     return () => cancelAnimationFrame(frame);
-  }, [data, selectedSeed, textScale, yDirection]);
+  }, [data, renderedWidth, selectedSeed, textScale]);
 
   return (
     <>
       <canvas
-        {...stylex.props(styles.plot)}
-        ref={canvasRef}
+        {...stylex.props(styles.plot, styles.plotClickable)}
+        ref={measuredRef}
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}
         role="img"
@@ -71,15 +73,3 @@ export default function ChainPlot({ data, selectedSeed, onSelect, yDirection = '
   );
 }
 
-const styles = stylex.create({
-  plot: { aspectRatio: '1 / 1', cursor: 'pointer', display: 'block', height: 'auto', width: '100%' },
-  visuallyHidden: {
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: '1px',
-    overflow: 'hidden',
-    position: 'absolute',
-    whiteSpace: 'nowrap',
-    width: '1px',
-  },
-});

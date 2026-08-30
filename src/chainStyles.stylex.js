@@ -1,62 +1,35 @@
 import * as stylex from '@stylexjs/stylex';
+import { color } from './tokens.stylex.js';
 
 const MONO = '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace';
+// A shorthand cannot interpolate a token, so this is the one place the rule
+// colour is still written out; tokens.stylex.js remains its source of truth.
 const RULE = '1px solid #dfe0dc';
 
 // Chains-page styles; the shared page shell stays in appStyles.stylex.js.
 export const chainStyles = stylex.create({
   ruleGroup: { display: 'grid', gap: '6px' },
   ruleButton: {
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderColor: '#c9cbc7',
-    borderRadius: 0,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    color: '#4a4f4c',
-    cursor: 'pointer',
     display: 'flex',
-    fontFamily: MONO,
     fontSize: '13px',
-    justifyContent: 'center',
-    minHeight: '44px',
     padding: '0 10px',
-    ':hover': { borderColor: '#12151a', color: '#12151a' },
   },
-  ruleButtonActive: {
-    backgroundColor: '#12151a',
-    borderColor: '#12151a',
-    color: '#f8f8f6',
-    ':hover': { backgroundColor: '#1f4bff', borderColor: '#1f4bff', color: '#ffffff' },
-  },
-  ruleNote: { color: '#4a4f4c', fontSize: '12px', lineHeight: 1.55, marginBottom: 0, marginTop: '2px' },
+  ruleNote: { color: color.body, fontSize: '12px', lineHeight: 1.55, marginBottom: 0, marginTop: '2px' },
 
   emptyState: { borderTop: RULE, marginTop: '12px', paddingTop: '14px' },
-  emptyTitle: { color: '#12151a', fontFamily: MONO, fontSize: '14px', margin: 0 },
-  emptyBody: { color: '#4a4f4c', fontSize: '13px', lineHeight: 1.6, marginBottom: 0, marginTop: '6px', maxWidth: '62ch' },
+  emptyTitle: { color: color.ink, fontFamily: MONO, fontSize: '14px', margin: 0 },
+  emptyBody: { color: color.body, fontSize: '13px', lineHeight: 1.6, marginBottom: 0, marginTop: '6px', maxWidth: '62ch' },
 
-  selectHint: { color: '#6b6f6a', fontFamily: MONO, fontSize: '11px', marginBottom: 0, marginTop: '10px' },
+  selectHint: { color: color.muted, fontFamily: MONO, fontSize: '11px', marginBottom: 0, marginTop: '10px' },
 
   detailCard: { borderTop: RULE, marginTop: '14px', paddingTop: '14px' },
   detailHead: { alignItems: 'baseline', display: 'flex', gap: '12px', justifyContent: 'space-between' },
-  detailSeed: { color: '#1f4bff', fontFamily: MONO, fontSize: '1.5rem', marginBottom: 0, marginTop: '2px' },
-  detailBody: { color: '#4a4f4c', fontSize: '13px', lineHeight: 1.6, marginBottom: 0, marginTop: '8px', maxWidth: '62ch' },
+  detailSeed: { color: color.accent, fontFamily: MONO, fontSize: '1.5rem', marginBottom: 0, marginTop: '2px' },
+  detailBody: { color: color.body, fontSize: '13px', lineHeight: 1.6, marginBottom: 0, marginTop: '8px', maxWidth: '62ch' },
   detailClose: {
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderColor: '#c9cbc7',
-    borderRadius: 0,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    color: '#4a4f4c',
-    cursor: 'pointer',
     display: 'inline-flex',
-    fontFamily: MONO,
     fontSize: '11px',
-    justifyContent: 'center',
-    minHeight: '44px',
     padding: '0 12px',
-    ':hover': { borderColor: '#12151a', color: '#12151a' },
   },
 
   chainList: { display: 'grid', gap: '1px', gridAutoRows: '1fr', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', listStyle: 'none', marginTop: '12px', padding: 0 },
@@ -64,7 +37,7 @@ export const chainStyles = stylex.create({
   chainButton: {
     backgroundColor: 'transparent',
     flexGrow: 1,
-    borderColor: '#dfe0dc',
+    borderColor: color.rule,
     borderRadius: 0,
     borderStyle: 'solid',
     borderWidth: '1px',
@@ -73,26 +46,26 @@ export const chainStyles = stylex.create({
     padding: '10px 12px',
     textAlign: 'start',
     width: '100%',
-    ':hover': { borderColor: '#12151a' },
+    ':hover': { borderColor: color.ink },
   },
-  chainButtonActive: { borderColor: '#1f4bff', boxShadow: 'inset 0 0 0 1px #1f4bff' },
+  chainButtonActive: { borderColor: color.accent, boxShadow: 'inset 0 0 0 1px #1f4bff' },
   chainSeed: { alignItems: 'baseline', display: 'flex', gap: '8px', justifyContent: 'space-between' },
-  chainSeedValue: { color: '#12151a', fontFamily: MONO, fontSize: '15px' },
-  chainDepth: { color: '#6b6f6a', fontFamily: MONO, fontSize: '10px' },
+  chainSeedValue: { color: color.ink, fontFamily: MONO, fontSize: '15px' },
+  chainDepth: { color: color.muted, fontFamily: MONO, fontSize: '10px' },
   chainSteps: { display: 'grid', gap: '2px', marginTop: '6px' },
-  chainStep: { color: '#4a4f4c', fontFamily: MONO, fontSize: '11.5px' },
+  chainStep: { color: color.body, fontFamily: MONO, fontSize: '11.5px' },
 
   explainerCard: { borderTop: RULE, marginTop: '4px', padding: '20px 16px 8px' },
-  explainerTitle: { color: '#12151a', fontFamily: MONO, fontSize: 'clamp(1.05rem, 3vw, 1.3rem)', fontWeight: 500, margin: 0 },
-  explainerLead: { color: '#4a4f4c', fontSize: '14px', lineHeight: 1.6, marginBottom: 0, marginTop: '10px', maxWidth: '68ch' },
+  explainerTitle: { color: color.ink, fontFamily: MONO, fontSize: 'clamp(1.05rem, 3vw, 1.3rem)', fontWeight: 500, margin: 0 },
+  explainerLead: { color: color.body, fontSize: '14px', lineHeight: 1.6, marginBottom: 0, marginTop: '10px', maxWidth: '68ch' },
   explainerPoints: { display: 'grid', gap: '18px', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', marginTop: '20px' },
-  explainerPointTitle: { color: '#6b6f6a', fontFamily: MONO, fontSize: '10px', letterSpacing: '0.12em', margin: 0, textTransform: 'uppercase' },
-  explainerBody: { color: '#4a4f4c', fontSize: '13.5px', lineHeight: 1.65, marginBottom: 0, marginTop: '8px', maxWidth: '68ch' },
+  explainerPointTitle: { color: color.muted, fontFamily: MONO, fontSize: '10px', letterSpacing: '0.12em', margin: 0, textTransform: 'uppercase' },
+  explainerBody: { color: color.body, fontSize: '13.5px', lineHeight: 1.65, marginBottom: 0, marginTop: '8px', maxWidth: '68ch' },
   explainerConclusion: {
-    borderLeftColor: '#1f4bff',
+    borderLeftColor: color.accent,
     borderLeftStyle: 'solid',
     borderLeftWidth: '2px',
-    color: '#12151a',
+    color: color.ink,
     fontSize: '14px',
     lineHeight: 1.6,
     marginBottom: 0,

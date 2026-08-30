@@ -1,3 +1,4 @@
+import { PHASES } from './phases.js';
 export const MAX_LIMIT = 10_000_000;
 const PROGRESS_CHUNK = 100_000;
 
@@ -5,10 +6,12 @@ export function reverseNumber(value) {
   let remaining = value;
   let reversed = 0;
 
+  // `| 0` truncates through int32, which is exact for everything below 2^31 and
+  // so covers the whole supported domain (CHAIN_MAX_LIMIT is 100,000,000). It is
+  // measurably faster than a float divide on the hottest loop in the app.
   do {
-    const digit = remaining % 10;
-    reversed = reversed * 10 + digit;
-    remaining = (remaining - digit) / 10;
+    reversed = reversed * 10 + (remaining % 10);
+    remaining = (remaining / 10) | 0;
   } while (remaining > 0);
 
   return reversed;
@@ -65,13 +68,13 @@ export function createPlotData(start, end, onProgress = () => {}) {
     reversed[index] = value;
     if (value > primeTableLimit) primeTableLimit = value;
     if ((index + 1) % PROGRESS_CHUNK === 0) {
-      onProgress(((index + 1) / count) * 0.3, 'Reversing digits');
+      onProgress(((index + 1) / count) * 0.3, PHASES.REVERSING);
     }
   }
-  onProgress(0.3, 'Reversing digits');
+  onProgress(0.3, PHASES.REVERSING);
 
   const primes = new PrimeTable(primeTableLimit, (progress) => {
-    onProgress(0.3 + progress * 0.4, 'Finding primes');
+    onProgress(0.3 + progress * 0.4, PHASES.SIEVING);
   });
   const states = new Uint8Array(count);
   const summary = { originalPrimes: 0, reversedPrimes: 0, doublePrimes: 0 };
@@ -92,10 +95,10 @@ export function createPlotData(start, end, onProgress = () => {}) {
     states[index] = isInside ? Number(numberIsPrime) | (Number(reversedIsPrime) << 1) : 0;
     visibleMarkerCount += Number(states[index] > 0);
     if ((index + 1) % PROGRESS_CHUNK === 0) {
-      onProgress(0.7 + ((index + 1) / count) * 0.25, 'Classifying points');
+      onProgress(0.7 + ((index + 1) / count) * 0.25, PHASES.CLASSIFYING);
     }
   }
-  onProgress(0.95, 'Classifying points');
+  onProgress(0.95, PHASES.CLASSIFYING);
 
   const markerNumbers = new Uint32Array(visibleMarkerCount);
   const markerReversed = new Uint32Array(visibleMarkerCount);
@@ -109,11 +112,11 @@ export function createPlotData(start, end, onProgress = () => {}) {
       markerIndex += 1;
     }
     if ((index + 1) % PROGRESS_CHUNK === 0) {
-      onProgress(0.95 + ((index + 1) / count) * 0.05, 'Preparing markers');
+      onProgress(0.95 + ((index + 1) / count) * 0.05, PHASES.MARKERS);
     }
   }
-  onProgress(1, 'Preparing markers');
-  onProgress(1, 'Ready');
+  onProgress(1, PHASES.MARKERS);
+  onProgress(1, PHASES.READY);
 
   return {
     count,

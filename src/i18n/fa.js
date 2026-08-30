@@ -1,6 +1,4 @@
 export const fa = {
-  eyebrow: 'آینهٔ عددها · کاوشگر اعداد اول',
-  title: 'نمودار اعداد اول وارونه',
   introFormula: '⁦(n، وارونهٔ n)⁩',
   introText:
     'هر عدد در این بازه به همین شکل بررسی می‌شود. هر جا n یا وارونه‌اش اول باشد نقطه‌ای می‌آید، و بقیه رسم نمی‌شوند.',
@@ -27,7 +25,6 @@ export const fa = {
   statPrimeReversals: 'وارونهٔ اول',
   statBothPrime: 'هر دو اول',
 
-  coordinates: (start, end) => `مختصات: (n، وارونهٔ n) · ${start}–${end}`,
   progressAria: (start, end) => `رسم بازهٔ ${start} تا ${end}`,
   outsideNotice: (count, start, end) =>
     `${count} مقدار وارونه بیرون از بازهٔ ${start}–${end} می‌افتد.`,
@@ -45,16 +42,18 @@ export const fa = {
   positionBottom: 'پایین',
   positionTop: 'بالا',
 
+  // Keyed by the ids in lib/phases.js, not by display prose.
   phases: {
-    Starting: 'آغاز',
-    'Reversing digits': 'وارونه‌کردن رقم‌ها',
-    'Finding primes': 'یافتن اعداد اول',
-    'Classifying points': 'دسته‌بندی نقطه‌ها',
-    'Preparing markers': 'آماده‌سازی نشانه‌ها',
-    Ready: 'آماده',
-    'Drawing plot': 'رسم نمودار',
-    Complete: 'کامل',
-    Failed: 'ناموفق',
+    starting: 'آغاز',
+    reversing: 'وارونه‌کردن رقم‌ها',
+    sieving: 'یافتن اعداد اول',
+    classifying: 'دسته‌بندی نقطه‌ها',
+    markers: 'آماده‌سازی نشانه‌ها',
+    following: 'دنبال‌کردن زنجیره‌ها',
+    ready: 'آماده',
+    drawing: 'رسم نمودار',
+    complete: 'کامل',
+    failed: 'ناموفق',
   },
 
   canvasFont: 'Vazirmatn, "IBM Plex Mono", ui-monospace, monospace',
@@ -64,7 +63,6 @@ export const fa = {
 
   // صفحهٔ زنجیره‌ها
   chainsTitle: 'زنجیرهٔ تفاضل اعداد اول',
-  chainsEyebrow: 'جفت‌های بازگشتی · کاوشگر زنجیره',
   chainsIntroLead: 'عددی اول را بگیرید که وارونه‌اش هم اول است، آن دو را از هم کم کنید و همان پرسش را دربارهٔ نتیجه بپرسید:',
   chainsIntroRest: ' آیا خودش اول است و آیا وارونه‌اش اول است؟ فقط بذرهایی رسم می‌شوند که دست‌کم یک گام دوام بیاورند.',
   chainsNavToPlot: 'نمودار →',
@@ -108,10 +106,9 @@ export const fa = {
   chainsDetailEnd: (last) => `در ${last} متوقف می‌شود: گام بعدی به عددی نمی‌رسد که خودش و وارونه‌اش هر دو اول باشند.`,
   chainsDetailClose: 'برداشتن انتخاب',
   chainDepthLabel: (depth, formatted) => (depth === 1 ? 'یک پیوند' : `${formatted} پیوند`),
+  // Divisor 1 never yields a chain, so no step is ever rendered for it.
   chainStep: (from, reversed, difference, divisor, next) =>
-    divisor === 1
-      ? `⁦|${from} − ${reversed}| = ${difference} → ${next}⁩`
-      : `⁦|${from} − ${reversed}| = ${difference} ÷ ${divisor} → ${next}⁩`,
+    `⁦|${from} − ${reversed}| = ${difference} ÷ ${divisor} → ${next}⁩`,
   chainsLegendLabel: 'راهنمای زنجیره',
   chainsLegendOne: 'یک جفت اول دیگر',
   chainsLegendDeep: 'دو تا یا بیشتر',
@@ -119,7 +116,6 @@ export const fa = {
   viewSource: 'کد روی گیت‌هاب',
 
   langSwitch: 'English',
-  langSwitchHref: '../',
   langSwitchHrefLang: 'en',
   langSwitchLabel: 'Switch to English',
 };

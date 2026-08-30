@@ -63,6 +63,14 @@ the stale scale then persists because nothing redraws on resize.
 
 Run `npm run build` after touching anything StyleX-related; it is the only gate that catches this.
 
+Colours live in `src/tokens.stylex.js` as `stylex.defineVars`. A plain imported constant is rejected
+by `stylex.create`, but a defineVars token is statically analysable and accepted — which is why the
+two sheets can share one palette. `palette.js` is separate on purpose: canvas needs real colour
+values, not CSS variables.
+
+`appStyles.test.js` fails on a component naming a style key its sheet does not define. That renders
+no class and says nothing, and it shipped twice before the test existed.
+
 Styles are split in two: `appStyles.stylex.js` (page shell, shared by both pages) and
 `chainStyles.stylex.js` (chains page only). Legend styles live in `appStyles` because both legends
 use them — a component referencing a key that is not in the sheet it imported gets `undefined` and
@@ -120,10 +128,18 @@ of any marker whose reversal falls outside the interval, which is why the marker
 tests only `states[index] > 0` and never repeats the range check. Both the renderer's
 `MARKER_PASSES` table and `Legend`'s items depend on this encoding; nothing enforces agreement.
 
-### Progress phase strings are load-bearing
+### Some i18n keys are only reached dynamically
 
-The phase names `createPlotData` emits are asserted by `src/lib/primeNumbers.test.js` **and** used as
-i18n lookup keys in `src/i18n/*.js`. Renaming one touches a unit test and both dictionaries.
+`ruleNote1` / `ruleNote9` / `ruleNote18` look unused to a plain grep. They are read as
+``t[`ruleNote${divisor}`]`` in `ChainControls`, as `t[labelKey]` is in the legends and the axis
+switch. A dead-key sweep that trusts literal `t.x` references will delete live copy.
+
+### Progress phases are ids, not prose
+
+`src/lib/phases.js` holds the ids; the dictionaries own the labels. This used to be keyed on English
+display strings, and a phase added in the compute layer then rendered untranslated with no error —
+the Persian chains page showed English through every search. `i18n.test.js` now fails if any id
+lacks a label in either dictionary, or if a dictionary labels an id that no longer exists.
 
 ## Test coverage
 

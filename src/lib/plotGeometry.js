@@ -5,6 +5,12 @@ export const PLOT_TOP = 28;
 // gaps become the right and bottom margins, which keeps the canvas square.
 export const CANVAS_SIZE = PLOT_LEFT + PLOT_SIZE + PLOT_TOP;
 
+// Canvas text is sized in plot units, so it shrinks with the element. Scaling by
+// units-per-css-pixel holds labels near 12 real pixels at any rendered width.
+export function textScaleFor(renderedWidth) {
+  return Math.min(2.4, Math.max(0.8, CANVAS_SIZE / (renderedWidth || CANVAS_SIZE)));
+}
+
 export function createTicks(start, end) {
   const roughStep = Math.max(1, (end - start) / 5);
   const magnitude = 10 ** Math.floor(Math.log10(roughStep));

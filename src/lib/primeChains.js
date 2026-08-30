@@ -1,3 +1,4 @@
+import { PHASES } from './phases.js';
 import { PrimeTable, reverseNumber } from './primeNumbers.js';
 
 // The chains page reaches ten times further than the plot. It never stores a
@@ -13,6 +14,7 @@ export const CHAIN_MAX_LIMIT = 100_000_000;
 // it yields nothing — and 18 divides the forced factor out.
 export const CHAIN_DIVISORS = [1, 9, 18];
 const MAX_CHAIN_DEPTH = 64;
+const PROGRESS_STRIDE = 200_000;
 
 export function isValidChainRequest(start, end, divisor) {
   return (
@@ -48,20 +50,14 @@ export function chainSteps(seed, divisor, isPrime) {
   return steps;
 }
 
-export function chainDepth(seed, divisor, isPrime) {
-  return chainSteps(seed, divisor, isPrime).length;
-}
-
-function maxReversalIn(start, end, onProgress) {
-  let limit = end;
-  for (let value = start; value <= end; value += 1) {
-    const reversed = reverseNumber(value);
-    if (reversed > limit) limit = reversed;
-    if ((value - start) % 200_000 === 0) {
-      onProgress((value - start) / (end - start + 1), 'Scanning reversals');
-    }
-  }
-  return limit;
+// Any value with at most D digits reverses to at most 10^D - 1, so the sieve's
+// upper bound follows from the digit count alone. Walking the whole interval to
+// discover it cost about half the total run at the ceiling.
+function reversalBound(end) {
+  let power = 1;
+  while (power <= end) power *= 10;
+  if (end === power / 10) return end;   // an exact power of ten reverses to 1
+  return power - 1;
 }
 
 export function createChainData(start, end, divisor, onProgress = () => {}) {
@@ -71,57 +67,57 @@ export function createChainData(start, end, divisor, onProgress = () => {}) {
     );
   }
 
-  const tableLimit = maxReversalIn(start, end, (progress, phase) =>
-    onProgress(progress * 0.25, phase),
-  );
+  const tableLimit = reversalBound(end);
   const primes = new PrimeTable(tableLimit, (progress) =>
-    onProgress(0.25 + progress * 0.35, 'Finding primes'),
+    onProgress(progress * 0.35, PHASES.SIEVING),
   );
-  // Chain values never exceed max(current, reverse(current)), so they stay
-  // inside the table; PrimeTable.has bounds-checks regardless.
-  const isPrime = (value) => primes.has(value);
 
-  const count = end - start + 1;
   const seeds = [];
   let seedCount = 0;
   let maxDepth = 0;
-  const depthHistogram = {};
 
-  for (let value = start; value <= end; value += 1) {
+  // Primality is a bit test; reversing is arithmetic. Testing first means the
+  // ~95% of values that are composite never get reversed at all.
+  const consider = (value) => {
     const reversed = reverseNumber(value);
-    if (isPrime(value) && isPrime(reversed)) {
-      seedCount += 1;
-      const depth = chainDepth(value, divisor, isPrime);
-      if (depth > 0) {
-        seeds.push([value, reversed, depth]);
-        depthHistogram[depth] = (depthHistogram[depth] ?? 0) + 1;
-        if (depth > maxDepth) maxDepth = depth;
-      }
-    }
-    if ((value - start) % 100_000 === 0) {
-      onProgress(0.6 + ((value - start) / count) * 0.4, 'Following chains');
+    if (!primes.has(reversed)) return;
+    seedCount += 1;
+    const steps = chainSteps(value, divisor, (v) => primes.has(v));
+    if (steps.length === 0) return;
+    seeds.push([value, reversed, steps]);
+    if (steps.length > maxDepth) maxDepth = steps.length;
+  };
+
+  if (start <= 2 && end >= 2) consider(2);
+  const firstOdd = start % 2 === 0 ? start + 1 : start;
+  // Count iterations rather than test the value: the loop steps by two, so any
+  // modulo of (value - firstOdd) is parity-locked and can silently never fire.
+  let sinceReport = 0;
+  for (let value = firstOdd; value <= end; value += 2) {
+    if (primes.has(value)) consider(value);
+    sinceReport += 1;
+    if (sinceReport >= PROGRESS_STRIDE) {
+      sinceReport = 0;
+      onProgress(0.35 + ((value - start) / (end - start + 1)) * 0.65, PHASES.FOLLOWING);
     }
   }
-  onProgress(1, 'Ready');
+  onProgress(1, PHASES.READY);
 
   const markerNumbers = new Uint32Array(seeds.length);
   const markerReversed = new Uint32Array(seeds.length);
   const markerDepths = new Uint8Array(seeds.length);
   // chains[i] describes marker i, so a click on the plot maps straight to a
   // chain without recomputing anything on the main thread.
-  const chains = seeds.map(([value, reversed, depth], index) => {
+  const chains = seeds.map(([value, reversed, steps], index) => {
     markerNumbers[index] = value;
     markerReversed[index] = reversed;
-    markerDepths[index] = depth;
-    return { depth, reversed, seed: value, steps: chainSteps(value, divisor, isPrime) };
+    markerDepths[index] = steps.length;
+    return { depth: steps.length, reversed, seed: value, steps };
   });
 
   return {
     chainCount: seeds.length,
     chains,
-    count,
-    depthHistogram,
-    divisor,
     end,
     markerDepths,
     markerNumbers,
