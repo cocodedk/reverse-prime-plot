@@ -1,0 +1,30 @@
+export const PLOT_SIZE = 604;
+export const PLOT_LEFT = 68;
+export const PLOT_TOP = 28;
+
+export function createTicks(start, end) {
+  const roughStep = Math.max(1, (end - start) / 5);
+  const magnitude = 10 ** Math.floor(Math.log10(roughStep));
+  const normalized = roughStep / magnitude;
+  const factor = normalized <= 1 ? 1 : normalized <= 2 ? 2 : normalized <= 5 ? 5 : 10;
+  const step = factor * magnitude;
+  const ticks = [start];
+  const firstTick = Math.ceil(start / step) * step;
+
+  for (let tick = firstTick; tick <= end; tick += step) ticks.push(tick);
+  if (ticks.at(-1) !== end) ticks.push(end);
+  return [...new Set(ticks)];
+}
+
+export function scaleX(value, start, end) {
+  return PLOT_LEFT + ((value - start) / (end - start)) * PLOT_SIZE;
+}
+
+export function scaleY(value, start, end, direction) {
+  const offset = ((value - start) / (end - start)) * PLOT_SIZE;
+  return direction === 'up' ? PLOT_TOP + PLOT_SIZE - offset : PLOT_TOP + offset;
+}
+
+export function isVisibleMarker(state, reversed, start, end) {
+  return state > 0 && reversed >= start && reversed <= end;
+}
