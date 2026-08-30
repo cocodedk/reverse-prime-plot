@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   createPlotData,
-  isPrime,
+  isValidInterval,
   MAX_LIMIT,
   reverseNumber,
 } from './primeNumbers.js';
@@ -14,16 +14,17 @@ describe('reverseNumber', () => {
   });
 });
 
-describe('isPrime', () => {
+describe('isValidInterval', () => {
   it.each([
-    [0, false],
-    [1, false],
-    [2, true],
-    [3, true],
-    [9, false],
-    [97, true],
-  ])('classifies %i', (value, expected) => {
-    expect(isPrime(value)).toBe(expected);
+    [0, 100, true],
+    [0, MAX_LIMIT, true],
+    [-1, 10, false],
+    [10, 10, false],
+    [20, 10, false],
+    [0, MAX_LIMIT + 1, false],
+    [0.5, 10, false],
+  ])('accepts %i-%i as %s', (start, end, expected) => {
+    expect(isValidInterval(start, end)).toBe(expected);
   });
 });
 
@@ -48,6 +49,16 @@ describe('createPlotData', () => {
     });
     expect(data.visibleMarkerCount).toBe(4);
     expect(data.outsideCount).toBe(0);
+  });
+
+  it('excludes markers whose reversal falls outside the interval', () => {
+    const data = createPlotData(10, 30);
+
+    // 19 is prime, but reverse(19) = 91 sits above the interval, so it is dropped.
+    expect(data.outsideCount).toBeGreaterThan(0);
+    expect([...data.markerNumbers]).not.toContain(19);
+    expect([...data.markerReversed].every((value) => value >= 10 && value <= 30)).toBe(true);
+    expect(data.markerNumbers).toHaveLength(data.visibleMarkerCount);
   });
 
   it('enforces the supported range', () => {

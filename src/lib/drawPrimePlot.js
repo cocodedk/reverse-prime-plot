@@ -1,4 +1,5 @@
 import {
+  CANVAS_SIZE,
   createTicks,
   PLOT_LEFT,
   PLOT_SIZE,
@@ -6,25 +7,39 @@ import {
   scaleX,
   scaleY,
 } from './plotGeometry.js';
+import { CREAM, INK, PRIME_COLOR, PRIME_RGB } from './palette.js';
 
-const PRIME_COLOR = '#f15a37';
-const INK = '#18332e';
 const GRID = '#d9ddd4';
+const AXIS_TEXT = '#687670';
+const SANS_STACK = 'Inter, ui-sans-serif, system-ui, sans-serif';
+const AXIS_TITLE_INSET = 13;
 const BATCH_SIZE = 20_000;
 const DENSE_PLOT_THRESHOLD = 5_000;
-export const CANVAS_SIZE = 700;
+
+// Marker states are bit-packed in primeNumbers.js: bit 0 = n is prime,
+// bit 1 = reverse(n) is prime. Each pass below is one full sweep of the marker
+// arrays, painted in order: a white backing disc, then the coloured halves,
+// then a single outline over everything.
+const MARKER_PASSES = [
+  { matches: (state) => state === 1 || state === 2, shape: 'full', fillStyle: CREAM },
+  { matches: (state) => state === 3, shape: 'full', fillStyle: PRIME_COLOR },
+  { matches: (state) => state === 1, shape: 'top', fillStyle: PRIME_COLOR },
+  { matches: (state) => state === 2, shape: 'bottom', fillStyle: PRIME_COLOR },
+  { matches: () => true, shape: 'full', stroke: true },
+];
 
 function drawGrid(context, start, end, yDirection) {
-  context.fillStyle = '#fffdf8';
+  context.fillStyle = CREAM;
   context.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-  context.font = '12px Inter, ui-sans-serif, system-ui, sans-serif';
+  context.font = `12px ${SANS_STACK}`;
   context.lineWidth = 1;
   context.strokeStyle = GRID;
-  context.fillStyle = '#687670';
+  context.fillStyle = AXIS_TEXT;
 
   for (const tick of createTicks(start, end)) {
     const x = scaleX(tick, start, end);
     const y = scaleY(tick, start, end, yDirection);
+    const label = tick.toLocaleString();
     context.beginPath();
     context.moveTo(x, PLOT_TOP);
     context.lineTo(x, PLOT_TOP + PLOT_SIZE);
@@ -32,20 +47,20 @@ function drawGrid(context, start, end, yDirection) {
     context.lineTo(PLOT_LEFT + PLOT_SIZE, y);
     context.stroke();
     context.textAlign = 'center';
-    context.fillText(tick.toLocaleString(), x, PLOT_TOP + PLOT_SIZE + 24);
+    context.fillText(label, x, PLOT_TOP + PLOT_SIZE + 24);
     context.textAlign = 'right';
-    context.fillText(tick.toLocaleString(), PLOT_LEFT - 14, y + 4);
+    context.fillText(label, PLOT_LEFT - 14, y + 4);
   }
 }
 
-function appendShape(context, x, y, radius, layer) {
-  if (layer === 'top') {
+function appendShape(context, x, y, radius, shape) {
+  if (shape === 'top') {
     context.moveTo(x - radius, y);
     context.arc(x, y, radius, Math.PI, Math.PI * 2);
     context.closePath();
     return;
   }
-  if (layer === 'bottom') {
+  if (shape === 'bottom') {
     context.moveTo(x + radius, y);
     context.arc(x, y, radius, 0, Math.PI);
     context.closePath();
@@ -55,29 +70,20 @@ function appendShape(context, x, y, radius, layer) {
   context.arc(x, y, radius, 0, Math.PI * 2);
 }
 
-function stateBelongsToLayer(state, layer) {
-  if (layer === 'base') return state === 1 || state === 2;
-  if (layer === 'full') return state === 3;
-  if (layer === 'top') return state === 1;
-  if (layer === 'bottom') return state === 2;
-  return true;
-}
-
-function drawMarkerLayer(context, data, yDirection, radius, layer) {
+function drawMarkerLayer(context, data, yDirection, radius, pass) {
   const { end, markerNumbers, markerReversed, markerStates, start } = data;
   let batched = 0;
-  const paint = () => (layer === 'outline' ? context.stroke() : context.fill());
+  const paint = () => (pass.stroke ? context.stroke() : context.fill());
   context.beginPath();
 
   for (let index = markerStates.length - 1; index >= 0; index -= 1) {
-    const state = markerStates[index];
-    if (!stateBelongsToLayer(state, layer)) continue;
+    if (!pass.matches(markerStates[index])) continue;
     appendShape(
       context,
       scaleX(markerNumbers[index], start, end),
       scaleY(markerReversed[index], start, end, yDirection),
       radius,
-      layer === 'base' ? 'full' : layer,
+      pass.shape,
     );
     batched += 1;
     if (batched % BATCH_SIZE === 0) {
@@ -94,14 +100,15 @@ function paintPixelRow(pixels, width, height, x, y, halfWidth) {
     const pixelX = x + offset;
     if (pixelX < 0 || pixelX >= width) continue;
     const index = (y * width + pixelX) * 4;
-    pixels[index] = 241;
-    pixels[index + 1] = 90;
-    pixels[index + 2] = 55;
+    pixels[index] = PRIME_RGB[0];
+    pixels[index + 1] = PRIME_RGB[1];
+    pixels[index + 2] = PRIME_RGB[2];
     pixels[index + 3] = 255;
   }
 }
 
-function drawDenseMarkers(context, canvas, data, yDirection, pixelRatio) {
+function drawDenseMarkers(context, data, yDirection, pixelRatio) {
+  const { canvas } = context;
   const image = context.getImageData(0, 0, canvas.width, canvas.height);
   const halfWidth = pixelRatio > 1 ? 1 : 0;
 
@@ -121,9 +128,9 @@ function drawFrame(context) {
   context.lineWidth = 1.5;
   context.strokeRect(PLOT_LEFT, PLOT_TOP, PLOT_SIZE, PLOT_SIZE);
   context.fillStyle = INK;
-  context.font = '700 13px Inter, ui-sans-serif, system-ui, sans-serif';
+  context.font = `700 13px ${SANS_STACK}`;
   context.textAlign = 'center';
-  context.fillText('number, n', PLOT_LEFT + PLOT_SIZE / 2, 687);
+  context.fillText('number, n', PLOT_LEFT + PLOT_SIZE / 2, CANVAS_SIZE - AXIS_TITLE_INSET);
   context.save();
   context.translate(17, PLOT_TOP + PLOT_SIZE / 2);
   context.rotate(-Math.PI / 2);
@@ -131,22 +138,27 @@ function drawFrame(context) {
   context.restore();
 }
 
-export function drawPlot(context, canvas, data, yDirection, pixelRatio) {
-  const range = data.end - data.start;
-  const radius = Math.max(0.6, Math.min(4.8, (PLOT_SIZE / range) * 0.58));
+// Dense plots composite markers by writing ImageData directly, which means a
+// getImageData readback on every redraw; sparse plots never read pixels back.
+// Callers need this to pick the right canvas context hint.
+export function usesPixelReadback(data) {
+  return data.count > DENSE_PLOT_THRESHOLD;
+}
+
+export function drawPlot(context, data, yDirection, pixelRatio) {
   drawGrid(context, data.start, data.end, yDirection);
-  if (data.count > DENSE_PLOT_THRESHOLD) {
-    drawDenseMarkers(context, canvas, data, yDirection, pixelRatio);
+
+  if (usesPixelReadback(data)) {
+    drawDenseMarkers(context, data, yDirection, pixelRatio);
   } else {
-    context.fillStyle = '#fffdf8';
-    drawMarkerLayer(context, data, yDirection, radius, 'base');
-    context.fillStyle = PRIME_COLOR;
-    drawMarkerLayer(context, data, yDirection, radius, 'full');
-    drawMarkerLayer(context, data, yDirection, radius, 'top');
-    drawMarkerLayer(context, data, yDirection, radius, 'bottom');
+    const radius = Math.max(0.6, Math.min(4.8, (PLOT_SIZE / (data.end - data.start)) * 0.58));
     context.strokeStyle = INK;
     context.lineWidth = Math.min(1.1, radius * 0.42);
-    drawMarkerLayer(context, data, yDirection, radius, 'outline');
+    for (const pass of MARKER_PASSES) {
+      if (pass.fillStyle) context.fillStyle = pass.fillStyle;
+      drawMarkerLayer(context, data, yDirection, radius, pass);
+    }
   }
+
   drawFrame(context);
 }

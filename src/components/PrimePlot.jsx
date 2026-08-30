@@ -1,9 +1,15 @@
 import { useEffect, useRef } from 'react';
 import * as stylex from '@stylexjs/stylex';
-import { CANVAS_SIZE, drawPlot } from '../lib/drawPrimePlot.js';
+import { drawPlot, usesPixelReadback } from '../lib/drawPrimePlot.js';
+import { CANVAS_SIZE } from '../lib/plotGeometry.js';
 
 export default function PrimePlot({ data, onRendered, yDirection }) {
   const canvasRef = useRef(null);
+  // A 2D context locks its attributes at the first getContext call for the
+  // element's lifetime, so one canvas cannot serve both draw paths. Keying the
+  // element on the mode remounts it, yielding a fresh context whose readback
+  // hint matches how the plot is actually drawn.
+  const readsBack = usesPixelReadback(data);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -11,19 +17,20 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
       const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
       canvas.width = CANVAS_SIZE * pixelRatio;
       canvas.height = CANVAS_SIZE * pixelRatio;
-      const context = canvas.getContext('2d', { willReadFrequently: true });
+      const context = canvas.getContext('2d', { willReadFrequently: readsBack });
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      drawPlot(context, canvas, data, yDirection, pixelRatio);
+      drawPlot(context, data, yDirection, pixelRatio);
       onRendered(data);
     });
     return () => cancelAnimationFrame(frame);
-  }, [data, onRendered, yDirection]);
+  }, [data, onRendered, yDirection, readsBack]);
 
   const lowerPosition = yDirection === 'up' ? 'bottom' : 'top';
   return (
     <>
       <canvas
         {...stylex.props(styles.plot)}
+        key={readsBack ? 'dense' : 'sparse'}
         ref={canvasRef}
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}

@@ -6,22 +6,12 @@ export function reverseNumber(value) {
   let reversed = 0;
 
   do {
-    reversed = reversed * 10 + (remaining % 10);
-    remaining = Math.floor(remaining / 10);
+    const digit = remaining % 10;
+    reversed = reversed * 10 + digit;
+    remaining = (remaining - digit) / 10;
   } while (remaining > 0);
 
   return reversed;
-}
-
-export function isPrime(value) {
-  if (!Number.isInteger(value) || value < 2) return false;
-  if (value === 2) return true;
-  if (value % 2 === 0) return false;
-
-  for (let divisor = 3; divisor * divisor <= value; divisor += 2) {
-    if (value % divisor === 0) return false;
-  }
-  return true;
 }
 
 function createPrimeTable(maximum, onProgress) {
@@ -40,14 +30,18 @@ function createPrimeTable(maximum, onProgress) {
   return primes;
 }
 
+export function isValidInterval(start, end) {
+  return (
+    Number.isInteger(start) &&
+    Number.isInteger(end) &&
+    start >= 0 &&
+    start < end &&
+    end <= MAX_LIMIT
+  );
+}
+
 export function createPlotData(start, end, onProgress = () => {}) {
-  if (
-    !Number.isInteger(start) ||
-    !Number.isInteger(end) ||
-    start < 0 ||
-    start >= end ||
-    end > MAX_LIMIT
-  ) {
+  if (!isValidInterval(start, end)) {
     throw new RangeError(`interval must satisfy 0 <= start < end <= ${MAX_LIMIT}`);
   }
 
@@ -56,8 +50,9 @@ export function createPlotData(start, end, onProgress = () => {}) {
   let primeTableLimit = end;
 
   for (let index = 0; index < count; index += 1) {
-    reversed[index] = reverseNumber(start + index);
-    primeTableLimit = Math.max(primeTableLimit, reversed[index]);
+    const value = reverseNumber(start + index);
+    reversed[index] = value;
+    if (value > primeTableLimit) primeTableLimit = value;
     if ((index + 1) % PROGRESS_CHUNK === 0) {
       onProgress(((index + 1) / count) * 0.3, 'Reversing digits');
     }
@@ -76,13 +71,15 @@ export function createPlotData(start, end, onProgress = () => {}) {
     const number = start + index;
     const numberIsPrime = primes[number] === 1;
     const reversedIsPrime = primes[reversed[index]] === 1;
-    states[index] = Number(numberIsPrime) | (Number(reversedIsPrime) << 1);
     summary.originalPrimes += Number(numberIsPrime);
     summary.reversedPrimes += Number(reversedIsPrime);
     summary.doublePrimes += Number(numberIsPrime && reversedIsPrime);
     const isInside = reversed[index] >= start && reversed[index] <= end;
     outsideCount += Number(!isInside);
-    visibleMarkerCount += Number(states[index] > 0 && isInside);
+    // States carry visibility: markers outside the interval are zeroed here so
+    // the marker pass below never repeats the range check.
+    states[index] = isInside ? Number(numberIsPrime) | (Number(reversedIsPrime) << 1) : 0;
+    visibleMarkerCount += Number(states[index] > 0);
     if ((index + 1) % PROGRESS_CHUNK === 0) {
       onProgress(0.7 + ((index + 1) / count) * 0.25, 'Classifying points');
     }
@@ -94,8 +91,7 @@ export function createPlotData(start, end, onProgress = () => {}) {
   const markerStates = new Uint8Array(visibleMarkerCount);
   let markerIndex = 0;
   for (let index = 0; index < count; index += 1) {
-    const isInside = reversed[index] >= start && reversed[index] <= end;
-    if (states[index] > 0 && isInside) {
+    if (states[index] > 0) {
       markerNumbers[markerIndex] = start + index;
       markerReversed[markerIndex] = reversed[index];
       markerStates[markerIndex] = states[index];
