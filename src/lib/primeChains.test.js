@@ -53,6 +53,30 @@ describe('chainSteps with the forced factor divided out', () => {
   });
 });
 
+// A number and its reversal are congruent mod 11 when the digit count is odd,
+// because each digit and its mirror sit an even number of places apart. So an
+// odd digit count forces an extra factor of 11 into the difference, the /18
+// quotient inherits it, and the quotient can only be prime if it equals 11.
+describe('digit count decides whether chains can exist at all', () => {
+  it('finds no chains among 5-digit seeds', () => {
+    const data = createChainData(10_000, 99_999, 18);
+    expect(data.seedCount).toBeGreaterThan(0);
+    expect(data.chainCount).toBe(0);
+  });
+
+  it('finds chains among 4-digit seeds', () => {
+    const data = createChainData(1_000, 9_999, 18);
+    expect(data.chainCount).toBeGreaterThan(0);
+    expect([...data.markerNumbers]).toContain(1913);
+  });
+
+  it('only ever reaches 11 from an odd-digit seed', () => {
+    // 113 -> 311 differ by 198, and 198/18 = 11, the one prime a 3-digit seed
+    // can produce. Every other odd-digit quotient is a larger multiple of 11.
+    expect(chainSteps(113, 18, isPrime).map((step) => step.next)).toEqual([11]);
+  });
+});
+
 describe('createChainData', () => {
   it('keeps only seeds that produce at least one further prime pair', () => {
     const data = createChainData(0, 1000, 18);

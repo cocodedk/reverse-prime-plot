@@ -83,6 +83,8 @@ export const en = {
   whyPoint1Body: 'Divide any number by 9 and the remainder is the same one you get from adding up its digits. A number and its reversal use the same digits, so both leave the same remainder. Subtract one from the other and the remainder cancels, leaving a multiple of 9. Take 1913 and 3191: the digits of each add up to 14, and their difference, 1278, is 9 × 142.',
   whyPoint2Title: 'Odd minus odd is even',
   whyPoint2Body: 'Every prime except 2 is odd. Both numbers in the pair are prime, so both are odd, and odd minus odd is always even. That adds a factor of 2 on top of the 9.',
+  whyPoint3Title: 'An odd digit count adds an 11',
+  whyPoint3Body: 'Line a number up against its reversal and each digit sits an even number of places from its mirror, but only when the digit count is odd. That makes the two agree mod 11 as well, so 11 divides the difference on top of the 18. The quotient inherits it, and a multiple of 11 is prime only when it is 11 itself. This is why there is not a single chain between one and ten million: those are the 7-digit numbers. Chains return at ten million, where 8-digit numbers begin.',
   whyConclusion: 'Put those together and every difference is a multiple of 18. So it divides by 2 and by 3, which means it has factors of its own, and that is exactly what a prime does not have. The chain dies on its first step, every time, at every scale.',
   whyDivide18: 'Dividing by 18 takes out exactly the part that was forced, and nothing else. What is left can be prime or not on its own merits, and that is where the chains are.',
   whyDivide9: 'Dividing by 9 only fixes half of it. The result is still even, so it is prime only if it lands on 2. That is why the 9 setting finds almost nothing.',
@@ -94,7 +96,7 @@ export const en = {
   chainsEmptyBody: (divisor) =>
     divisor === 1
       ? 'No pair gets past its first step. Every difference divides evenly by 18, and a number divisible by 18 is also divisible by 2 and 3, which rules out being prime. Switch to |n − r| / 18 to see chains.'
-      : 'No pair in this range keeps going: every quotient landed on a number that is not prime, or whose reversal is not. Try a wider range.',
+      : 'No pair in this range keeps going. If the interval sits inside numbers with an odd count of digits, that is expected rather than a dead end, for the reason set out below. Try a range that crosses into an even digit count.',
   chainsListTitle: 'Deepest chains found',
   chainsSelectHint: 'Select any point on the plot, or a chain below, to see it step by step.',
   chainsDetailTitle: 'Selected point',

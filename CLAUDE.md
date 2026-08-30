@@ -91,6 +91,28 @@ conditional flag; it will silently keep whichever value the first plot used.
 The dense path bypasses the marker layers entirely, so the legend's half-disc semantics do not hold
 above the threshold. Known gap, not a regression.
 
+### Digit count decides whether chains can exist
+
+A number and its reversal agree mod 11 whenever the digit count is **odd**, because each digit then
+sits an even number of places from its mirror. That forces an extra factor of 11 into the
+difference on top of the 18, the quotient inherits it, and a multiple of 11 is prime only when it is
+11 itself. Consequences worth knowing before someone reports a bug:
+
+- There is not a single chain between 1,000,000 and 10,000,000. Those are the 7-digit numbers.
+  Verified: 71,142 both-prime seeds, zero chains.
+- 3-digit seeds can chain, but only ever to 11 (`113 -> 311`, difference 198, 198/18 = 11).
+- Chains return at 10,000,000, where 8-digit numbers start. The full 8-digit band holds 9,884.
+
+`primeChains.test.js` pins this. An empty result in an odd-digit range is correct, not a defect.
+
+### Two different ceilings
+
+`MAX_LIMIT` (10,000,000) is the plot's, set by memory: `createPlotData` allocates a value per number
+in the interval. `CHAIN_MAX_LIMIT` (100,000,000) is the chains page's, which stores only the seeds
+that chain, so its ceiling is the prime table instead. `PrimeTable` is an odds-only bit-packed
+sieve: 100,000,000 costs about 6 MB and 106 ms, where one byte per number would have cost 95 MB.
+Raising either further means walking every number in the interval, so the next limit is time.
+
 ### Marker state encoding
 
 Bit 0 = `n` is prime, bit 1 = `reverse(n)` is prime, so 3 = both. `createPlotData` zeroes the state
