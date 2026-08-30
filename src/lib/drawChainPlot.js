@@ -1,4 +1,4 @@
-import { PLOT_SIZE, scaleX, scaleY } from './plotGeometry.js';
+import { scaleX, scaleY } from './plotGeometry.js';
 import { ACCENT, CARD, INK } from './palette.js';
 import { drawFrame, drawGrid } from './plotChrome.js';
 

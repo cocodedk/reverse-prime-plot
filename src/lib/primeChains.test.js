@@ -5,6 +5,7 @@ import {
   createChainData,
   isValidChainRequest,
 } from './primeChains.js';
+import { PHASES } from './phases.js';
 
 const isPrimeUpTo = (limit) => {
   const table = new Uint8Array(limit + 1).fill(1);
@@ -74,6 +75,24 @@ describe('digit count decides whether chains can exist at all', () => {
     // 113 -> 311 differ by 198, and 198/18 = 11, the one prime a 3-digit seed
     // can produce. Every other odd-digit quotient is a larger multiple of 11.
     expect(chainSteps(113, 18, isPrime).map((step) => step.next)).toEqual([11]);
+  });
+});
+
+describe('createChainData progress', () => {
+  // The walk steps by two, so a modulo on (value - firstOdd) is parity-locked
+  // and can silently never fire, freezing the bar for the whole search.
+  it('reports the chain walk, not just the sieve', () => {
+    const phases = [];
+    createChainData(0, 3_000_000, 18, (progress, phase) => phases.push(phase));
+    expect(phases).toContain(PHASES.FOLLOWING);
+    expect(phases.at(-1)).toBe(PHASES.READY);
+  });
+
+  it('reports progress that only ever increases', () => {
+    const values = [];
+    createChainData(0, 3_000_000, 18, (progress) => values.push(progress));
+    expect(values).toEqual([...values].sort((a, b) => a - b));
+    expect(values.at(-1)).toBe(1);
   });
 });
 

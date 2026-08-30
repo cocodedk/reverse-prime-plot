@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { useElementWidth } from '../hooks/useElementWidth.js';
 import * as stylex from '@stylexjs/stylex';
 import { drawChainPlot } from '../lib/drawChainPlot.js';
-import { CANVAS_SIZE, scaleX, scaleY } from '../lib/plotGeometry.js';
+import { CANVAS_SIZE, scaleX, scaleY, textScaleFor } from '../lib/plotGeometry.js';
 import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 
@@ -33,10 +33,8 @@ function markerAt(event, canvas, data) {
 }
 
 export default function ChainPlot({ data, selectedSeed, onSelect }) {
-  const canvasRef = useRef(null);
-  const renderedWidth = useElementWidth(canvasRef);
-  // Keep axis labels near 12 real pixels however wide the canvas renders.
-  const textScale = Math.min(2.4, Math.max(0.8, CANVAS_SIZE / (renderedWidth || CANVAS_SIZE)));
+  const { measuredRef, nodeRef: canvasRef, width: renderedWidth } = useElementWidth();
+  const textScale = textScaleFor(renderedWidth);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -58,7 +56,7 @@ export default function ChainPlot({ data, selectedSeed, onSelect }) {
     <>
       <canvas
         {...stylex.props(styles.plot, styles.plotClickable)}
-        ref={canvasRef}
+        ref={measuredRef}
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}
         role="img"

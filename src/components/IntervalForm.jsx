@@ -13,6 +13,17 @@ export default function IntervalForm({ idPrefix, max, isValid, start, end, onApp
   const [validationError, setValidationError] = useState('');
   const errorId = `${idPrefix}-error`;
 
+  // An interval can be applied from outside the form — the presets do exactly
+  // that. Resync during render rather than in an effect, so the inputs never
+  // paint a stale interval.
+  const applied = `${start}:${end}`;
+  const [lastApplied, setLastApplied] = useState(applied);
+  if (applied !== lastApplied) {
+    setLastApplied(applied);
+    setDraftStart(String(start));
+    setDraftEnd(String(end));
+  }
+
   function submit(event) {
     event.preventDefault();
     const nextStart = Number(draftStart);

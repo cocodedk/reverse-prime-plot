@@ -74,7 +74,7 @@ export default function App() {
                 <PlotProgress
                   phase={plot.phase}
                   progress={plot.progress}
-                  label={t.progressAria(start, end)}
+                  label={t.progressAria(formatNumber(start), formatNumber(end))}
                 />
               )}
               {plot.error && <p {...stylex.props(styles.notice)} role="alert">{plot.error}</p>}

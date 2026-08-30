@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import ChainSteps from './ChainSteps.jsx';
 import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 import { chainStyles } from '../chainStyles.stylex.js';
@@ -13,7 +14,7 @@ export default function ChainDetail({ chain, divisor, onClear }) {
           <p {...stylex.props(styles.plotLabel)}>{t.chainsDetailTitle}</p>
           <p {...stylex.props(chainStyles.detailSeed)}>{formatNumber(chain.seed)}</p>
         </div>
-        <button {...stylex.props(chainStyles.detailClose)} type="button" onClick={onClear}>
+        <button {...stylex.props(styles.outlineButton, chainStyles.detailClose)} type="button" onClick={onClear}>
           {t.chainsDetailClose}
         </button>
       </div>
@@ -23,19 +24,7 @@ export default function ChainDetail({ chain, divisor, onClear }) {
         {t.chainsDetailDepth(chain.depth, formatNumber(chain.depth))}
       </p>
 
-      <div {...stylex.props(chainStyles.chainSteps)}>
-        {chain.steps.map((step) => (
-          <span key={step.from} {...stylex.props(chainStyles.chainStep)}>
-            {t.chainStep(
-              formatNumber(step.from),
-              formatNumber(step.reversed),
-              formatNumber(step.difference),
-              formatNumber(divisor),
-              formatNumber(step.next),
-            )}
-          </span>
-        ))}
-      </div>
+      <ChainSteps steps={chain.steps} divisor={divisor} />
 
       <p {...stylex.props(chainStyles.detailBody)}>{t.chainsDetailEnd(formatNumber(last))}</p>
     </div>

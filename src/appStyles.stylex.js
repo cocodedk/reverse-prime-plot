@@ -87,7 +87,9 @@ export const styles = stylex.create({
     ':hover': { backgroundColor: color.accent },
   },
   presets: { display: 'flex', gap: '6px' },
-  preset: {
+  // preset, modeButton, ruleButton and detailClose were four copies of the same
+  // outline treatment; each now keeps only what actually differs.
+  outlineButton: {
     alignItems: 'center',
     backgroundColor: 'transparent',
     borderColor: color.edge,
@@ -96,13 +98,15 @@ export const styles = stylex.create({
     borderWidth: '1px',
     color: color.body,
     cursor: 'pointer',
-    display: 'inline-flex',
-    flexGrow: 1,
     fontFamily: MONO,
-    fontSize: '12px',
     justifyContent: 'center',
     minHeight: '44px',
     ':hover': { borderColor: color.ink, color: color.ink },
+  },
+  preset: {
+    display: 'inline-flex',
+    flexGrow: 1,
+    fontSize: '12px',
   },
   activeButton: {
     backgroundColor: color.ink,
@@ -112,22 +116,10 @@ export const styles = stylex.create({
   },
   modeSwitch: { display: 'grid', gap: '6px', gridTemplateColumns: '1fr 1fr' },
   modeButton: {
-    alignItems: 'center',
-    backgroundColor: 'transparent',
-    borderColor: color.edge,
-    borderRadius: 0,
-    borderStyle: 'solid',
-    borderWidth: '1px',
-    color: color.body,
-    cursor: 'pointer',
     display: 'inline-flex',
-    fontFamily: MONO,
     fontSize: '11px',
-    justifyContent: 'center',
-    minHeight: '44px',
     padding: '0 6px',
     textAlign: 'center',
-    ':hover': { borderColor: color.ink, color: color.ink },
   },
   error: { color: '#b3261e', fontSize: '12px', margin: 0 },
 

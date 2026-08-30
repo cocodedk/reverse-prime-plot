@@ -85,7 +85,7 @@ export default function ChainsApp() {
                 <PlotProgress
                   phase={chains.phase}
                   progress={chains.progress}
-                  label={t.progressAria(start, end)}
+                  label={t.progressAria(formatNumber(start), formatNumber(end))}
                 />
               )}
               {chains.error && <p {...stylex.props(styles.notice)} role="alert">{chains.error}</p>}

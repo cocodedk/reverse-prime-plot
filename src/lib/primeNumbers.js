@@ -6,10 +6,12 @@ export function reverseNumber(value) {
   let remaining = value;
   let reversed = 0;
 
+  // `| 0` truncates through int32, which is exact for everything below 2^31 and
+  // so covers the whole supported domain (CHAIN_MAX_LIMIT is 100,000,000). It is
+  // measurably faster than a float divide on the hottest loop in the app.
   do {
-    const digit = remaining % 10;
-    reversed = reversed * 10 + digit;
-    remaining = (remaining - digit) / 10;
+    reversed = reversed * 10 + (remaining % 10);
+    remaining = (remaining / 10) | 0;
   } while (remaining > 0);
 
   return reversed;

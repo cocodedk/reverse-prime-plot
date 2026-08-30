@@ -24,6 +24,7 @@ export default function IntervalControls({ start, end, yDirection, onApply, onYD
         {PRESETS.map(([presetStart, presetEnd]) => (
           <button
             {...stylex.props(
+              styles.outlineButton,
               styles.preset,
               start === presetStart && end === presetEnd ? styles.activeButton : null,
             )}
@@ -39,7 +40,7 @@ export default function IntervalControls({ start, end, yDirection, onApply, onYD
       <div {...stylex.props(styles.modeSwitch)}>
         {Y_DIRECTIONS.map(([value, labelKey]) => (
           <button
-            {...stylex.props(styles.modeButton, yDirection === value ? styles.activeButton : null)}
+            {...stylex.props(styles.outlineButton, styles.modeButton, yDirection === value ? styles.activeButton : null)}
             type="button"
             key={value}
             aria-pressed={yDirection === value}

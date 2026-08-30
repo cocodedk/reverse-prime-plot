@@ -14,6 +14,7 @@ export const CHAIN_MAX_LIMIT = 100_000_000;
 // it yields nothing — and 18 divides the forced factor out.
 export const CHAIN_DIVISORS = [1, 9, 18];
 const MAX_CHAIN_DEPTH = 64;
+const PROGRESS_STRIDE = 200_000;
 
 export function isValidChainRequest(start, end, divisor) {
   return (
@@ -89,9 +90,14 @@ export function createChainData(start, end, divisor, onProgress = () => {}) {
 
   if (start <= 2 && end >= 2) consider(2);
   const firstOdd = start % 2 === 0 ? start + 1 : start;
+  // Count iterations rather than test the value: the loop steps by two, so any
+  // modulo of (value - firstOdd) is parity-locked and can silently never fire.
+  let sinceReport = 0;
   for (let value = firstOdd; value <= end; value += 2) {
     if (primes.has(value)) consider(value);
-    if ((value - firstOdd) % 400_000 === 1) {
+    sinceReport += 1;
+    if (sinceReport >= PROGRESS_STRIDE) {
+      sinceReport = 0;
       onProgress(0.35 + ((value - start) / (end - start + 1)) * 0.65, PHASES.FOLLOWING);
     }
   }

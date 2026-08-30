@@ -19,7 +19,7 @@ export default function ChainControls({ start, end, divisor, onApply, onDivisor 
       <div {...stylex.props(chainStyles.ruleGroup)}>
         {CHAIN_DIVISORS.map((value) => (
           <button
-            {...stylex.props(chainStyles.ruleButton, divisor === value ? styles.activeButton : null)}
+            {...stylex.props(styles.outlineButton, chainStyles.ruleButton, divisor === value ? styles.activeButton : null)}
             type="button"
             key={value}
             aria-pressed={divisor === value}
