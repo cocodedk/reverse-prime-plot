@@ -1,22 +1,17 @@
 import * as stylex from '@stylexjs/stylex';
-
-const PRIME_COLOR = '#f15a37';
+import { CREAM, INK, PRIME_COLOR } from '../lib/palette.js';
 
 function Glyph({ state }) {
-  const top = state === 'top';
-  const bottom = state === 'bottom';
-  const full = state === 'full';
-
   return (
     <svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true">
-      <circle cx="10" cy="10" r="8" fill={full ? PRIME_COLOR : '#fffdf8'} />
-      {top && (
+      <circle cx="10" cy="10" r="8" fill={state === 'full' ? PRIME_COLOR : CREAM} />
+      {state === 'top' && (
         <path d="M 2 10 A 8 8 0 0 1 18 10 L 2 10 Z" fill={PRIME_COLOR} />
       )}
-      {bottom && (
+      {state === 'bottom' && (
         <path d="M 2 10 A 8 8 0 0 0 18 10 L 2 10 Z" fill={PRIME_COLOR} />
       )}
-      <circle cx="10" cy="10" r="8" fill="none" stroke="#18332e" strokeWidth="1.4" />
+      <circle cx="10" cy="10" r="8" fill="none" stroke={INK} strokeWidth="1.4" />
     </svg>
   );
 }

@@ -1,6 +1,9 @@
 export const PLOT_SIZE = 604;
 export const PLOT_LEFT = 68;
 export const PLOT_TOP = 28;
+// The plot is inset by PLOT_LEFT on the left and PLOT_TOP on the top; those two
+// gaps become the right and bottom margins, which keeps the canvas square.
+export const CANVAS_SIZE = PLOT_LEFT + PLOT_SIZE + PLOT_TOP;
 
 export function createTicks(start, end) {
   const roughStep = Math.max(1, (end - start) / 5);
@@ -23,8 +26,4 @@ export function scaleX(value, start, end) {
 export function scaleY(value, start, end, direction) {
   const offset = ((value - start) / (end - start)) * PLOT_SIZE;
   return direction === 'up' ? PLOT_TOP + PLOT_SIZE - offset : PLOT_TOP + offset;
-}
-
-export function isVisibleMarker(state, reversed, start, end) {
-  return state > 0 && reversed >= start && reversed <= end;
 }

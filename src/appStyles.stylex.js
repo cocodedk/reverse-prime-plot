@@ -1,5 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 
+const SERIF_STACK = 'Georgia, Cambria, "Times New Roman", serif';
+
 export const styles = stylex.create({
   page: { backgroundColor: '#f4f0e7', minHeight: '100vh', padding: 'clamp(22px, 4vw, 56px)' },
   hero: {
@@ -23,7 +25,7 @@ export const styles = stylex.create({
   },
   title: {
     color: '#18332e',
-    fontFamily: 'Georgia, Cambria, "Times New Roman", serif',
+    fontFamily: SERIF_STACK,
     fontSize: 'clamp(2.8rem, 7vw, 6.5rem)',
     fontWeight: 500,
     letterSpacing: '-0.055em',
@@ -67,7 +69,7 @@ export const styles = stylex.create({
     ':hover': { borderColor: '#fffdf8', color: '#fffdf8' },
   },
   presetActive: { backgroundColor: '#fffdf8', borderColor: '#fffdf8', color: '#18332e' },
-  modeLabel: { color: '#e9ece5', display: 'block', fontSize: '0.82rem', fontWeight: 700, marginBottom: '8px', marginTop: '18px' },
+  modeLabel: { marginBottom: '8px', marginTop: '18px' },
   modeSwitch: { backgroundColor: '#294740', borderRadius: '10px', display: 'grid', gap: '4px', gridTemplateColumns: '1fr 1fr', padding: '4px' },
   modeButton: { backgroundColor: 'transparent', borderRadius: '7px', borderWidth: 0, color: '#cfd8d3', cursor: 'pointer', fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace', fontSize: '0.78rem', fontWeight: 750, padding: '8px' },
   modeButtonActive: { backgroundColor: '#fffdf8', color: '#18332e' },
@@ -75,7 +77,7 @@ export const styles = stylex.create({
   plotCard: { backgroundColor: '#fffdf8', borderRadius: '24px', boxShadow: '0 22px 70px rgba(48, 55, 48, 0.11)', marginLeft: 'auto', marginRight: 'auto', maxWidth: '1180px', padding: 'clamp(18px, 3.5vw, 42px)' },
   plotHeader: { alignItems: 'end', display: 'flex', gap: '24px', justifyContent: 'space-between', '@media (max-width: 720px)': { alignItems: 'start', flexDirection: 'column' } },
   plotLabel: { color: '#d84b2b', fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.12em', margin: 0, textTransform: 'uppercase' },
-  plotTitle: { color: '#18332e', fontFamily: 'Georgia, Cambria, serif', fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 500, marginBottom: 0, marginTop: '4px' },
+  plotTitle: { color: '#18332e', fontFamily: SERIF_STACK, fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 500, marginBottom: 0, marginTop: '4px' },
   stats: { display: 'flex', flexWrap: 'wrap', gap: '9px' },
   stat: { backgroundColor: '#f2eee5', borderRadius: '11px', minWidth: '90px', padding: '9px 12px' },
   statValue: { color: '#18332e', display: 'block', fontSize: '1.05rem', fontWeight: 800 },
