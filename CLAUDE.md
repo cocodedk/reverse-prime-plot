@@ -128,6 +128,12 @@ of any marker whose reversal falls outside the interval, which is why the marker
 tests only `states[index] > 0` and never repeats the range check. Both the renderer's
 `MARKER_PASSES` table and `Legend`'s items depend on this encoding; nothing enforces agreement.
 
+### Some i18n keys are only reached dynamically
+
+`ruleNote1` / `ruleNote9` / `ruleNote18` look unused to a plain grep. They are read as
+``t[`ruleNote${divisor}`]`` in `ChainControls`, as `t[labelKey]` is in the legends and the axis
+switch. A dead-key sweep that trusts literal `t.x` references will delete live copy.
+
 ### Progress phases are ids, not prose
 
 `src/lib/phases.js` holds the ids; the dictionaries own the labels. This used to be keyed on English
