@@ -14,7 +14,7 @@ export function reverseNumber(value) {
   return reversed;
 }
 
-function createPrimeTable(maximum, onProgress) {
+export function createPrimeTable(maximum, onProgress) {
   const primes = new Uint8Array(maximum + 1);
   primes.fill(1, 2);
   const root = Math.floor(Math.sqrt(maximum));

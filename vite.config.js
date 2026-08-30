@@ -26,7 +26,12 @@ export default defineConfig(() => ({
     rollupOptions: {
       // One entry per language: each carries its own lang/dir and meta tags,
       // and the app reads the locale off <html lang> at startup.
-      input: { main: entry('./index.html'), fa: entry('./fa/index.html') },
+      input: {
+        main: entry('./index.html'),
+        fa: entry('./fa/index.html'),
+        chains: entry('./chains/index.html'),
+        faChains: entry('./fa/chains/index.html'),
+      },
     },
   },
 }));

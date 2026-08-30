@@ -13,4 +13,16 @@
     <xhtml:link rel="alternate" hreflang="fa" href="https://cocodedk.github.io/reverse-prime-plot/fa/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://cocodedk.github.io/reverse-prime-plot/"/>
   </url>
+  <url>
+    <loc>https://cocodedk.github.io/reverse-prime-plot/chains/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cocodedk.github.io/reverse-prime-plot/chains/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://cocodedk.github.io/reverse-prime-plot/fa/chains/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cocodedk.github.io/reverse-prime-plot/chains/"/>
+  </url>
+  <url>
+    <loc>https://cocodedk.github.io/reverse-prime-plot/fa/chains/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://cocodedk.github.io/reverse-prime-plot/chains/"/>
+    <xhtml:link rel="alternate" hreflang="fa" href="https://cocodedk.github.io/reverse-prime-plot/fa/chains/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://cocodedk.github.io/reverse-prime-plot/chains/"/>
+  </url>
 </urlset>

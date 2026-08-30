@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import IntervalControls from './components/IntervalControls.jsx';
 import Legend from './components/Legend.jsx';
+import SiteFooter from './components/SiteFooter.jsx';
+import TopLinks from './components/TopLinks.jsx';
 import PrimePlot from './components/PrimePlot.jsx';
 import { usePlotData } from './hooks/usePlotData.js';
 import { formatNumber, phaseLabel, t } from './i18n/index.js';
@@ -35,14 +37,7 @@ export default function App() {
     <main {...stylex.props(styles.page)}>
       <section {...stylex.props(styles.hero)}>
         <div>
-          <a
-            {...stylex.props(styles.langSwitch)}
-            href={t.langSwitchHref}
-            hrefLang={t.langSwitchHrefLang}
-            aria-label={t.langSwitchLabel}
-          >
-            {t.langSwitch}
-          </a>
+          <TopLinks page="home" otherPageLabel={t.chainsNavToChains} />
           <p {...stylex.props(styles.eyebrow)}>{t.eyebrow}</p>
           <h1 {...stylex.props(styles.title)}>{t.title}</h1>
           <p {...stylex.props(styles.intro)}>
@@ -111,14 +106,7 @@ export default function App() {
         </div>
       </section>
 
-      <footer {...stylex.props(styles.footer)}>
-        <p>
-          Apache-2.0 &nbsp;|&nbsp; © {t.footerYear}{' '}
-          <a {...stylex.props(styles.footerLink)} href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a>
-          &nbsp;|&nbsp; {t.footerCreatedBy}{' '}
-          <a {...stylex.props(styles.footerLink)} href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">{t.authorName}</a>
-        </p>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

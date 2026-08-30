@@ -58,6 +58,35 @@ export const en = {
   footerCreatedBy: 'Created by',
   authorName: 'Babak Bandpey',
 
+  // Chains page
+  chainsTitle: 'Prime Difference Chains',
+  chainsEyebrow: 'Recursive pairs · chain explorer',
+  chainsIntroLead: 'Take a prime whose reversal is also prime, subtract the two, and ask the same question of the result:',
+  chainsIntroRest: ' is it prime, and is its reversal prime? Only the seeds that survive at least one step are plotted.',
+  chainsNavToPlot: 'Back to the plot',
+  chainsNavToChains: 'Difference chains →',
+
+  ruleLabel: 'Step rule',
+  ruleNote1: 'A number and its reversal share a digit sum, so 9 always divides their difference; two odd primes make it even too. The raw difference is therefore always a multiple of 18 and never prime — this rule finds nothing, at any range.',
+  ruleNote9: 'Dividing out the factor of 9 leaves the parity behind, so links stay very rare.',
+  ruleNote18: 'Dividing out the full forced factor of 18 leaves a quotient that can be prime, which is where the chains appear.',
+  ruleOption: (divisor) => (divisor === 1 ? '|n − r|' : `|n − r| / ${divisor}`),
+
+  statSeeds: 'Prime pairs',
+  statChains: 'With a chain',
+  statDeepest: 'Deepest chain',
+  chainsEmptyTitle: 'No chains in this interval',
+  chainsEmptyBody: 'Every difference here is a multiple of 18, so none of them is prime. Try the other step rule.',
+  chainsListTitle: 'Deepest chains found',
+  chainDepthLabel: (depth, formatted) => (depth === 1 ? '1 link' : `${formatted} links`),
+  chainStep: (from, reversed, difference, divisor, next) =>
+    divisor === 1
+      ? `|${from} − ${reversed}| = ${difference} → ${next}`
+      : `|${from} − ${reversed}| = ${difference}, ÷${divisor} → ${next}`,
+  legendDepth: (depth) => (depth === 1 ? 'one link' : `${depth} links`),
+  chainsPlotLabel: (start, end) => `Chain seeds · ${start}–${end}`,
+  viewSource: 'Source on GitHub',
+
   langSwitch: 'فارسی',
   langSwitchHref: 'fa/',
   langSwitchHrefLang: 'fa',
