@@ -18,3 +18,4 @@ function toRgb(hex) {
 
 // ImageData writes need raw channel bytes rather than the hex string.
 export const PRIME_RGB = toRgb(PRIME_COLOR);
+export const ACCENT_RGB = toRgb(ACCENT);

@@ -30,6 +30,8 @@ export const fa = {
     `${count} مقدار وارونه بیرون از بازهٔ ${start}–${end} می‌افتد.`,
 
   legendLabel: 'راهنمای نمودار',
+  legendDenseEither: 'n یا وارونه‌اش اول است',
+  legendDenseBoth: 'هر دو اول‌اند',
   legendTop: 'n اول است',
   legendBottom: 'وارونهٔ n اول است',
   legendFull: 'هر دو اول‌اند',

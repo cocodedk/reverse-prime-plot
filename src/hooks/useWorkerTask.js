@@ -16,10 +16,17 @@ export function useWorkerTask(createWorker, request, holdForRender = false) {
   // than start/end values means a later redraw of the same plot cannot be
   // mistaken for the completion of a newer one.
   const pending = useRef(null);
+  // Reset during render rather than in the effect: a setState inside an effect
+  // body schedules a second render pass for something already known here.
+  const [lastRequest, setLastRequest] = useState(request);
+  if (request !== lastRequest) {
+    setLastRequest(request);
+    setStatus(STARTING);
+  }
 
   useEffect(() => {
     const worker = createWorker();
-    setStatus(STARTING);
+    pending.current = null;
 
     worker.onmessage = ({ data: message }) => {
       if (message.type === 'progress') {

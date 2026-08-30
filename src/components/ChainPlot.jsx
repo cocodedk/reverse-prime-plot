@@ -50,7 +50,7 @@ export default function ChainPlot({ data, selectedSeed, onSelect }) {
       drawChainPlot(context, data, selectedSeed, textScale);
     });
     return () => cancelAnimationFrame(frame);
-  }, [data, renderedWidth, selectedSeed, textScale]);
+  }, [canvasRef, data, renderedWidth, selectedSeed, textScale]);
 
   return (
     <>

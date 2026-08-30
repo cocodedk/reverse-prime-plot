@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { CARD, INK, PRIME_COLOR } from '../lib/palette.js';
+import { ACCENT, CARD, INK, PRIME_COLOR } from '../lib/palette.js';
 import { t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 
@@ -24,15 +24,32 @@ const items = [
   ['full', 'legendFull'],
 ];
 
-export default function Legend() {
+// Above the density threshold the plot draws single pixels, so the half-disc
+// shapes below simply are not on screen; colour carries the distinction there
+// instead. The legend has to say whichever is true.
+const denseItems = [
+  [INK, 'legendDenseEither'],
+  [ACCENT, 'legendDenseBoth'],
+];
+
+export default function Legend({ dense = false }) {
   return (
     <div {...stylex.props(styles.legend)} aria-label={t.legendLabel}>
-      {items.map(([state, labelKey]) => (
-        <div key={state} {...stylex.props(styles.legendItem)}>
-          <Glyph state={state} />
-          <span>{t[labelKey]}</span>
-        </div>
-      ))}
+      {dense
+        ? denseItems.map(([fill, labelKey]) => (
+          <div key={labelKey} {...stylex.props(styles.legendItem)}>
+            <svg width="22" height="22" viewBox="0 0 20 20" aria-hidden="true">
+              <rect x="4" y="8.5" width="12" height="3" fill={fill} />
+            </svg>
+            <span>{t[labelKey]}</span>
+          </div>
+        ))
+        : items.map(([state, labelKey]) => (
+          <div key={state} {...stylex.props(styles.legendItem)}>
+            <Glyph state={state} />
+            <span>{t[labelKey]}</span>
+          </div>
+        ))}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { PLOT_SIZE, scaleX, scaleY } from './plotGeometry.js';
-import { CARD, INK, PRIME_COLOR, PRIME_RGB } from './palette.js';
+import { ACCENT_RGB, CARD, INK, PRIME_COLOR, PRIME_RGB } from './palette.js';
 import { drawFrame, drawGrid } from './plotChrome.js';
 const BATCH_SIZE = 20_000;
 const DENSE_PLOT_THRESHOLD = 5_000;
@@ -57,15 +57,15 @@ function drawMarkerLayer(context, data, yDirection, radius, pass) {
   paint();
 }
 
-function paintPixelRow(pixels, width, height, x, y, halfWidth) {
+function paintPixelRow(pixels, width, height, x, y, halfWidth, rgb) {
   if (y < 0 || y >= height) return;
   for (let offset = -halfWidth; offset <= halfWidth; offset += 1) {
     const pixelX = x + offset;
     if (pixelX < 0 || pixelX >= width) continue;
     const index = (y * width + pixelX) * 4;
-    pixels[index] = PRIME_RGB[0];
-    pixels[index + 1] = PRIME_RGB[1];
-    pixels[index + 2] = PRIME_RGB[2];
+    pixels[index] = rgb[0];
+    pixels[index + 1] = rgb[1];
+    pixels[index + 2] = rgb[2];
     pixels[index + 3] = 255;
   }
 }
@@ -80,8 +80,12 @@ function drawDenseMarkers(context, data, yDirection, pixelRatio) {
     const x = Math.round(scaleX(data.markerNumbers[index], data.start, data.end) * pixelRatio);
     const reversed = data.markerReversed[index];
     const y = Math.round(scaleY(reversed, data.start, data.end, yDirection) * pixelRatio);
-    if (state & 1) paintPixelRow(image.data, image.width, image.height, x, y - 1, halfWidth);
-    if (state & 2) paintPixelRow(image.data, image.width, image.height, x, y, halfWidth);
+    // At this density a half-filled disc is a single pixel, so the shape that
+    // carries the meaning below the threshold cannot. Colour carries it instead:
+    // both-prime is the rare, interesting class and gets the accent.
+    const rgb = state === 3 ? ACCENT_RGB : PRIME_RGB;
+    if (state & 1) paintPixelRow(image.data, image.width, image.height, x, y - 1, halfWidth, rgb);
+    if (state & 2) paintPixelRow(image.data, image.width, image.height, x, y, halfWidth, rgb);
   }
   context.putImageData(image, 0, 0);
 }

@@ -9,6 +9,7 @@ import StatsRow from './components/StatsRow.jsx';
 import Specimen from './components/Specimen.jsx';
 import TopLinks from './components/TopLinks.jsx';
 import { usePlotData } from './hooks/usePlotData.js';
+import { usesPixelReadback } from './lib/drawPrimePlot.js';
 import { pickSpecimen } from './lib/pickSpecimen.js';
 import { formatNumber, t } from './i18n/index.js';
 import { styles } from './appStyles.stylex.js';
@@ -79,7 +80,7 @@ export default function App() {
               )}
               {plot.error && <p {...stylex.props(styles.notice)} role="alert">{plot.error}</p>}
 
-              <Legend />
+              <Legend dense={plot.data ? usesPixelReadback(plot.data) : false} />
               <div {...stylex.props(styles.plotWrap)}>
                 {plot.data && <PrimePlot data={plot.data} onRendered={plot.finishRendering} yDirection={yDirection} />}
               </div>

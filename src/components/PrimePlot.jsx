@@ -30,7 +30,7 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
       onRendered(data);
     });
     return () => cancelAnimationFrame(frame);
-  }, [data, onRendered, renderedWidth, textScale, yDirection, readsBack]);
+  }, [canvasRef, data, onRendered, renderedWidth, textScale, yDirection, readsBack]);
 
   const lowerPosition = yDirection === 'up' ? t.positionBottom : t.positionTop;
   return (
