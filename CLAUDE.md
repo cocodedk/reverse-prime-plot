@@ -73,9 +73,21 @@ i18n lookup keys in `src/i18n/*.js`. Renaming one touches a unit test and both d
 
 ## Test coverage
 
-`vite.config.js` strips all plugins under `mode === 'test'`, so StyleX and the React transform never
-run and **no `.jsx` file can be imported by a test**. Coverage is `src/lib` only; the components and
-the canvas rendering have none. Verify UI changes in the browser, not by a green suite.
+Components are testable: `vite.config.js` runs the same plugins under vitest, with a `jsdom`
+environment and `@testing-library/react`. Render tests live next to the component
+(`Legend.test.jsx`).
+
+Do **not** reintroduce a `mode === 'test'` branch that drops the plugins. Without the StyleX
+transform, importing any component throws `Unexpected 'stylex.create' call at runtime` — that one
+line is what previously made every `.jsx` file untestable. JSX itself was never the problem; Vite's
+esbuild handles it.
+
+The StyleX plugin leaves file watchers open, so vitest reports `close timed out` after finishing.
+Tests pass and the exit code is 0; `teardownTimeout: 1000` caps the dead wait. `react()` alone exits
+cleanly, so the handles are StyleX's.
+
+Still uncovered: the canvas rendering in `drawPrimePlot.js` (no jsdom canvas) and the worker. Check
+those in the browser.
 
 ## Deployment
 
