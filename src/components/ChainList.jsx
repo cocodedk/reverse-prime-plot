@@ -11,7 +11,7 @@ export default function ChainList({ examples, divisor, selectedSeed, onSelect })
       <h3 {...stylex.props(styles.plotLabel)}>{t.chainsListTitle}</h3>
       <ul {...stylex.props(chainStyles.chainList)}>
         {examples.map(({ seed, steps }) => (
-          <li key={seed}>
+          <li key={seed} {...stylex.props(chainStyles.chainItem)}>
             <button
               {...stylex.props(
                 chainStyles.chainButton,

@@ -1,10 +1,9 @@
 export const en = {
   eyebrow: 'Number mirror · prime explorer',
   title: 'Reverse Prime Plot',
-  introLead: 'Every number becomes',
   introFormula: '(n, reverse(n))',
-  introRest:
-    '. Choose an inclusive interval and plot backward from its upper endpoint to its lower endpoint.',
+  introText:
+    'Every number in the interval is treated the same way. A point appears wherever n or its reversal is prime, and the rest are left out.',
 
   specimenReverse: 'REVERSE',
   specimenReversedLabel: 'reverse(n)',
