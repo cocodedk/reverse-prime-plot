@@ -46,9 +46,7 @@ export default function App() {
 
         {specimen && <Specimen {...specimen} />}
 
-        <p {...stylex.props(styles.intro)}>
-          {t.introLead} <span {...stylex.props(styles.mono)}>{t.introFormula}</span>{t.introRest}
-        </p>
+        <p {...stylex.props(styles.intro)}>{t.introText}</p>
 
         <div {...stylex.props(styles.main)}>
           <div {...stylex.props(styles.controlsColumn)}>
