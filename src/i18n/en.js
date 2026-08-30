@@ -30,6 +30,8 @@ export const en = {
     `${count} reversed values fall outside the selected ${start}–${end} interval.`,
 
   legendLabel: 'Plot legend',
+  legendDenseEither: 'exactly one of the pair is prime',
+  legendDenseBoth: 'both are prime',
   legendTop: 'n is prime',
   legendBottom: 'reverse(n) is prime',
   legendFull: 'both are prime',

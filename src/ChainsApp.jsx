@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import ChainControls from './components/ChainControls.jsx';
 import ChainDetail from './components/ChainDetail.jsx';
@@ -27,7 +27,13 @@ export default function ChainsApp() {
   const chains = useChainData(start, end, divisor);
 
   // A seed selected under one rule or interval may not exist under the next.
-  useEffect(() => { setSelectedSeed(null); }, [start, end, divisor]);
+  // Cleared during render for the same reason as above: no second pass needed.
+  const request = `${start}:${end}:${divisor}`;
+  const [lastRequest, setLastRequest] = useState(request);
+  if (request !== lastRequest) {
+    setLastRequest(request);
+    setSelectedSeed(null);
+  }
 
   const applyInterval = useCallback((nextStart, nextEnd) => {
     setStart(nextStart);

@@ -1,5 +1,5 @@
 import { PLOT_SIZE, scaleX, scaleY } from './plotGeometry.js';
-import { CARD, INK, PRIME_COLOR, PRIME_RGB } from './palette.js';
+import { ACCENT_RGB, CARD, INK, PRIME_COLOR, PRIME_RGB } from './palette.js';
 import { drawFrame, drawGrid } from './plotChrome.js';
 const BATCH_SIZE = 20_000;
 const DENSE_PLOT_THRESHOLD = 5_000;
@@ -57,15 +57,15 @@ function drawMarkerLayer(context, data, yDirection, radius, pass) {
   paint();
 }
 
-function paintPixelRow(pixels, width, height, x, y, halfWidth) {
+function paintPixelRow(pixels, width, height, x, y, halfWidth, rgb) {
   if (y < 0 || y >= height) return;
   for (let offset = -halfWidth; offset <= halfWidth; offset += 1) {
     const pixelX = x + offset;
     if (pixelX < 0 || pixelX >= width) continue;
     const index = (y * width + pixelX) * 4;
-    pixels[index] = PRIME_RGB[0];
-    pixels[index + 1] = PRIME_RGB[1];
-    pixels[index + 2] = PRIME_RGB[2];
+    pixels[index] = rgb[0];
+    pixels[index + 1] = rgb[1];
+    pixels[index + 2] = rgb[2];
     pixels[index + 3] = 255;
   }
 }
@@ -75,13 +75,21 @@ function drawDenseMarkers(context, data, yDirection, pixelRatio) {
   const image = context.getImageData(0, 0, canvas.width, canvas.height);
   const halfWidth = pixelRatio > 1 ? 1 : 0;
 
-  for (let index = data.markerStates.length - 1; index >= 0; index -= 1) {
-    const state = data.markerStates[index];
-    const x = Math.round(scaleX(data.markerNumbers[index], data.start, data.end) * pixelRatio);
-    const reversed = data.markerReversed[index];
-    const y = Math.round(scaleY(reversed, data.start, data.end, yDirection) * pixelRatio);
-    if (state & 1) paintPixelRow(image.data, image.width, image.height, x, y - 1, halfWidth);
-    if (state & 2) paintPixelRow(image.data, image.width, image.height, x, y, halfWidth);
+  // At this density a half-filled disc is a single pixel, so the shape that
+  // carries the meaning below the threshold cannot. Colour carries it instead.
+  // Two sweeps, ink then accent: painting in one pass lets the ~14x more
+  // numerous single-condition markers overwrite the rare both-prime ones, which
+  // erased about a tenth of them outright at the interval ceiling.
+  for (const accentPass of [false, true]) {
+    const rgb = accentPass ? ACCENT_RGB : PRIME_RGB;
+    for (let index = data.markerStates.length - 1; index >= 0; index -= 1) {
+      const state = data.markerStates[index];
+      if ((state === 3) !== accentPass) continue;
+      const x = Math.round(scaleX(data.markerNumbers[index], data.start, data.end) * pixelRatio);
+      const y = Math.round(scaleY(data.markerReversed[index], data.start, data.end, yDirection) * pixelRatio);
+      if (state & 1) paintPixelRow(image.data, image.width, image.height, x, y - 1, halfWidth, rgb);
+      if (state & 2) paintPixelRow(image.data, image.width, image.height, x, y, halfWidth, rgb);
+    }
   }
   context.putImageData(image, 0, 0);
 }
