@@ -161,8 +161,9 @@ those in the browser.
 
 ## Deployment
 
-`base` in `vite.config.js` is `/reverse-prime-plot/` and must match the repo name, or every asset —
-including the worker chunk — 404s under the Pages subpath.
+The site is served at the root of `primes.cocode.dk` (custom domain on GitHub Pages), so `base` in
+`vite.config.js` is `/`. It has to match where the site is served: with the old `/reverse-prime-plot/`
+base every asset, including the worker chunk, 404ed and the page came up blank after the domain move.
 
 Static files belong in `public/`; Vite copies that to the dist root. A file at the repo root
 (`llms.txt`) does **not** reach the deployed site, which is why there is a copy in `public/`.

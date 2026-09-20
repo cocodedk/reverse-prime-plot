@@ -11,8 +11,8 @@ and watch what the base-10 mirror does to the primes.
 
 ## Website
 
-- [Live site (English)](https://cocodedk.github.io/reverse-prime-plot/)
-- [نسخهٔ فارسی / Persian version](https://cocodedk.github.io/reverse-prime-plot/fa/)
+- [Live site (English)](https://primes.cocode.dk/)
+- [نسخهٔ فارسی / Persian version](https://primes.cocode.dk/fa/)
 
 ## Features
 
