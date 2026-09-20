@@ -1,4 +1,4 @@
-// Every href is relative: the site is served from /reverse-prime-plot/, so a
+// Every href is relative: the site is served from /, so a
 // root-absolute path would escape the subpath. Each page therefore needs its
 // own set rather than one dictionary constant.
 const LINKS = {

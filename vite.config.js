@@ -6,9 +6,9 @@ import stylex from '@stylexjs/unplugin';
 const entry = (path) => fileURLToPath(new URL(path, import.meta.url));
 
 export default defineConfig(() => ({
-  // The site is served from https://cocodedk.github.io/reverse-prime-plot/, so
+  // The site is served from https://primes.cocode.dk/, so
   // every emitted URL — including the worker chunk — needs the repo subpath.
-  base: '/reverse-prime-plot/',
+  base: '/',
   // The plugins run under vitest too. Without the StyleX transform, importing
   // any component throws "Unexpected 'stylex.create' call at runtime", which is
   // what previously made .jsx files untestable.

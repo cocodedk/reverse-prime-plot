@@ -10,8 +10,8 @@ Built with Vite 8, React 19, StyleX, and vitest. The site is published in Englis
 
 ## Site
 
-- [Reverse Prime Plot (English)](https://cocodedk.github.io/reverse-prime-plot/): The live visualisation.
-- [Reverse Prime Plot (Persian)](https://cocodedk.github.io/reverse-prime-plot/fa/): The same visualisation in Persian, right-to-left, with Persian-Indic digits.
+- [Reverse Prime Plot (English)](https://primes.cocode.dk/): The live visualisation.
+- [Reverse Prime Plot (Persian)](https://primes.cocode.dk/fa/): The same visualisation in Persian, right-to-left, with Persian-Indic digits.
 
 ## Repository
 
