@@ -6,7 +6,6 @@ export const fa = {
   specimenReverse: 'وارونه',
   specimenReversedLabel: '⁦وارونهٔ n⁩',
   specimenVerdict: 'هر دو اول‌اند، پس این نقطه رسم می‌شود.',
-  wordmark: 'نمودار اعداد اول وارونه',
   coordinatesLabel: '⁦n، وارونهٔ n⁩',
 
   chooseInterval: 'بازه را انتخاب کنید',
@@ -59,16 +58,10 @@ export const fa = {
   },
 
   canvasFont: 'Vazirmatn, "IBM Plex Mono", ui-monospace, monospace',
-  footerYear: '۱۴۰۵',
-  footerCreatedBy: 'ساخته شده توسط',
-  authorName: 'بابک بندپی',
 
   // صفحهٔ زنجیره‌ها
-  chainsTitle: 'زنجیرهٔ تفاضل اعداد اول',
   chainsIntroLead: 'عددی اول را بگیرید که وارونه‌اش هم اول است، آن دو را از هم کم کنید و همان پرسش را دربارهٔ نتیجه بپرسید:',
   chainsIntroRest: ' آیا خودش اول است و آیا وارونه‌اش اول است؟ فقط بذرهایی رسم می‌شوند که دست‌کم یک گام دوام بیاورند.',
-  chainsNavToPlot: 'نمودار →',
-  chainsNavToChains: '← زنجیره‌ها',
 
   ruleLabel: 'قاعدهٔ گام',
   ruleNote1: 'یک عدد و وارونه‌اش رقم‌های یکسانی دارند، پس ۹ تفاضلشان را می‌شمارد، و دو عدد اول فرد آن را زوج هم می‌کنند. هر بار مضربی از ۱۸ می‌ماند که نمی‌تواند اول باشد. این قاعده در هیچ بازه‌ای چیزی پیدا نمی‌کند.',
@@ -115,9 +108,4 @@ export const fa = {
   chainsLegendOne: 'یک جفت اول دیگر',
   chainsLegendDeep: 'دو تا یا بیشتر',
   chainsPlotLabel: (start, end) => `بذرهای زنجیره · ${start}–${end}`,
-  viewSource: 'کد روی گیت‌هاب',
-
-  langSwitch: 'English',
-  langSwitchHrefLang: 'en',
-  langSwitchLabel: 'Switch to English',
 };

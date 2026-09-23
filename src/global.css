@@ -21,6 +21,13 @@ body {
   margin: 0;
 }
 
+/* The cocode.dk frame lines up with .shell's column (appStyles.stylex.js). */
+cocode-head,
+cocode-foot {
+  --cocode-max: 1120px;
+  --cocode-gutter: 16px;
+}
+
 /* Persian entry points. StyleX emits into a cascade layer, so these unlayered
    rules win without needing !important or higher specificity. */
 [dir="rtl"] body,

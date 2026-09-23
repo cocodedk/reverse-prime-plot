@@ -1,18 +1,15 @@
 import * as stylex from '@stylexjs/stylex';
-import { t } from '../i18n/index.js';
-import { REPOSITORY_URL } from '../i18n/links.js';
 import { styles } from '../appStyles.stylex.js';
 
+// Copyright, "created by" and the source link used to live here too; the
+// cocode.dk family frame's <cocode-foot> (in the HTML, below #root) now
+// carries those. The license mention is not an author/copyright/source
+// link, so it stays.
 export default function SiteFooter() {
   return (
     <footer {...stylex.props(styles.footer)}>
       <p>
-        Apache-2.0 &nbsp;|&nbsp; © {t.footerYear}{' '}
-        <a {...stylex.props(styles.footerLink)} href="https://cocode.dk" target="_blank" rel="noreferrer">Cocode</a>
-        &nbsp;|&nbsp; {t.footerCreatedBy}{' '}
-        <a {...stylex.props(styles.footerLink)} href="https://linkedin.com/in/babakbandpey" target="_blank" rel="noreferrer">{t.authorName}</a>
-        &nbsp;|&nbsp;{' '}
-        <a {...stylex.props(styles.footerLink)} href={REPOSITORY_URL} target="_blank" rel="noreferrer">{t.viewSource}</a>
+        <a {...stylex.props(styles.footerLink)} href="https://www.apache.org/licenses/LICENSE-2.0" target="_blank" rel="noreferrer">Apache-2.0</a>
       </p>
     </footer>
   );

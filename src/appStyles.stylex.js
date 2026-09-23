@@ -10,29 +10,6 @@ export const styles = stylex.create({
   page: { backgroundColor: color.paper, display: 'flex', flexDirection: 'column', minHeight: '100vh' },
   shell: { marginLeft: 'auto', marginRight: 'auto', maxWidth: '1120px', width: '100%' },
 
-  topBar: {
-    alignItems: 'center',
-    borderBottom: RULE,
-    display: 'flex',
-    gap: '10px',
-    justifyContent: 'space-between',
-    padding: '10px 16px',
-    '@media (max-width: 420px)': { paddingLeft: '12px', paddingRight: '12px' },
-  },
-  wordmark: { color: color.muted, fontFamily: MONO, fontSize: '11px', letterSpacing: '0.08em', textTransform: 'uppercase', whiteSpace: 'nowrap' },
-  topLinks: { display: 'flex', gap: '2px' },
-  langSwitch: {
-    alignItems: 'center',
-    color: color.muted,
-    display: 'inline-flex',
-    fontFamily: MONO,
-    fontSize: '11px',
-    minHeight: '44px',
-    padding: '0 8px',
-    textDecoration: 'none',
-    ':hover': { color: color.accent },
-  },
-
   // The specimen is the lead: one worked pair, before anything else.
   specimen: { borderBottom: RULE, display: 'flex', flexDirection: 'column', gap: '12px', padding: '22px 16px 18px' },
   specimenRow: { alignItems: 'center', display: 'flex', gap: '16px' },

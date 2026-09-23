@@ -22,6 +22,8 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=Vazirmatn:wght@400;500;700;800&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://brand.cocode.dk/v1.css" />
+    <script type="module" src="https://brand.cocode.dk/v1.js"></script>
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="نمودار اعداد اول وارونه" />
@@ -74,7 +76,18 @@
     </script>
   </head>
   <body>
+    <!-- The cocode.dk family frame. Without JavaScript its children show instead: a way home
+         and the language links. It replaces the page's own top bar (wordmark + nav links),
+         now removed from App.jsx. -->
+    <cocode-head project="نمودار اعداد اول وارونه" accent="#1f4bff" on-accent="#f8f8f6" links="زنجیره‌ها:chains/">
+      <a href="https://cocode.dk">cocode.dk</a>
+      <a href="../" hreflang="en">EN</a>
+      <span class="on">FA</span>
+    </cocode-head>
     <div id="root"></div>
+    <cocode-foot repo="cocodedk/reverse-prime-plot">
+      <a href="https://cocode.dk">cocode.dk</a>
+    </cocode-foot>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

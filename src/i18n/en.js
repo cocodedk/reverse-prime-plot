@@ -6,7 +6,6 @@ export const en = {
   specimenReverse: 'REVERSE',
   specimenReversedLabel: 'reverse(n)',
   specimenVerdict: 'Both are prime, so this point is drawn.',
-  wordmark: 'Reverse prime plot',
   coordinatesLabel: 'n, reverse(n)',
 
   chooseInterval: 'Choose interval',
@@ -59,16 +58,10 @@ export const en = {
   },
 
   canvasFont: '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace',
-  footerYear: '2026',
-  footerCreatedBy: 'Created by',
-  authorName: 'Babak Bandpey',
 
   // Chains page
-  chainsTitle: 'Prime Difference Chains',
   chainsIntroLead: 'Take a prime whose reversal is also prime, subtract the two, and ask the same question of the result:',
   chainsIntroRest: ' is it prime, and is its reversal prime? Only the seeds that survive at least one step are plotted.',
-  chainsNavToPlot: '← Plot',
-  chainsNavToChains: 'Chains →',
 
   ruleLabel: 'Step rule',
   ruleNote1: 'A number and its reversal have the same digits, so 9 divides their difference, and two odd primes make it even as well. That leaves a multiple of 18 every time, which cannot be prime. This rule finds nothing, at any range.',
@@ -114,9 +107,4 @@ export const en = {
   chainsLegendOne: 'one further prime pair',
   chainsLegendDeep: 'two or more',
   chainsPlotLabel: (start, end) => `Chain seeds · ${start}–${end}`,
-  viewSource: 'Source on GitHub',
-
-  langSwitch: 'فارسی',
-  langSwitchHrefLang: 'fa',
-  langSwitchLabel: 'Switch to Persian',
 };

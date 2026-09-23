@@ -7,7 +7,6 @@ import PrimePlot from './components/PrimePlot.jsx';
 import SiteFooter from './components/SiteFooter.jsx';
 import StatsRow from './components/StatsRow.jsx';
 import Specimen from './components/Specimen.jsx';
-import TopLinks from './components/TopLinks.jsx';
 import { usePlotData } from './hooks/usePlotData.js';
 import { usesPixelReadback } from './lib/drawPrimePlot.js';
 import { pickSpecimen } from './lib/pickSpecimen.js';
@@ -45,11 +44,6 @@ export default function App() {
   return (
     <main {...stylex.props(styles.page)}>
       <div {...stylex.props(styles.shell)}>
-        <div {...stylex.props(styles.topBar)}>
-          <span {...stylex.props(styles.wordmark)}>{t.wordmark}</span>
-          <TopLinks page="home" otherPageLabel={t.chainsNavToChains} />
-        </div>
-
         {specimen && <Specimen {...specimen} dense={dense} />}
 
         <p {...stylex.props(styles.intro)}>{t.introText}</p>
