@@ -15,6 +15,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="https://brand.cocode.dk/v1.css" />
+    <script type="module" src="https://brand.cocode.dk/v1.js"></script>
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Prime Difference Chains — recursive prime pairs under digit reversal" />
@@ -70,7 +72,18 @@
     </script>
   </head>
   <body>
+    <!-- The cocode.dk family frame. Without JavaScript its children show instead: a way home
+         and the language links. It replaces the page's own top bar (wordmark + nav links),
+         now removed from ChainsApp.jsx. -->
+    <cocode-head project="Prime Difference Chains" accent="#1f4bff" on-accent="#f8f8f6" links="Plot:../">
+      <a href="https://cocode.dk">cocode.dk</a>
+      <span class="on">EN</span>
+      <a href="../fa/chains/" hreflang="fa">FA</a>
+    </cocode-head>
     <div id="root"></div>
+    <cocode-foot repo="cocodedk/reverse-prime-plot">
+      <a href="https://cocode.dk">cocode.dk</a>
+    </cocode-foot>
     <script type="module" src="/src/chainsMain.jsx"></script>
   </body>
 </html>

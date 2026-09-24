@@ -8,7 +8,6 @@ import ChainPlot from './components/ChainPlot.jsx';
 import PlotProgress from './components/PlotProgress.jsx';
 import SiteFooter from './components/SiteFooter.jsx';
 import StatsRow from './components/StatsRow.jsx';
-import TopLinks from './components/TopLinks.jsx';
 import WhyDivide from './components/WhyDivide.jsx';
 import { useChainData } from './hooks/useChainData.js';
 import { formatNumber, t } from './i18n/index.js';
@@ -61,11 +60,6 @@ export default function ChainsApp() {
   return (
     <main {...stylex.props(styles.page)}>
       <div {...stylex.props(styles.shell)}>
-        <div {...stylex.props(styles.topBar)}>
-          <span {...stylex.props(styles.wordmark)}>{t.chainsTitle}</span>
-          <TopLinks page="chains" otherPageLabel={t.chainsNavToPlot} />
-        </div>
-
         <p {...stylex.props(styles.intro)}>
           {t.chainsIntroLead} <span {...stylex.props(styles.mono)}>{t.introFormula}</span>{t.chainsIntroRest}
         </p>
