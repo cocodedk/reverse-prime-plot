@@ -2,10 +2,13 @@
 // so it can read the events and their dates instead of scraping the page.
 import { isoIn } from './lib/calendars.js';
 import { MARKS, primeMarks } from './lib/datePrimes.js';
+import { CYCLE_TESTS, PERIODS } from './lib/eventCycles.js';
 import { registerTools } from './webMcp.js';
 
 export const NOTE = 'Each calendar lists every date found for the event, earliest first, as "YYYY-MM-DD" in that calendar\'s own numbers, with the URLs of the sources that state it. Where sources disagree, each of their dates is listed. A date with no sources was computed from the Gregorian record. A computed Ghamari date follows the Umm al-Qura tables and can be a day or two off Iran\'s own lunar calendar, which starts each month at the sighting of the new moon. Jalali dates before 1925, when Iran adopted the calendar, are counted backwards.';
 export const PRIME_NOTE = 'Each date lists `primes`, the ways it is prime: "year" (its year is prime), "yearReversed" (its year and that year\'s digits reversed are both prime, as 1979 and 9791) and "date" (the whole date read as YYYYMMDD is prime). `primeSummary` gives, per calendar and mark, how many of the distinct years (for "date", the distinct days) of the events\' recorded dates have the mark (`hits` of `trials`), how many chance predicts from the share of all years or days in the range (`expected`), a two-sided binomial p-value (`p`), and whether that differs from chance once 0.05 is split across the nine tests (`different`). Distinct years are counted because events cluster: 1979 holds six.';
+const CYCLES = `${PERIODS[0]} to ${PERIODS.at(-1)}`;
+export const CYCLE_NOTE = `\`cycleSummary\` gives, per calendar and cycle length in years (${CYCLES}), the most distinct event years that fall on one point of the cycle, that is share the same remainder when divided by the length (\`hits\` of \`trials\`, those years in \`years\`), how many chance gives on average if that many different years were drawn at random from the range (\`expected\`), the exact chance of a count at least that high (\`p\`), and whether it beats chance once 0.05 is split across the ${CYCLE_TESTS} tests (\`different\`).`;
 export const CHINESE_NOTE = '`chineseYear` is the Chinese year of the recorded day: its stem and branch `characters`, their `pinyin`, its `element`, `animal` and `yinYang`, and `year`, the Gregorian year in which it began at Chinese New Year (late January to mid-February), so for an event early in a Gregorian year it can be the year before.';
 
 const marksOf = (iso) => {
@@ -13,7 +16,7 @@ const marksOf = (iso) => {
   return MARKS.filter((mark) => marks[mark]);
 };
 
-export function describeTimeline({ events, primes, from, to, language }) {
+export function describeTimeline({ events, primes, cycles, from, to, language }) {
   return {
     page: 'iran-timeline',
     language,
@@ -21,8 +24,10 @@ export function describeTimeline({ events, primes, from, to, language }) {
     to: isoIn(to, 'gregorian'),
     note: NOTE,
     primeNote: PRIME_NOTE,
+    cycleNote: CYCLE_NOTE,
     chineseNote: CHINESE_NOTE,
     primeSummary: primes,
+    cycleSummary: cycles,
     events: events.map(({ title, summary, dates, chinese }) => ({
       title,
       summary,
@@ -41,7 +46,7 @@ export function initIranWebMcp(page, signal) {
   return registerTools([{
     name: 'describe',
     title: 'What the page shows',
-    description: 'Every event on the Iran timeline page, from 1900 to today and oldest first, each with a title and a one-line summary in the page\'s language, and every date found for it in the gregorian, jalali (Solar Hijri) and ghamari (Lunar Hijri) calendars, each with the URLs of the sources that state it (none when computed) and the ways it is prime; the event\'s Chinese year (element, animal, characters); and a table of how often prime years and dates occur against chance.',
+    description: `Every event on the Iran timeline page, from 1900 to today and oldest first, each with a title and a one-line summary in the page's language, and every date found for it in the gregorian, jalali (Solar Hijri) and ghamari (Lunar Hijri) calendars, each with the URLs of the sources that state it (none when computed) and the ways it is prime; the event's Chinese year (element, animal, characters); a table of how often prime years and dates occur against chance; and a table of whether event years recur every ${CYCLES} years more than chance.`,
     inputSchema: { type: 'object', properties: {} },
     annotations: { readOnlyHint: true },
     execute: async () => describeTimeline(page),

@@ -45,8 +45,9 @@ and watch what the base-10 mirror does to the primes.
   event lists every date its sources give in all three calendars, linked to them; a date
   no source states is computed and marked. Prime years, years prime both ways (1979 and
   9791) and prime YYYYMMDD dates are marked, and a table tests them against chance (none
-  differ). Each event shows its Chinese year, such as Earth Goat, with its meaning on
-  hover. The page declares a WebMCP `describe` tool.
+  differ). A second table asks whether event years recur every 2 to 12 years more than
+  chance (none do). Each event shows its Chinese year, such as Earth Goat, with its meaning
+  on hover or tap. The page declares a WebMCP `describe` tool.
 - **Bilingual.** English and Persian, each its own entry point with its own locale, digit
   formatting, and text direction.
 - **Accessible.** The canvas carries a text description of what is drawn, the progress bar

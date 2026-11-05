@@ -2,13 +2,14 @@ import { useEffect } from 'react';
 import * as stylex from '@stylexjs/stylex';
 import EventList from './components/EventList.jsx';
 import IranTimeline from './components/IranTimeline.jsx';
-import PrimeSummary from './components/PrimeSummary.jsx';
+import { CycleSummary, PrimeSummary } from './components/ChanceSummary.jsx';
 import SiteFooter from './components/SiteFooter.jsx';
 import events from './data/iranEvents.json';
 import { formatNumber, formatYear, LANGUAGE, t } from './i18n/index.js';
 import { dayOf } from './lib/calendars.js';
 import { datedEvents } from './lib/iranEvents.js';
 import { primeSummary } from './lib/datePrimes.js';
+import { cycleSummary } from './lib/eventCycles.js';
 import { initIranWebMcp } from './iranWebMcp.js';
 import { styles } from './appStyles.stylex.js';
 import { iranStyles } from './iranStyles.stylex.js';
@@ -19,12 +20,13 @@ const FROM = dayOf(RANGE_START);
 const TO = dayOf(new Date().toISOString().slice(0, ISO_DAY_LENGTH));
 const EVENTS = datedEvents(events, LANGUAGE);
 const PRIMES = primeSummary(EVENTS, FROM, TO);
+const CYCLES = cycleSummary(EVENTS, FROM, TO);
 const yearOf = (day) => new Date(day).getUTCFullYear();
 
 export default function IranApp() {
   useEffect(() => {
     const teardown = new AbortController();
-    void initIranWebMcp({ events: EVENTS, primes: PRIMES, from: FROM, to: TO, language: LANGUAGE }, teardown.signal);
+    void initIranWebMcp({ events: EVENTS, primes: PRIMES, cycles: CYCLES, from: FROM, to: TO, language: LANGUAGE }, teardown.signal);
     return () => teardown.abort();
   }, []);
 
@@ -42,6 +44,7 @@ export default function IranApp() {
         </section>
 
         <PrimeSummary summary={PRIMES} />
+        <CycleSummary summary={CYCLES} />
 
         <section {...stylex.props(iranStyles.events)}>
           <h2 {...stylex.props(iranStyles.eventsHeading)}>{t.iranEventsHeading(formatNumber(EVENTS.length))}</h2>
