@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import IntervalForm from './IntervalForm.jsx';
-import { CHAIN_DIVISORS, CHAIN_MAX_LIMIT, isValidChainRequest } from '../lib/primeChains.js';
+import { CHAIN_DIVISORS, isValidChainRequest } from '../lib/primeChains.js';
+import { MAX_LIMIT } from '../lib/primeNumbers.js';
 import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 import { chainStyles } from '../chainStyles.stylex.js';
@@ -9,7 +10,7 @@ export default function ChainControls({ start, end, divisor, onApply, onDivisor 
   return (
     <IntervalForm
       idPrefix="chain"
-      max={CHAIN_MAX_LIMIT}
+      max={MAX_LIMIT}
       isValid={(nextStart, nextEnd) => isValidChainRequest(nextStart, nextEnd, divisor)}
       start={start}
       end={end}

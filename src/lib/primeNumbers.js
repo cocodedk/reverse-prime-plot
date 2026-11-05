@@ -1,5 +1,9 @@
 import { PHASES } from './phases.js';
-export const MAX_LIMIT = 10_000_000;
+// One ceiling for every page: the largest 9-digit number. Every value below it
+// reverses to another value below it, and the sieve's int32 bit arithmetic stays
+// exact (2^31 is 2,147,483,648). The plot page stores 5 bytes per number, so a
+// wide interval near this ceiling can run the tab out of memory; that is accepted.
+export const MAX_LIMIT = 999_999_999;
 const PROGRESS_CHUNK = 100_000;
 
 export function reverseNumber(value) {
@@ -7,7 +11,7 @@ export function reverseNumber(value) {
   let reversed = 0;
 
   // `| 0` truncates through int32, which is exact for everything below 2^31 and
-  // so covers the whole supported domain (CHAIN_MAX_LIMIT is 100,000,000). It is
+  // so covers the whole supported domain (MAX_LIMIT is 999,999,999). It is
   // measurably faster than a float divide on the hottest loop in the app.
   do {
     reversed = reversed * 10 + (remaining % 10);

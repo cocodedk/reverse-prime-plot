@@ -4,7 +4,7 @@
 
 Each marker is a circle. Its top half is filled when n is prime, its bottom half when reverse(n) is prime, and the whole circle when both are; points where neither is prime are omitted. Reversals that fall outside the chosen interval cannot be plotted on the square axes, so they are dropped and counted in a notice below the plot.
 
-Intervals from 0 to 10,000,000 are supported. A sieve of Eratosthenes runs in a Web Worker and transfers typed arrays back to the main thread. Up to 5,000 points the canvas draws outlined circles; above that the renderer writes ImageData pixels directly, so a wide interval becomes a dense pixel plot. The vertical axis direction can be flipped.
+Intervals from 0 to 999,999,999 are supported on every page; a very wide plot interval can run the browser tab out of memory. A sieve of Eratosthenes runs in a Web Worker and transfers typed arrays back to the main thread. Up to 5,000 points the canvas draws outlined circles; above that the renderer writes ImageData pixels directly, so a wide interval becomes a dense pixel plot. The vertical axis direction can be flipped.
 
 Built with Vite 8, React 19, StyleX, and vitest. The site is published in English and Persian, each language a separate entry point with its own locale and text direction. Licensed Apache-2.0.
 
@@ -12,6 +12,22 @@ Built with Vite 8, React 19, StyleX, and vitest. The site is published in Englis
 
 - [Reverse Prime Plot (English)](https://primes.cocode.dk/): The live visualisation.
 - [Reverse Prime Plot (Persian)](https://primes.cocode.dk/fa/): The same visualisation in Persian, right-to-left, with Persian-Indic digits.
+- [Prime Difference Chains](https://primes.cocode.dk/chains/) ([Persian](https://primes.cocode.dk/fa/chains/)): Primes whose reversal is prime, followed through |n − reverse(n)| / 18 for as long as each step stays a prime pair.
+- [Prime Sums](https://primes.cocode.dk/sums/) ([Persian](https://primes.cocode.dk/fa/sums/)): Pick N and count down from it; every k where k and N − k are both prime is plotted as (k, N − k). These are the Goldbach pairs of N.
+- [Iran in three calendars](https://primes.cocode.dk/iran/) ([Persian](https://primes.cocode.dk/fa/iran/)): Events that shaped Iran from 1900 to today on one time line read against Gregorian, Jalali (Solar Hijri) and Ghamari (Lunar Hijri) year scales, each event listing every date its sources give in all three calendars, which of those dates are prime, and its Chinese year (element and animal).
+
+## WebMCP tools
+
+The Prime Sums pages (/sums/ and /fa/sums/) and the Iran pages (/iran/ and /fa/iran/) register WebMCP tools (`document.modelContext.registerTool`) for an AI agent in the visitor's browser. Today they appear only in Chrome with WebMCP switched on (chrome://flags/#enable-webmcp-testing). The plot and chains pages declare none yet.
+
+On /sums/ and /fa/sums/:
+
+- `describe` (read-only): what the page shows now: N, whether the plot is "plotting", "ready" or "failed", and once ready the distinct prime pairs [p, q] with p <= q and p + q = N, smallest first, at most 100.
+- `plot_total`: replot for a new N, a whole number from 2 to 999,999,999, as the form does. Returns at once with status "plotting"; call `describe` until it reads "ready".
+
+On /iran/ and /fa/iran/:
+
+- `describe` (read-only): every event on the timeline, oldest first, with its title and summary in the page's language and every date found for it in the gregorian, jalali and ghamari calendars ("YYYY-MM-DD" in that calendar's own numbers), each with the URLs of the sources that state it, or none when it was computed from the Gregorian record; each date also lists `primes`, the ways it is prime ("year", "yearReversed" when the year read backwards is prime too, "date" when YYYYMMDD is prime). Each event gives its `chineseYear` (stem-branch characters, pinyin, element, animal, yin or yang, and the Gregorian year it began, which for a January or early-February event is the year before). `primeSummary` tells, per calendar and mark, how many of the distinct event years or days carry the mark against how many chance predicts, with a binomial p-value; none differ from chance.
 
 ## Repository
 
