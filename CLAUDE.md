@@ -158,7 +158,7 @@ when Iran adopted it, can sit a day off what period sources say.
 
 `datePrimes.js` marks each date three ways: prime year, year prime both ways (1979 and 9791), and
 the whole date as YYYYMMDD. `primeSummary` counts each **distinct** year (or day) once and splits
-0.05 across the nine tests. Counting per event looked significant (Ghamari 18 against 7.8) only
+0.05 across the nine tests. Counting per event looked significant (Ghamari 19 against 8.3) only
 because events cluster: 1979 alone holds six. On the real data nothing differs from chance.
 
 `eventCycles.js` asks whether event years recur every k years (k = 2 to 12): per calendar, the most

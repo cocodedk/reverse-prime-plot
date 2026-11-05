@@ -3,7 +3,7 @@ import events from '../data/iranEvents.json';
 import { CALENDAR_NAMES, dayOf } from './calendars.js';
 import { datedEvents, sourceLabel } from './iranEvents.js';
 
-const EVENT_COUNT = 68;
+const EVENT_COUNT = 73;
 const FIRST_DAY = dayOf('1900-01-01');
 const ISO_DAY = /^\d{4}-\d{2}-\d{2}$/;
 const HTTPS = /^https:\/\//;

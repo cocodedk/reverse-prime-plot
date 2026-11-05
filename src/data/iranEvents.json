@@ -705,6 +705,71 @@
   ]
  },
  {
+  "date": "1981-06-28",
+  "title_en": "Islamic Republican Party HQ bombed",
+  "title_fa": "انفجار دفتر حزب جمهوری اسلامی",
+  "summary_en": "A bomb at the Islamic Republican Party's headquarters in Tehran killed its secretary-general, Chief Justice Mohammad Beheshti, and 73 others.",
+  "summary_fa": "بمبی در دفتر مرکزی حزب جمهوری اسلامی در تهران سید محمد بهشتی، دبیرکل حزب و رئیس قوهٔ قضاییه، و ۷۳ نفر دیگر را کشت.",
+  "source": "https://en.wikipedia.org/wiki/Haft-e_Tir_bombing",
+  "found": [
+   {
+    "calendar": "gregorian",
+    "date": "1981-06-28",
+    "source": "https://en.wikipedia.org/wiki/Haft-e_Tir_bombing"
+   },
+   {
+    "calendar": "jalali",
+    "date": "1360-04-07",
+    "source": "https://en.wikipedia.org/wiki/Haft-e_Tir_bombing"
+   },
+   {
+    "calendar": "jalali",
+    "date": "1360-04-07",
+    "source": "https://fa.wikipedia.org/wiki/%D8%A8%D9%85%D8%A8%E2%80%8C%DA%AF%D8%B0%D8%A7%D8%B1%DB%8C_%D8%AF%D8%B1_%D8%AF%D9%81%D8%AA%D8%B1_%D9%85%D8%B1%DA%A9%D8%B2%DB%8C_%D8%AD%D8%B2%D8%A8_%D8%AC%D9%85%D9%87%D9%88%D8%B1%DB%8C_%D8%A7%D8%B3%D9%84%D8%A7%D9%85%DB%8C"
+   }
+  ]
+ },
+ {
+  "date": "1981-07-29",
+  "title_en": "Banisadr flees Iran",
+  "title_fa": "فرار بنی‌صدر از ایران",
+  "summary_en": "Removed from the presidency in June, Abolhassan Banisadr fled to France with MEK leader Massoud Rajavi aboard an air force Boeing 707.",
+  "summary_fa": "ابوالحسن بنی‌صدر که در تیر از ریاست‌جمهوری برکنار شده بود، همراه مسعود رجوی، رهبر سازمان مجاهدین خلق، با یک بوئینگ ۷۰۷ نیروی هوایی به فرانسه گریخت.",
+  "source": "https://en.wikipedia.org/wiki/Abolhassan_Banisadr",
+  "found": [
+   {
+    "calendar": "gregorian",
+    "date": "1981-07-29",
+    "source": "https://en.wikipedia.org/wiki/Abolhassan_Banisadr"
+   },
+   {
+    "calendar": "jalali",
+    "date": "1360-05-07",
+    "source": "https://fa.wikipedia.org/wiki/%D8%B9%D8%B2%D9%84_%D8%B3%DB%8C%D8%AF_%D8%A7%D8%A8%D9%88%D8%A7%D9%84%D8%AD%D8%B3%D9%86_%D8%A8%D9%86%DB%8C%E2%80%8C%D8%B5%D8%AF%D8%B1"
+   }
+  ]
+ },
+ {
+  "date": "1981-08-30",
+  "title_en": "Rajai and Bahonar killed",
+  "title_fa": "کشته شدن رجایی و باهنر",
+  "summary_en": "A bomb in the Prime Minister's office in Tehran killed President Mohammad-Ali Rajai and Prime Minister Mohammad-Javad Bahonar.",
+  "summary_fa": "بمبی در ساختمان نخست‌وزیری در تهران محمدعلی رجایی، رئیس‌جمهور، و محمدجواد باهنر، نخست‌وزیر، را کشت.",
+  "source": "https://en.wikipedia.org/wiki/1981_Iranian_Prime_Minister%27s_office_bombing",
+  "found": [
+   {
+    "calendar": "gregorian",
+    "date": "1981-08-30",
+    "source": "https://en.wikipedia.org/wiki/1981_Iranian_Prime_Minister%27s_office_bombing"
+   },
+   {
+    "calendar": "jalali",
+    "date": "1360-06-08",
+    "source": "https://fa.wikipedia.org/wiki/%D8%A7%D9%86%D9%81%D8%AC%D8%A7%D8%B1_%D8%AF%D9%81%D8%AA%D8%B1_%D9%86%D8%AE%D8%B3%D8%AA%E2%80%8C%D9%88%D8%B2%DB%8C%D8%B1%DB%8C_%D8%A7%DB%8C%D8%B1%D8%A7%D9%86"
+   }
+  ]
+ },
+ {
   "date": "1988-07-03",
   "title_en": "Iran Air 655 shot down",
   "title_fa": "سرنگونی پرواز ۶۵۵",
@@ -721,6 +786,31 @@
     "calendar": "jalali",
     "date": "1367-04-12",
     "source": "https://fa.wikipedia.org/wiki/%D9%BE%D8%B1%D9%88%D8%A7%D8%B2_%D8%B4%D9%85%D8%A7%D8%B1%D9%87_%DB%B6%DB%B5%DB%B5_%D8%A7%DB%8C%D8%B1%D8%A7%D9%86_%D8%A7%DB%8C%D8%B1"
+   }
+  ]
+ },
+ {
+  "date": "1988-07-19",
+  "title_en": "Massacre of political prisoners begins",
+  "title_fa": "آغاز کشتار زندانیان سیاسی",
+  "summary_en": "Major prisons were sealed off as thousands of political prisoners, most of them MEK members and leftists, were executed on Khomeini's order over the following months.",
+  "summary_fa": "زندان‌های اصلی بسته شد و در ماه‌های بعد هزاران زندانی سیاسی، بیشترشان از اعضای سازمان مجاهدین خلق و چپ‌ها، به فرمان خمینی اعدام شدند.",
+  "source": "https://en.wikipedia.org/wiki/1988_executions_of_Iranian_political_prisoners",
+  "found": [
+   {
+    "calendar": "gregorian",
+    "date": "1988-07-19",
+    "source": "https://en.wikipedia.org/wiki/1988_executions_of_Iranian_political_prisoners"
+   },
+   {
+    "calendar": "jalali",
+    "date": "1367-04-28",
+    "source": "https://fa.wikipedia.org/wiki/%D8%A7%D8%B9%D8%AF%D8%A7%D9%85%E2%80%8C%D9%87%D8%A7%DB%8C_%DB%B1%DB%B3%DB%B6%DB%B7_%D8%A7%DB%8C%D8%B1%D8%A7%D9%86"
+   },
+   {
+    "calendar": "gregorian",
+    "date": "1988-07-19",
+    "source": "https://fa.wikipedia.org/wiki/%D8%A7%D8%B9%D8%AF%D8%A7%D9%85%E2%80%8C%D9%87%D8%A7%DB%8C_%DB%B1%DB%B3%DB%B6%DB%B7_%D8%A7%DB%8C%D8%B1%D8%A7%D9%86"
    }
   ]
  },
@@ -1346,10 +1436,10 @@
  },
  {
   "date": "2026-02-28",
-  "title_en": "US–Israeli war; Khamenei killed",
-  "title_fa": "جنگ و کشته شدن خامنه‌ای",
-  "summary_en": "The United States and Israel launched a major attack on Iran; strikes in Tehran killed Supreme Leader Ali Khamenei.",
-  "summary_fa": "آمریکا و اسرائیل حمله‌ای گسترده به ایران آغاز کردند و حمله‌ای در تهران علی خامنه‌ای، رهبر جمهوری اسلامی، را کشت.",
+  "title_en": "US–Israeli war begins",
+  "title_fa": "آغاز جنگ آمریکا و اسرائیل با ایران",
+  "summary_en": "The United States and Israel launched a major attack on Iran.",
+  "summary_fa": "آمریکا و اسرائیل حمله‌ای گسترده به ایران آغاز کردند.",
   "source": "https://en.wikipedia.org/wiki/2026_Iran_war",
   "found": [
    {
@@ -1366,6 +1456,31 @@
     "calendar": "gregorian",
     "date": "2026-02-28",
     "source": "https://fa.wikipedia.org/wiki/%D8%AC%D9%86%DA%AF_%D8%A2%D9%85%D8%B1%DB%8C%DA%A9%D8%A7_%D9%88_%D8%A7%D8%B3%D8%B1%D8%A7%D8%A6%DB%8C%D9%84_%D8%A8%D8%A7_%D8%A7%DB%8C%D8%B1%D8%A7%D9%86"
+   }
+  ]
+ },
+ {
+  "date": "2026-02-28",
+  "title_en": "Khamenei killed",
+  "title_fa": "کشته شدن خامنه‌ای",
+  "summary_en": "Israeli airstrikes in Tehran killed Supreme Leader Ali Khamenei; Iran confirmed his death on 1 March.",
+  "summary_fa": "حملات هوایی اسرائیل در تهران علی خامنه‌ای، رهبر جمهوری اسلامی، را کشت؛ ایران مرگ او را ۱۰ اسفند تأیید کرد.",
+  "source": "https://en.wikipedia.org/wiki/Assassination_of_Ali_Khamenei",
+  "found": [
+   {
+    "calendar": "gregorian",
+    "date": "2026-02-28",
+    "source": "https://en.wikipedia.org/wiki/Assassination_of_Ali_Khamenei"
+   },
+   {
+    "calendar": "jalali",
+    "date": "1404-12-09",
+    "source": "https://fa.wikipedia.org/wiki/%DA%A9%D8%B4%D8%AA%D9%87_%D8%B4%D8%AF%D9%86_%D8%B3%DB%8C%D8%AF_%D8%B9%D9%84%DB%8C_%D8%AE%D8%A7%D9%85%D9%86%D9%87%E2%80%8C%D8%A7%DB%8C"
+   },
+   {
+    "calendar": "gregorian",
+    "date": "2026-02-28",
+    "source": "https://fa.wikipedia.org/wiki/%DA%A9%D8%B4%D8%AA%D9%87_%D8%B4%D8%AF%D9%86_%D8%B3%DB%8C%D8%AF_%D8%B9%D9%84%DB%8C_%D8%AE%D8%A7%D9%85%D9%86%D9%87%E2%80%8C%D8%A7%DB%8C"
    }
   ]
  },
