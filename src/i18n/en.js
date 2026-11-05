@@ -171,6 +171,14 @@ export const en = {
     `No clear pattern. None of the ${tests} counts is further from chance than luck explains (two-sided binomial test at p < ${level}, split across the ${tests} tests).`,
   iranPrimeVerdictSome: (count, tests, level) =>
     `${count} of the ${tests} counts differ from chance, marked in blue (two-sided binomial test at p < ${level}, split across the ${tests} tests).`,
+  iranCyclesHeading: 'Cycles in the years',
+  iranCyclesIntro:
+    'Does anything come round every so many years? For each cycle from 2 to 12 years, the table counts the most event years that fall on one point of the cycle (1909, 1921 and 1925 share a point of the four-year cycle, being 12 and 4 years apart) against what the same number of years drawn at random since 1900 would give. A year counts once however many events it holds.',
+  iranCycleRow: (period) => `Every ${period} years`,
+  iranCycleVerdictNone: (tests, level) =>
+    `No clear cycle. None of the ${tests} counts is higher than luck explains (exact chance over every possible set of years, at p < ${level} split across the ${tests} tests).`,
+  iranCycleVerdictSome: (count, tests, level) =>
+    `${count} of the ${tests} counts beat chance, marked in blue (exact chance over every possible set of years, at p < ${level} split across the ${tests} tests).`,
   chineseYearLabel: 'Chinese year',
   chineseYearName: (element, animal) => `${CHINESE_ELEMENTS[element][0]} ${CHINESE_ANIMALS[animal][0]}`,
   chineseYearTip: ({ characters, pinyin, yang, element, animal, elementCharacter, animalCharacter }) => [

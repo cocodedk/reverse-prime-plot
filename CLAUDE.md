@@ -161,6 +161,15 @@ the whole date as YYYYMMDD. `primeSummary` counts each **distinct** year (or day
 0.05 across the nine tests. Counting per event looked significant (Ghamari 18 against 7.8) only
 because events cluster: 1979 alone holds six. On the real data nothing differs from chance.
 
+`eventCycles.js` asks whether event years recur every k years (k = 2 to 12): per calendar, the most
+distinct years sharing one value of year mod k, against drawing as many different years at random
+from the range. The chance is exact, counted over every possible draw (a polynomial over the k
+residue classes), not simulated; `eventCycles.test.js` checks it against brute-force enumeration.
+The maximum is taken over the points of the cycle, so picking the busiest point after the fact is
+already priced in. 33 tests share the 0.05. On the real data no cycle beats chance (closest:
+Ghamari every 2 years, p 0.08 before the split). Bunched years (2015 to 2026 holds twelve in a row)
+spread evenly over the points, which pushes the test toward missing a cycle rather than inventing one.
+
 `chineseYear.js` reads the stem and branch from Intl's `chinese` calendar, so a January or early
 February event carries the previous year's animal (8 Jan 2026 is Wood Snake). That is correct, not
 a bug. ICU dates Chinese New Year 1954 a day late (4 Feb; it was 3 Feb), the one day out of 46,299

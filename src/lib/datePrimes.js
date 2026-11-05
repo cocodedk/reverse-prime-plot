@@ -1,4 +1,4 @@
-import { CALENDAR_NAMES, DAY_MS, isoIn } from './calendars.js';
+import { CALENDAR_NAMES, DAY_MS, isoIn, yearOfIso, yearsIn } from './calendars.js';
 import { reverseNumber } from './primeNumbers.js';
 
 // The three ways a date can be prime, in the order the page shows them: the
@@ -26,7 +26,6 @@ export function isPrime(value) {
 
 const primeBothWays = (year) => isPrime(year) && isPrime(reverseNumber(year));
 const primeDate = (year, month, day) => isPrime(year * YEAR_SHIFT + month * MONTH_SHIFT + day);
-const yearOfIso = (iso) => Number(iso.split('-')[0]);
 
 // Which marks an ISO day ("YYYY-MM-DD" in any of the calendars) has.
 export function primeMarks(iso) {
@@ -58,8 +57,7 @@ function primeDateShare(name, from, to) {
 // [from, to] with a prime year, or one prime both ways, and the share of its
 // days with a prime whole date.
 export function chanceRates(name, from, to) {
-  const first = yearOfIso(isoIn(from, name));
-  const years = Array.from({ length: yearOfIso(isoIn(to, name)) - first + 1 }, (_, index) => first + index);
+  const years = yearsIn(name, from, to);
   const share = (test) => years.filter(test).length / years.length;
   return { year: share(isPrime), yearReversed: share(primeBothWays), date: primeDateShare(name, from, to) };
 }

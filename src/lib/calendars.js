@@ -42,6 +42,13 @@ function isoInCalendar(day, calendar) {
 
 export const dayOf = (gregorianIso) => Date.parse(`${gregorianIso}T00:00:00Z`);
 export const isoIn = (day, name) => isoInCalendar(day, CALENDARS[name]);
+export const yearOfIso = (iso) => Number(iso.split('-')[0]);
+
+// Every year of the named calendar that has a day in [from, to].
+export function yearsIn(name, from, to) {
+  const first = yearOfIso(isoIn(from, name));
+  return Array.from({ length: yearOfIso(isoIn(to, name)) - first + 1 }, (_, index) => first + index);
+}
 
 // The day within `window` days of `day` that `calendar` numbers `iso`, nearest
 // first, or null when there is none.
