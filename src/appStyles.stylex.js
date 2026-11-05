@@ -12,7 +12,9 @@ export const styles = stylex.create({
 
   // The specimen is the lead: one worked pair, before anything else.
   specimen: { borderBottom: RULE, display: 'flex', flexDirection: 'column', gap: '12px', padding: '22px 16px 18px' },
-  specimenRow: { alignItems: 'center', display: 'flex', gap: '16px' },
+  // Two 8- or 9-digit values do not fit side by side on a phone; the reversal
+  // wraps under the arrow instead of widening the page.
+  specimenRow: { alignItems: 'center', display: 'flex', flexWrap: 'wrap', gap: '16px' },
   specimenTerm: { alignItems: 'center', display: 'flex', flexDirection: 'column', gap: '5px' },
   specimenValue: { fontFamily: MONO, fontSize: 'clamp(2.1rem, 9vw, 3rem)', letterSpacing: '-0.02em', lineHeight: 1 },
   specimenLabel: { color: color.muted, fontFamily: MONO, fontSize: '10px', letterSpacing: '0.1em' },

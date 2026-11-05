@@ -1,3 +1,14 @@
+/* Fonts are bundled and served from this site, never from a font CDN: a
+   third-party font request hands every visitor's IP to that third party (GDPR). */
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+@import "@fontsource/vazirmatn/400.css";
+@import "@fontsource/vazirmatn/500.css";
+@import "@fontsource/vazirmatn/700.css";
+@import "@fontsource/vazirmatn/800.css";
+
 :root {
   color: #12151a;
   background: #f8f8f6;
@@ -37,7 +48,10 @@ cocode-foot {
 }
 
 [dir="rtl"] h1,
-[dir="rtl"] h2 {
+[dir="rtl"] h2,
+[dir="rtl"] dt,
+[dir="rtl"] th,
+[dir="rtl"] td {
   font-family: Vazirmatn, "IBM Plex Sans", sans-serif;
   letter-spacing: normal;
 }

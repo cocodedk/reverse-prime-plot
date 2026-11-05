@@ -113,13 +113,69 @@ difference on top of the 18, the quotient inherits it, and a multiple of 11 is p
 
 `primeChains.test.js` pins this. An empty result in an odd-digit range is correct, not a defect.
 
-### Two different ceilings
+### One ceiling, and what it costs
 
-`MAX_LIMIT` (10,000,000) is the plot's, set by memory: `createPlotData` allocates a value per number
-in the interval. `CHAIN_MAX_LIMIT` (100,000,000) is the chains page's, which stores only the seeds
-that chain, so its ceiling is the prime table instead. `PrimeTable` is an odds-only bit-packed
-sieve: 100,000,000 costs about 6 MB and 106 ms, where one byte per number would have cost 95 MB.
-Raising either further means walking every number in the interval, so the next limit is time.
+`MAX_LIMIT` (999,999,999) is shared by all three pages. It is the largest 9-digit number: the
+`PrimeTable` sieve's int32 bit operations stay exact below 2^31, and `reverseNumber` stays far from
+that bound. `PrimeTable` is an odds-only bit-packed sieve, about 62 MB and several seconds at the
+ceiling. The chains and sums pages keep only the hits, so they survive it. The plot page does not:
+`createPlotData` allocates a value per number in the interval, so a very wide interval can run the
+tab out of memory. The owner accepted that on purpose; don't lower the ceiling to "fix" it.
+
+### The sums page counts down from N
+
+`/sums/` takes one number N and plots `(k, N − k)` wherever both are prime (the Goldbach pairs),
+reusing `PrimePlot` by giving `createSumData` the same data shape with every state 3. All points
+sit on the one diagonal and each pair appears in both orders. An odd N splits only as
+2 + (N − 2), so 101 shows nothing: correct, not a defect.
+
+### WebMCP
+
+`src/webMcp.js` is the shared registration helper (never rejects, silent without the API).
+`src/sumsWebMcp.js` registers two tools on the sums pages: `describe` (read-only: N, status, the
+distinct pairs, at most 100) and `plot_total` (replot for a new N through the same `setTotal` the
+form uses). It is silent without `document.modelContext`. Try it in Chrome with
+`chrome://flags/#enable-webmcp-testing` (or `--enable-features=WebMCP`). The API is a draft that
+has moved once; re-check https://webmachinelearning.github.io/webmcp/ before changing the module.
+`llms.txt` lists the tools; keep both copies in step with the module.
+
+### The Iran page dates every event three ways
+
+`/iran/` is the one page that is not maths. `src/data/iranEvents.json` holds each event's
+Gregorian `date` and `source` (the record the timeline places) and a `found` list of every
+other date a source states, in any calendar. The owner asked for **every** date found, so where
+sources disagree all of them are listed, each linked to its sources; nothing is reconciled.
+`datesOf` adds the date the record computes to in each calendar, starred when no source states
+it, and throws on a found date more than `SOURCED_DAY_WINDOW` days off (a typo guard that
+`iranEvents.test.js` runs over the whole file).
+
+Computed dates come from `Intl` (`persian`, `islamic-umalqura`). Two gaps are expected, not bugs:
+Iran starts lunar months by sighting the moon, so Ghamari dates can be a day or two off Umm
+al-Qura; and ICU's Persian calendar is arithmetic and proleptic, so Jalali dates before 1925,
+when Iran adopted it, can sit a day off what period sources say.
+
+`src/iranWebMcp.js` registers one read-only `describe` tool listing the events and their dates.
+
+`datePrimes.js` marks each date three ways: prime year, year prime both ways (1979 and 9791), and
+the whole date as YYYYMMDD. `primeSummary` counts each **distinct** year (or day) once and splits
+0.05 across the nine tests. Counting per event looked significant (Ghamari 18 against 7.8) only
+because events cluster: 1979 alone holds six. On the real data nothing differs from chance.
+
+`chineseYear.js` reads the stem and branch from Intl's `chinese` calendar, so a January or early
+February event carries the previous year's animal (8 Jan 2026 is Wood Snake). That is correct, not
+a bug. ICU dates Chinese New Year 1954 a day late (4 Feb; it was 3 Feb), the one day out of 46,299
+since 1900 where it disagrees with `lunardate`. `chineseYear.test.js` fails if any event sits within
+a day of a New Year or has a stated Gregorian date in a different Chinese year, which keeps every
+event clear of that error. The meaning shows on hover (`title`) and opens on a click or tap (`<details>`).
+Persian names use the element's adjective ("بز خاکی", "اژدهای چوبی"): the owner chose it over the noun
+form ("بز خاک"). Water Horse would then read اسب آبی, a hippopotamus, and Water Dog سگ آبی, a beaver;
+no event falls in either year yet (壬午: 1942, 2002; 壬戌: 1922, 1982).
+
+### No third-party requests
+
+Fonts come from `@fontsource/*`, imported in `global.css` and bundled by Vite. Never link Google
+Fonts or any CDN: a third-party request hands each visitor's IP to that party (GDPR). The
+`brand.cocode.dk` frame is the owner's own site on the same GitHub Pages host.
 
 ### Marker state encoding
 

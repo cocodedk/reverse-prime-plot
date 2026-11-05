@@ -1,3 +1,26 @@
+// Chinese year names and what each part stands for in Chinese tradition.
+const CHINESE_ELEMENTS = {
+  wood: ['Wood', 'spring and the east; growth, generosity and flexibility'],
+  fire: ['Fire', 'summer and the south; passion, energy and boldness'],
+  earth: ['Earth', 'the centre and the turn of the seasons; stability, patience and reliability'],
+  metal: ['Metal', 'autumn and the west; strength, resolve and discipline'],
+  water: ['Water', 'winter and the north; wisdom, adaptability and depth'],
+};
+const CHINESE_ANIMALS = {
+  rat: ['Rat', 'quick-witted, resourceful and adaptable'],
+  ox: ['Ox', 'hard-working, dependable and patient'],
+  tiger: ['Tiger', 'brave, confident and competitive'],
+  rabbit: ['Rabbit', 'gentle, quiet, elegant and careful'],
+  dragon: ['Dragon', "powerful, ambitious and lucky; the emperor's emblem"],
+  snake: ['Snake', 'wise, intuitive and enigmatic'],
+  horse: ['Horse', 'energetic, free-spirited and warm'],
+  goat: ['Goat', 'calm, gentle, artistic and sympathetic'],
+  monkey: ['Monkey', 'clever, curious and playful'],
+  rooster: ['Rooster', 'observant, hard-working, frank and proud'],
+  dog: ['Dog', 'loyal, honest and protective'],
+  pig: ['Pig', 'generous, sincere and easy-going; a sign of plenty'],
+};
+
 export const en = {
   introFormula: '(n, reverse(n))',
   introText:
@@ -107,4 +130,53 @@ export const en = {
   chainsLegendOne: 'one further prime pair',
   chainsLegendDeep: 'two or more',
   chainsPlotLabel: (start, end) => `Chain seeds · ${start}–${end}`,
+
+  // Sums page
+  sumsIntro:
+    'Pick a number N and count down from it: N − 1, N − 2, and so on down to 1. Each step k leaves N − k. Where k and N − k are both prime, the pair is plotted. Every pair adds up to N, so all the points fall on one diagonal, and each pair shows twice, once in each order. Goldbach guessed in 1742 that every even N above 2 has at least one such pair, and nobody has proved it yet. An odd N can only split as 2 + (N − 2), so it has one pair at most.',
+  totalLabel: 'Count down from',
+  plotTotal: 'Plot pairs',
+  totalValidationError: (min, max) => `Choose a whole number from ${min} to ${max}.`,
+  sumsAxisX: 'k',
+  sumsAxisY: 'N − k',
+  sumsCoordinatesLabel: 'k, N − k',
+  sumsTitle: (total) => `N = ${total}`,
+  sumsPlotDescription: (total) =>
+    `Pairs of primes that add up to ${total}. The horizontal value is k and the vertical value is ${total} − k, so every point lies on the diagonal from bottom left to top right.`,
+  sumsProgressAria: (total) => `Finding prime pairs that add up to ${total}`,
+  statPoints: 'Points',
+  statDistinctPairs: 'Distinct pairs',
+
+  // Iran page
+  iranTitle: 'Iran in three calendars',
+  iranIntro:
+    'Events that shaped Iran from 1900 to today, each dated in the three calendars used in Iran: Gregorian, Jalali (the Solar Hijri calendar, official since 1925) and Ghamari (the Lunar Hijri calendar, which sets the religious year). The three scales share one time line. A lunar year is about eleven days shorter than a solar one, so Ghamari years start earlier each time and the scale gains a year roughly every 33.',
+  iranTimelineLabel: 'The events from 1900 to today on three year scales: Gregorian, Jalali and Ghamari',
+  iranEventsHeading: (count) => `${count} events`,
+  calendarNames: { gregorian: 'Gregorian', jalali: 'Jalali', ghamari: 'Ghamari' },
+  iranComputed: 'computed',
+  iranComputedNote:
+    'Where sources disagree, every date they give is listed; the small numbers link to the sources. * Computed from the Gregorian date, because no source we found states it. A computed Ghamari date follows the Umm al-Qura tables, while Iran begins each lunar month when the new moon is sighted, so the two can be a day or two apart. Jalali dates before 1925, when Iran adopted the calendar, are counted backwards.',
+  iranSources: 'Sources',
+  iranSource: 'Source',
+  iranChineseNote:
+    'The Chinese year begins at Chinese New Year, between late January and mid-February, so an event early in a Gregorian year can fall in the Chinese year before. Hover over or tap a Chinese year to see what it means.',
+  iranPrimesHeading: 'Primes in the dates',
+  iranPrimesIntro:
+    'Does a prime turn up in these dates more often than chance would put it there? Each count sets the recorded dates against the share of all years, or all days, since 1900 that are prime the same way. The events cluster (1979 alone holds six), so a year counts once however many events it holds, and so does a day. The table scores each event\'s recorded date; the list marks every date found, so it can show more marks than the table counts.',
+  primeMarkNames: { year: 'Prime year', yearReversed: 'Prime both ways, as 1979 and 9791', date: 'Whole date prime, as 19790201' },
+  iranPrimeHits: (hits, trials) => `${hits} of ${trials}`,
+  iranPrimeChance: (expected) => `chance ${expected}`,
+  iranPrimeVerdictNone: (tests, level) =>
+    `No clear pattern. None of the ${tests} counts is further from chance than luck explains (two-sided binomial test at p < ${level}, split across the ${tests} tests).`,
+  iranPrimeVerdictSome: (count, tests, level) =>
+    `${count} of the ${tests} counts differ from chance, marked in blue (two-sided binomial test at p < ${level}, split across the ${tests} tests).`,
+  chineseYearLabel: 'Chinese year',
+  chineseYearName: (element, animal) => `${CHINESE_ELEMENTS[element][0]} ${CHINESE_ANIMALS[animal][0]}`,
+  chineseYearTip: ({ characters, pinyin, yang, element, animal, elementCharacter, animalCharacter }) => [
+    `${characters} (${pinyin}): a ${yang ? 'yang' : 'yin'} ${CHINESE_ELEMENTS[element][0]} ${CHINESE_ANIMALS[animal][0]} year.`,
+    `${CHINESE_ELEMENTS[element][0]} (${elementCharacter}): ${CHINESE_ELEMENTS[element][1]}.`,
+    `${CHINESE_ANIMALS[animal][0]} (${animalCharacter}): ${CHINESE_ANIMALS[animal][1]}.`,
+    yang ? 'Yang is the active, outward half of each element.' : 'Yin is the receptive, inward half of each element.',
+  ].join(' '),
 };

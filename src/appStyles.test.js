@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest';
 const SHEETS = {
   styles: 'src/appStyles.stylex.js',
   chainStyles: 'src/chainStyles.stylex.js',
+  iranStyles: 'src/iranStyles.stylex.js',
 };
 
 function keysOf(path) {

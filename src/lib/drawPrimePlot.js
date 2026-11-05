@@ -98,7 +98,7 @@ export function usesPixelReadback(data) {
   return data.count > DENSE_PLOT_THRESHOLD;
 }
 
-export function drawPlot(context, data, yDirection, pixelRatio, textScale = 1) {
+export function drawPlot(context, data, yDirection, pixelRatio, textScale = 1, axes) {
   drawGrid(context, data.start, data.end, yDirection, textScale);
 
   if (usesPixelReadback(data)) {
@@ -113,5 +113,5 @@ export function drawPlot(context, data, yDirection, pixelRatio, textScale = 1) {
     }
   }
 
-  drawFrame(context, textScale);
+  drawFrame(context, textScale, axes);
 }

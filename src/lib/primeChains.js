@@ -1,11 +1,5 @@
 import { PHASES } from './phases.js';
-import { PrimeTable, reverseNumber } from './primeNumbers.js';
-
-// The chains page reaches ten times further than the plot. It never stores a
-// value per number in the interval — only the handful of seeds that chain — so
-// its ceiling is set by the bit-packed prime table, not by per-number arrays.
-// 100,000,000 covers every 8-digit number, which is where chains reappear.
-export const CHAIN_MAX_LIMIT = 100_000_000;
+import { MAX_LIMIT, PrimeTable, reverseNumber } from './primeNumbers.js';
 
 // A number and its digit reversal are congruent to the same digit sum mod 9, so
 // 9 always divides their difference. When both are odd primes the difference is
@@ -22,7 +16,7 @@ export function isValidChainRequest(start, end, divisor) {
     Number.isInteger(end) &&
     start >= 0 &&
     start < end &&
-    end <= CHAIN_MAX_LIMIT &&
+    end <= MAX_LIMIT &&
     CHAIN_DIVISORS.includes(divisor)
   );
 }
@@ -63,7 +57,7 @@ function reversalBound(end) {
 export function createChainData(start, end, divisor, onProgress = () => {}) {
   if (!isValidChainRequest(start, end, divisor)) {
     throw new RangeError(
-      `chain request must satisfy 0 <= start < end <= ${CHAIN_MAX_LIMIT} and divisor in ${CHAIN_DIVISORS}`,
+      `chain request must satisfy 0 <= start < end <= ${MAX_LIMIT} and divisor in ${CHAIN_DIVISORS}`,
     );
   }
 

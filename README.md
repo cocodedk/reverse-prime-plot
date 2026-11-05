@@ -16,7 +16,7 @@ and watch what the base-10 mirror does to the primes.
 
 ## Features
 
-- **Any interval from 0 to 10,000,000.** Type the endpoints, or start from one of the
+- **Any interval from 0 to 999,999,999.** Type the endpoints, or start from one of the
   presets (0–50, 0–100, 0–250). The interval is inclusive at both ends.
 - **Half-filled markers.** A circle's top half is filled when `n` is prime, the bottom
   half when `reverse(n)` is prime, and the full circle when both are. Points where
@@ -36,6 +36,17 @@ and watch what the base-10 mirror does to the primes.
 - **Honest about what is off-screen.** A reversal can land outside the chosen interval
   (reverse(19) = 91 is outside 0–50). Those points cannot be plotted on a square axis, so
   they are dropped and the count of them is reported under the plot.
+- **Prime sums page** (`/sums/`). Enter one number N and count down from it: every `k`
+  where `k` and `N − k` are both prime is plotted as `(k, N − k)`. Those are the Goldbach
+  pairs of N, all on one diagonal; an odd N has one pair at most (2 + (N − 2)). The page
+  declares WebMCP tools (`describe`, `plot_total`) for an AI agent in the browser.
+- **Iran in three calendars** (`/iran/`). Not maths: events that shaped Iran from 1900 to
+  today on one time line, read against Gregorian, Jalali and Ghamari year scales. Each
+  event lists every date its sources give in all three calendars, linked to them; a date
+  no source states is computed and marked. Prime years, years prime both ways (1979 and
+  9791) and prime YYYYMMDD dates are marked, and a table tests them against chance (none
+  differ). Each event shows its Chinese year, such as Earth Goat, with its meaning on
+  hover. The page declares a WebMCP `describe` tool.
 - **Bilingual.** English and Persian, each its own entry point with its own locale, digit
   formatting, and text direction.
 - **Accessible.** The canvas carries a text description of what is drawn, the progress bar
@@ -62,6 +73,7 @@ npm install
 ```
 index.html                 English entry point
 fa/index.html              Persian entry point
+chains/, sums/, iran/      The other pages, each with a Persian twin under fa/
 src/
   App.jsx                  Page layout, interval state, stats
   main.jsx                 React entry point

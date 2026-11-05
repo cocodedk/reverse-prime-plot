@@ -6,7 +6,12 @@ import { CANVAS_SIZE , textScaleFor } from '../lib/plotGeometry.js';
 import { formatNumber, t } from '../i18n/index.js';
 import { styles } from '../appStyles.stylex.js';
 
-export default function PrimePlot({ data, onRendered, yDirection }) {
+// Module-level so the default is one stable array: a fresh literal per render
+// would retrigger the draw effect every time.
+const REVERSE_AXES = [t.axisX, t.axisY];
+
+// The sums page reuses this plot with its own axis titles and description.
+export default function PrimePlot({ data, onRendered, yDirection, axes = REVERSE_AXES, description }) {
   const { measuredRef, nodeRef: canvasRef, width: renderedWidth } = useElementWidth();
   const textScale = textScaleFor(renderedWidth);
   // A 2D context locks its attributes at the first getContext call for the
@@ -26,11 +31,11 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
       canvas.height = CANVAS_SIZE * pixelRatio;
       const context = canvas.getContext('2d', { willReadFrequently: readsBack });
       context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-      drawPlot(context, data, yDirection, pixelRatio, textScale);
+      drawPlot(context, data, yDirection, pixelRatio, textScale, axes);
       onRendered(data);
     });
     return () => cancelAnimationFrame(frame);
-  }, [canvasRef, data, onRendered, renderedWidth, textScale, yDirection, readsBack]);
+  }, [canvasRef, data, onRendered, renderedWidth, textScale, yDirection, readsBack, axes]);
 
   const lowerPosition = yDirection === 'up' ? t.positionBottom : t.positionTop;
   return (
@@ -47,7 +52,7 @@ export default function PrimePlot({ data, onRendered, yDirection }) {
         {t.canvasFallback}
       </canvas>
       <p id="plot-description" {...stylex.props(styles.visuallyHidden)}>
-        {t.plotDescription(formatNumber(data.start), formatNumber(data.end), lowerPosition)}
+        {description ?? t.plotDescription(formatNumber(data.start), formatNumber(data.end), lowerPosition)}
       </p>
     </>
   );
